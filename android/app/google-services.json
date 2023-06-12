@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "130753715500",
+    "project_id": "dj-sany",
+    "storage_bucket": "dj-sany.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130753715500:android:09e843be0178f70001e089",
+        "android_client_info": {
+          "package_name": "dj.sany.mypfe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130753715500-rferj7a52vkth10qflh2uqf4l90toad4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHulXFEFfKiRlDQI-3iBapJL-gcdMeyG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130753715500-rferj7a52vkth10qflh2uqf4l90toad4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
