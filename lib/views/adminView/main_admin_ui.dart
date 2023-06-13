@@ -3,8 +3,13 @@ import 'package:mypfe/constants/greeting.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/logout_dialog.dart';
+import 'package:mypfe/views/adminView/settings/settings_view.dart';
+import 'package:mypfe/views/adminView/stations/station_view.dart';
 import 'dart:developer' as devtools show log;
 import '../../enums/menu_action.dart';
+import 'admin/admins_view.dart';
+import 'companies/companies_view.dart';
+import 'home/admin_home_page.dart';
 
 class MainAdminPage extends StatefulWidget {
   const MainAdminPage({super.key});
@@ -15,25 +20,12 @@ class MainAdminPage extends StatefulWidget {
 
 class _MainAdminPageState extends State<MainAdminPage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Companies',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Stations',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    AdminHomeView(),
+    CompanyView(),
+    StationView(),
+    AdminsView(),
+    SettingsView(),
   ];
 
   void _onItemTapped(int index) {
@@ -157,6 +149,11 @@ class _MainAdminPageState extends State<MainAdminPage> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.traffic_sharp),
             label: 'Stations',
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person_4_outlined),
+            label: 'Admins',
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
           BottomNavigationBarItem(

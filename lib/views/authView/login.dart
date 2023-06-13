@@ -17,10 +17,11 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-  final firebaseCloudService = FirebaseCloudStorage();
+  late final FirebaseCloudStorage _firebaseCloudService;
 
   @override
   void initState() {
+    _firebaseCloudService = FirebaseCloudStorage();
     _email = TextEditingController();
     _password = TextEditingController();
     super.initState();
@@ -46,15 +47,15 @@ class _LoginViewState extends State<LoginView> {
         // user's email verified
         final role = await FirebaseCloudStorage().getRole(email: email);
         if (role == 'admin') {
-          await firebaseCloudService.updateIsEmailVerified(email: email);
+          await _firebaseCloudService.updateIsEmailVerified(email: email);
           Navigator.of(context)
               .pushNamedAndRemoveUntil(mainAdminRoute, (route) => false);
         } else if (role == 'compagnie') {
-          await firebaseCloudService.updateIsEmailVerified(email: email);
+          await _firebaseCloudService.updateIsEmailVerified(email: email);
           Navigator.of(context)
               .pushNamedAndRemoveUntil(mainCompanyRoute, (route) => false);
         } else {
-          await firebaseCloudService.updateIsEmailVerified(email: email);
+          await _firebaseCloudService.updateIsEmailVerified(email: email);
           Navigator.of(context)
               .pushNamedAndRemoveUntil(mainClientRoute, (route) => false);
         }
