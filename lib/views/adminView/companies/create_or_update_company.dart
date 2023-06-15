@@ -1,12 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
-
 import 'package:flutter/material.dart';
+import 'package:mypfe/constants/text_field.dart';
+import 'package:mypfe/extensions/generics/get_arguments.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
-import 'package:mypfe/services/cloud/storage/models/users.dart';
+import 'package:mypfe/models/users.dart';
 import 'package:mypfe/services/cloud/storage/user_storage.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
-import 'package:mypfe/views/adminView/user_form.dart';
+import 'package:mypfe/widgets/register_user_form.dart';
 
 import '../../../services/auth/auth_exceptions.dart';
 
@@ -19,7 +20,7 @@ class CreateOrUpdateCompany extends StatefulWidget {
 
 class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
   CloudUser? _company;
-  late final FirebaseCloudStorage _firebaseCloudStorage;
+  late final FirebaseCloudUserStorage _firebaseCloudStorage;
   late final TextEditingController _email;
   late final TextEditingController _password;
   late final TextEditingController _confirmPassword;
@@ -28,7 +29,7 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
 
   @override
   void initState() {
-    _firebaseCloudStorage = FirebaseCloudStorage();
+    _firebaseCloudStorage = FirebaseCloudUserStorage();
     _email = TextEditingController();
     _password = TextEditingController();
     _confirmPassword = TextEditingController();
@@ -49,68 +50,40 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
 
   _submitData() async {
     try {
-      final email = _email.text;
-      final password = _password.text;
-      final confirmPassword = _confirmPassword.text;
-      final nom = _nom.text;
-      final telephone = int.parse(_telephone.text);
+      final email = _email.text.trim();
+      final password = _password.text.trim();
+      final confirmPassword = _confirmPassword.text.trim();
+      final nom = _nom.text.trim();
+      final telephone = int.parse(_telephone.text.trim());
       if (email.isEmpty ||
           password.isEmpty ||
           nom.isEmpty ||
           _telephone.text.isEmpty ||
           confirmPassword.isEmpty) {
-        await showErrorDialog(
-          context,
-          'Please make sure you filled all requirements',
-        );
-        return null;
+        return showErrorDialog(
+            context, 'Make sure you filled all requirements');
       }
-      if (password != confirmPassword) {
-        await showErrorDialog(
-          context,
-          'Please make sure that Confirm password & Password are the same',
-        );
-        return null;
-      } else {
-        final existingCompany = _company;
-        if (existingCompany != null) {
-          return existingCompany;
-        } else {
-          //Create Company
-          final user = await AuthService.firebase().createCompany(
-            email: email,
-            nom: nom,
-            password: password,
-            telephone: telephone,
-          );
-          //Send email verification
-          await AuthService.firebase().sendEmailVerification();
-          final companyEmail = user.email;
-          final company =
-              await _firebaseCloudStorage.getUser(email: companyEmail);
-          _company = company;
-          return company;
-        }
-      }
-    } on WeakPasswordAuthException {
-      await showErrorDialog(
-        context,
-        'Weak password',
+      await AuthService.firebase().createCompany(
+        email: email,
+        nom: nom,
+        password: password,
+        telephone: telephone,
       );
+      await AuthService.firebase().sendEmailVerification();
     } on EmailAlreadyInUseAuthException {
       await showErrorDialog(
         context,
-        'Email already in use',
+        'Email dèjà utilisé',
       );
     } on InvalidEmailAuthException {
       await showErrorDialog(
         context,
-        'Invalid email',
+        'Email invalid',
       );
     } on GenericAuthException {
       await showErrorDialog(
         context,
-        'Registration Error',
+        'Make sure all fields are provided',
       );
     } on UserNotLoggedInAuthException {
       await showErrorDialog(
@@ -120,16 +93,57 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
     }
   }
 
+  // Future<CloudUser> createOrUpdateCompany(BuildContext context) async{
+  //   //Getting arguments passed in navigator route
+  //   final widgetCompany = context.getArguments<CloudUser>();
+  //   if (widgetCompany != null) {
+  //     _company = widgetCompany;
+  //     _email.text = widgetCompany.email;
+  //     _nom.text = widgetCompany.nom!;
+  //     _telephone.text = widgetCompany.telephone.toString();
+
+  //     return widgetCompany;
+  //   }
+
+  //   final existingCompany = _company;
+  //   if (existingCompany != null) {
+  //     return existingCompany;
+  //   } else {
+  //     _submitData();
+
+  //     // await AuthService.firebase().createClient(
+  //     //   email: email,
+  //     //   nom: nom,
+  //     //   password: password,
+  //     //   telephone: telephone,
+  //     // );
+  //     // final newNote = await _firebaseCloudStorage.createNewCompanyInCloud(email: email, nom: nom, telephone: telephone, isEmailVerified: isEmailVerified)
+  //     // _company = newNote;
+  //     // return newNote;
+  //   }
+
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return UserForm(
-      title: 'Company',
-      email: _email,
-      nom: _nom,
-      telephone: _telephone,
-      password: _password,
-      confirmPassword: _confirmPassword,
-      confirm: () => _submitData(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(companyAppBarTitle),
+      ),
+      body: UserForm(
+        title: "Ajouter une compagnie",
+        icon: Icons.business,
+        email: _email,
+        nom: _nom,
+        telephone: _telephone,
+        password: _password,
+        confirmPassword: _confirmPassword,
+        buttonText: ajoutButtonText,
+        confirm: () {},
+        littleTitle: null,
+        littleButton: null,
+        littleButtonText: null,
+      ),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
+import 'package:mypfe/constants/text_field.dart';
+import 'package:mypfe/constants/user_constants.dart';
 // import 'package:sany/enums/role_enums.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/storage/user_storage.dart';
@@ -17,11 +19,11 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-  late final FirebaseCloudStorage _firebaseCloudService;
+  late final FirebaseCloudUserStorage _firebaseCloudService;
 
   @override
   void initState() {
-    _firebaseCloudService = FirebaseCloudStorage();
+    _firebaseCloudService = FirebaseCloudUserStorage();
     _email = TextEditingController();
     _password = TextEditingController();
     super.initState();
@@ -45,12 +47,12 @@ class _LoginViewState extends State<LoginView> {
       final user = AuthService.firebase().currentUser;
       if (user?.isEmailVerified ?? false) {
         // user's email verified
-        final role = await FirebaseCloudStorage().getRole(email: email);
-        if (role == 'admin') {
+        final role = await FirebaseCloudUserStorage().getRole(email: email);
+        if (role == owner) {
           await _firebaseCloudService.updateIsEmailVerified(email: email);
           Navigator.of(context)
               .pushNamedAndRemoveUntil(mainAdminRoute, (route) => false);
-        } else if (role == 'compagnie') {
+        } else if (role == partenaire) {
           await _firebaseCloudService.updateIsEmailVerified(email: email);
           Navigator.of(context)
               .pushNamedAndRemoveUntil(mainCompanyRoute, (route) => false);
@@ -68,17 +70,17 @@ class _LoginViewState extends State<LoginView> {
     } on UserNotFoundAuthException {
       await showErrorDialog(
         context,
-        'User not found',
+        'Utilisateur introuvable',
       );
     } on WrongPasswordAuthException {
       await showErrorDialog(
         context,
-        'Wrong password',
+        'Mot de passe incorrecte',
       );
     } on GenericAuthException {
       await showErrorDialog(
         context,
-        'Authentication error',
+        'Erreur d\'authentification',
       );
     }
   }
@@ -99,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
 
                   //Welcome Title
                   Text(
-                    'Welcome back, you\'ve been missed.',
+                    'Veuillez vous connecter.',
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -139,7 +141,8 @@ class _LoginViewState extends State<LoginView> {
                                 Icons.person,
                                 color: Color.fromARGB(255, 74, 44, 156),
                               ),
-                              hintText: 'Enter your email here',
+                              hintText: emailHintText,
+                              labelText: emailLabelText,
                             ),
                           ),
                         ),
@@ -165,8 +168,8 @@ class _LoginViewState extends State<LoginView> {
                                 Icons.password,
                                 color: Color.fromARGB(255, 74, 44, 156),
                               ),
-                              hintText: 'Enter your password here',
-                              labelText: 'Password',
+                              hintText: passwordHintText,
+                              labelText: passwordLabelText,
                             ),
                           ),
                         ),
@@ -175,9 +178,11 @@ class _LoginViewState extends State<LoginView> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(resetPassordRoute);
+                              },
                               child: Text(
-                                'Forget the password ?',
+                                'mot de passe oublié ?',
                                 style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.primary),
@@ -197,7 +202,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           child: OutlinedButton(
                             child: const Text(
-                              'Login',
+                              loginButtonText,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -212,14 +217,14 @@ class _LoginViewState extends State<LoginView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('You don\'t have an account ?'),
+                            const Text('vous n\'avez pas un compte ?'),
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                     registerRoute, (route) => false);
                               },
                               child: const Text(
-                                'Sign Up',
+                                registerButtonText,
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 74, 44, 156)),
                               ),

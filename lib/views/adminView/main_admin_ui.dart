@@ -57,23 +57,6 @@ class _MainAdminPageState extends State<MainAdminPage> {
                       (_) => false,
                     );
                   }
-                case MenuAction.addAdmin:
-                  // Show add admin form
-                  Navigator.of(context).pushNamed(
-                    createOrUpdateAdmin,
-                  );
-                case MenuAction.addStation:
-                  // Show add station form
-                  Navigator.of(context).pushNamed(
-                    createOrUpdateAdmin,
-                  );
-
-                case MenuAction.addCompany:
-                  // Show add campany form
-                  Navigator.of(context).pushNamed(
-                    createOrUpdateCompany,
-                  );
-
                 default:
               }
             },
@@ -81,41 +64,8 @@ class _MainAdminPageState extends State<MainAdminPage> {
             // Menu Action builder
             itemBuilder: (value) {
               return [
+
                 //? Popup du menuItem
-                //? add admin
-                const PopupMenuItem<MenuAction>(
-                  value: MenuAction.addAdmin,
-                  child: Text(
-                    'add admin',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                const PopupMenuItem<MenuAction>(
-                  value: MenuAction.addStation,
-                  child: Text(
-                    'add station',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                const PopupMenuItem<MenuAction>(
-                  value: MenuAction.addCompany,
-                  child: Text(
-                    'add company',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
                 const PopupMenuItem<MenuAction>(
                   value: MenuAction.logout,
                   child: Text(

@@ -50,7 +50,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
                 onPressed: () async {
                   await AuthService.firebase().sendEmailVerification();
                 },
-                child: const Text('Send email verification'),
+                child: const Text('Envoyer verification email'),
               ),
               TextButton(
                 onPressed: () async {
@@ -58,7 +58,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(loginRoute, (route) => false);
                 },
-                child: const Text('Restart'),
+                child: const Text('Se connecter'),
               )
             ],
           ),

@@ -1,23 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mypfe/constants/user_constants.dart';
 
-import '../exceptions/cloud_exceptions.dart';
-import 'models/users.dart';
+import '../exceptions/user_cloud_exceptions.dart';
+import '../../../models/users.dart';
 
-class FirebaseCloudStorage {
+class FirebaseCloudUserStorage {
   final CollectionReference users =
-      FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection(userTable);
   final db = FirebaseFirestore.instance;
 
   //? Make a singleton
   // 1- create a private constructor
-  FirebaseCloudStorage._sharedInstance();
+  FirebaseCloudUserStorage._sharedInstance();
 
   // 2- create a factory constructor who talk with a static final variable
-  factory FirebaseCloudStorage() => _shared;
+  factory FirebaseCloudUserStorage() => _shared;
 
   // 3- create the static final var who talk with the private constructor in 1
-  static final _shared = FirebaseCloudStorage._sharedInstance();
+  static final _shared = FirebaseCloudUserStorage._sharedInstance();
 
 // Create new client in firestore
   Future<CloudUser> createNewClientInCloud(
@@ -29,7 +29,7 @@ class FirebaseCloudStorage {
     final document = await users.add({
       champEmail: email,
       champNom: nom,
-      champRole: 'client',
+      champRole: client,
       champTelephone: telephone,
       champIsEmailVerified: isEmailVerified,
     });
@@ -39,7 +39,7 @@ class FirebaseCloudStorage {
         email: email,
         nom: nom,
         telephone: telephone,
-        role: 'client',
+        role: client,
         isEmailVerified: isEmailVerified!);
   }
 
@@ -53,7 +53,7 @@ class FirebaseCloudStorage {
     final document = await users.add({
       champEmail: email,
       champNom: nom,
-      champRole: 'compagnie',
+      champRole: partenaire,
       champTelephone: telephone,
       champIsEmailVerified: isEmailVerified,
     });
@@ -63,7 +63,7 @@ class FirebaseCloudStorage {
       email: email,
       nom: nom,
       telephone: telephone,
-      role: 'compagnie',
+      role: partenaire,
       isEmailVerified: isEmailVerified!,
     );
   }
@@ -78,7 +78,7 @@ class FirebaseCloudStorage {
     final document = await users.add({
       champEmail: email,
       champNom: nom,
-      champRole: 'admin',
+      champRole: owner,
       champTelephone: telephone,
       champIsEmailVerified: isEmailVerified,
     });
@@ -88,7 +88,7 @@ class FirebaseCloudStorage {
       email: email,
       nom: nom,
       telephone: telephone,
-      role: 'admin',
+      role: owner,
       isEmailVerified: isEmailVerified!,
     );
   }
@@ -97,7 +97,7 @@ class FirebaseCloudStorage {
   Future<CloudUser> getUser({required String email}) async {
     try {
       final gotUser = await FirebaseFirestore.instance
-          .collection('users')
+          .collection(userTable)
           .where(
             champEmail,
             isEqualTo: email,
@@ -119,7 +119,7 @@ class FirebaseCloudStorage {
   Future<String> getRole({required String email}) async {
     try {
       final gotUser = await FirebaseFirestore.instance
-          .collection('users')
+          .collection(userTable)
           .where(
             champEmail,
             isEqualTo: email,
@@ -136,7 +136,7 @@ class FirebaseCloudStorage {
   Future<void> updateIsEmailVerified({required String email}) async {
     try {
       final gotUser = await FirebaseFirestore.instance
-          .collection('users')
+          .collection(userTable)
           .where(
             champEmail,
             isEqualTo: email,
@@ -145,7 +145,7 @@ class FirebaseCloudStorage {
       if (gotUser.docs.isNotEmpty) {
         final docId = gotUser.docs.first.id;
         await db
-            .collection('users')
+            .collection(userTable)
             .doc(docId)
             .update({champIsEmailVerified: true});
       }
@@ -153,5 +153,7 @@ class FirebaseCloudStorage {
       throw CouldNotUpdateVerificationEmailException();
     }
   }
+
+
 
 }

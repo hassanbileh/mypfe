@@ -5,12 +5,13 @@ import 'package:mypfe/services/auth/auth_exceptions.dart';
 import 'package:mypfe/services/auth/auth_provider.dart';
 import 'package:mypfe/services/auth/auth_user.dart';
 import 'package:mypfe/services/cloud/storage/user_storage.dart';
+import 'package:mypfe/utilities/dialogs/error_dialog.dart';
 
 import '../../firebase_options.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   final users = FirebaseFirestore.instance.collection('users');
-  final firebaseService = FirebaseCloudStorage();
+  final firebaseService = FirebaseCloudUserStorage();
 
   // When user register to our platform
   @override
@@ -212,6 +213,16 @@ class FirebaseAuthProvider implements AuthProvider {
       await user.sendEmailVerification();
     } else {
       throw UserNotLoggedInAuthException();
+    }
+  }
+  
+  @override
+  Future<void> resetPassword({required String email}) async{
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email); 
+      
+    } on FirebaseAuthException {
+      throw GenericAuthException();
     }
   }
 
