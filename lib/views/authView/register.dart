@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/services/auth/auth_exceptions.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
-import 'package:mypfe/widgets/register_user_form.dart';
+import 'package:mypfe/widgets/auth/register_user_form.dart';
 
 import '../../constants/text_field.dart';
 import '../../services/auth/auth_services.dart';
@@ -43,7 +43,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   void _submitData() async {
     try {
-      final email = _email.text.trim();
+      final email = _email.text.trim().toLowerCase();
       final password = _password.text.trim();
       final confirmPassword = _confirmPassword.text.trim();
       final nom = _nom.text.trim();

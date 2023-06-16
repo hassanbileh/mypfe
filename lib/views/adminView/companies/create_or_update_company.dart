@@ -2,12 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/text_field.dart';
-import 'package:mypfe/extensions/generics/get_arguments.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
-import 'package:mypfe/models/users.dart';
-import 'package:mypfe/services/cloud/storage/user_storage.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
-import 'package:mypfe/widgets/register_user_form.dart';
+import 'package:mypfe/widgets/auth/register_user_form.dart';
 
 import '../../../services/auth/auth_exceptions.dart';
 
@@ -19,8 +16,6 @@ class CreateOrUpdateCompany extends StatefulWidget {
 }
 
 class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
-  CloudUser? _company;
-  late final FirebaseCloudUserStorage _firebaseCloudStorage;
   late final TextEditingController _email;
   late final TextEditingController _password;
   late final TextEditingController _confirmPassword;
@@ -29,7 +24,6 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
 
   @override
   void initState() {
-    _firebaseCloudStorage = FirebaseCloudUserStorage();
     _email = TextEditingController();
     _password = TextEditingController();
     _confirmPassword = TextEditingController();
@@ -92,37 +86,6 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
       );
     }
   }
-
-  // Future<CloudUser> createOrUpdateCompany(BuildContext context) async{
-  //   //Getting arguments passed in navigator route
-  //   final widgetCompany = context.getArguments<CloudUser>();
-  //   if (widgetCompany != null) {
-  //     _company = widgetCompany;
-  //     _email.text = widgetCompany.email;
-  //     _nom.text = widgetCompany.nom!;
-  //     _telephone.text = widgetCompany.telephone.toString();
-
-  //     return widgetCompany;
-  //   }
-
-  //   final existingCompany = _company;
-  //   if (existingCompany != null) {
-  //     return existingCompany;
-  //   } else {
-  //     _submitData();
-
-  //     // await AuthService.firebase().createClient(
-  //     //   email: email,
-  //     //   nom: nom,
-  //     //   password: password,
-  //     //   telephone: telephone,
-  //     // );
-  //     // final newNote = await _firebaseCloudStorage.createNewCompanyInCloud(email: email, nom: nom, telephone: telephone, isEmailVerified: isEmailVerified)
-  //     // _company = newNote;
-  //     // return newNote;
-  //   }
-
-  // }
 
   @override
   Widget build(BuildContext context) {

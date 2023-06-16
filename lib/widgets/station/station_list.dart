@@ -1,40 +1,47 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:mypfe/models/users.dart';
-import 'package:mypfe/utilities/dialogs/delete_dialog.dart';
+import 'package:mypfe/models/station.dart';
 
-typedef CompanyCallBack = void Function(CloudUser note);
+import '../../utilities/dialogs/delete_dialog.dart';
 
-class CompanyList extends StatelessWidget {
-  final Iterable<CloudUser?> companies;
-  final CompanyCallBack onDeleteCompany;
+typedef StationCallBack = void Function(CloudStation note);
 
-  const CompanyList({
+class StationsList extends StatelessWidget {
+  const StationsList({
     super.key,
-    required this.companies,
-    required this.onDeleteCompany,
+    required this.stations,
+    required this.onDeleteNote,
+    required this.onTap,
   });
+
+  final Iterable<CloudStation?> stations;
+  final StationCallBack onDeleteNote;
+  final StationCallBack onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: companies.length,
+      itemCount: stations.length,
       itemBuilder: (context, index) {
-         final company = companies.elementAt(index);
+        final station = stations.elementAt(index);
         return Card(
           elevation: 2,
           child: Dismissible(
-            key: ValueKey(companies.elementAt(index)),
+            key: ValueKey(stations.elementAt(index)),
             onDismissed: (direction) async {
               final shouldDelete = await showDeleteDialog(context);
                   if (shouldDelete) {
-                    onDeleteCompany(company);
+                    onDeleteNote(station);
                   }
             },
             background: Container(color: Theme.of(context).colorScheme.error,),
             child: ListTile(
-              
+              onTap:() {
+                onTap(station);
+              },
               title: Text(
-                company!.nom!,
+                station!.nom,
                 maxLines: 1,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
@@ -44,7 +51,7 @@ class CompanyList extends StatelessWidget {
                 onPressed: () async {
                   final shouldDelete = await showDeleteDialog(context);
                   if (shouldDelete) {
-                    onDeleteCompany(company);
+                    onDeleteNote(station);
                   }
                 },
               ),

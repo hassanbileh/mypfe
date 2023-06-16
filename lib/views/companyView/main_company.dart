@@ -15,7 +15,7 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(greeting()),),
-      body: const Center(child: Text('Admin Page'),),
+      body: const Center(child: Text('Compagnie Page'),),
     );
   }
 }

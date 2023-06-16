@@ -38,7 +38,7 @@ class _LoginViewState extends State<LoginView> {
 
   void _submitData() async {
     try {
-      final email = _email.text;
+      final email = _email.text.toLowerCase();
       final password = _password.text;
       await AuthService.firebase().logIn(
         email: email,

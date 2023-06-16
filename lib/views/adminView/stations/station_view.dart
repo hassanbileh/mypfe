@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/models/station.dart';
-import 'package:mypfe/widgets/no_item.dart';
+import 'package:mypfe/services/cloud/storage/station_storage.dart';
+import 'package:mypfe/widgets/station/station_list.dart';
 
 class StationView extends StatefulWidget {
   const StationView({super.key});
@@ -11,19 +12,46 @@ class StationView extends StatefulWidget {
 }
 
 class _StationViewState extends State<StationView> {
-  final Iterable<CloudStation> _stationsList = [];
+  late final FirebaseCloudStationStorage _stationService;
+
+  @override
+  void initState() {
+    _stationService = FirebaseCloudStationStorage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: null,
-      body: SingleChildScrollView(
-        child: (_stationsList.isEmpty)
-            ? const NoItem(title: 'Aucune station trouvée.')
-            : Column(
-                children: [
-                  const Text('Stations recents'),
-                ],
-              ),
+      body: StreamBuilder(
+        stream: _stationService.getAllStations(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              if (snapshot.hasData) {
+                final allStations = snapshot.data as Iterable<CloudStation>;
+                return StationsList(
+                  stations: allStations,
+                  onDeleteNote: (CloudStation station) async {
+                    await _stationService.deleteStation(
+                        documentId: station.documentId);
+                  },
+                  onTap: (station) {
+                    Navigator.of(context).pushNamed(createOrUpdateStationRoute,
+                        arguments: station);
+                  },
+                );
+              } else {
+                return const CircularProgressIndicator();
+              }
+            case ConnectionState.done:
+              return const Text('done');
+            default:
+              return const CircularProgressIndicator();
+          }
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(

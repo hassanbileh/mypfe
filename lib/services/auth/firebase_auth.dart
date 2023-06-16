@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mypfe/constants/user_constants.dart';
 import 'package:mypfe/services/auth/auth_exceptions.dart';
 import 'package:mypfe/services/auth/auth_provider.dart';
 import 'package:mypfe/services/auth/auth_user.dart';
@@ -9,7 +10,7 @@ import 'package:mypfe/services/cloud/storage/user_storage.dart';
 import '../../firebase_options.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
-  final users = FirebaseFirestore.instance.collection('users');
+  final users = FirebaseFirestore.instance.collection(userTable);
   final firebaseService = FirebaseCloudUserStorage();
 
   // When user register to our platform
@@ -222,6 +223,13 @@ class FirebaseAuthProvider implements AuthProvider {
       
     } on FirebaseAuthException {
       throw GenericAuthException();
+    }
+  }
+  @override
+  Future<void> delete({required String email}) async{
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null && user.email == email) {
+      await user.delete();
     }
   }
 

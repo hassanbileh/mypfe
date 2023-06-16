@@ -151,11 +151,12 @@ class FirebaseCloudUserStorage {
     }
   }
 
-  Stream<Iterable<CloudUser>> getAllUsers({required String role}) =>
-      FirebaseFirestore.instance.collection(userTable).snapshots().map((event) => event.docs
+  Stream<Iterable<CloudUser>> getAllUsers({required String role}) {
+      final allUsers = FirebaseFirestore.instance.collection(userTable).snapshots().map((event) => event.docs
           .map((doc) => CloudUser.fromSnapshot(doc))
           .where((user) => user.role == role));
-
+      return allUsers;
+  }
   Future<void> deleteUser({
     required String documentId,
   }) async {
