@@ -21,8 +21,7 @@ class FirebaseCloudUserStorage {
 
 // Create new client in firestore
   Future<CloudUser> createNewClientInCloud(
-      {
-      required String email,
+      {required String email,
       required String nom,
       required int? telephone,
       required bool? isEmailVerified}) async {
@@ -45,8 +44,7 @@ class FirebaseCloudUserStorage {
 
 // Create new company
   Future<CloudUser> createNewCompanyInCloud(
-      {
-      required String email,
+      {required String email,
       required String nom,
       required int? telephone,
       required bool? isEmailVerified}) async {
@@ -70,8 +68,7 @@ class FirebaseCloudUserStorage {
 
 // Create new admin in the firestore
   Future<CloudUser> createNewAdminInCloud(
-      {
-      required String email,
+      {required String email,
       required String nom,
       required int? telephone,
       required bool? isEmailVerified}) async {
@@ -154,6 +151,18 @@ class FirebaseCloudUserStorage {
     }
   }
 
+  Stream<Iterable<CloudUser>> getAllUsers({required String role}) =>
+      FirebaseFirestore.instance.collection(userTable).snapshots().map((event) => event.docs
+          .map((doc) => CloudUser.fromSnapshot(doc))
+          .where((user) => user.role == role));
 
-
+  Future<void> deleteUser({
+    required String documentId,
+  }) async {
+    try {
+      await FirebaseFirestore.instance.collection(userTable).doc(documentId).delete();
+    } catch (e) {
+      throw CouldNotDeleteUserException();
+    }
+  }
 }

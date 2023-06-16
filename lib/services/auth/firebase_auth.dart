@@ -5,7 +5,6 @@ import 'package:mypfe/services/auth/auth_exceptions.dart';
 import 'package:mypfe/services/auth/auth_provider.dart';
 import 'package:mypfe/services/auth/auth_user.dart';
 import 'package:mypfe/services/cloud/storage/user_storage.dart';
-import 'package:mypfe/utilities/dialogs/error_dialog.dart';
 
 import '../../firebase_options.dart';
 

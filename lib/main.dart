@@ -37,13 +37,13 @@ class MyApp extends StatelessWidget {
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 74, 44, 156)),
         useMaterial3: true,
-        appBarTheme: AppBarTheme().copyWith(
-          titleTextStyle: const TextStyle(
-            fontFamily: 'OpenSans-Bold.ttf',
-              fontSize: 20,
-              fontStyle: FontStyle.italic,
-              color: Color.fromARGB(255, 74, 44, 156)),
-        ),
+        // appBarTheme: AppBarTheme().copyWith(
+        //   titleTextStyle: const TextStyle(
+        //     fontFamily: 'OpenSans-Bold.ttf',
+        //       fontSize: 20,
+        //       fontStyle: FontStyle.italic,
+        //       color: Color.fromARGB(255, 74, 44, 156)),
+        // ),
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',

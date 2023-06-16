@@ -139,10 +139,10 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
         password: _password,
         confirmPassword: _confirmPassword,
         buttonText: ajoutButtonText,
-        confirm: () {},
-        littleTitle: null,
-        littleButton: null,
-        littleButtonText: null,
+        confirm: _submitData,
+        littleTitle: '',
+        littleButton: (){},
+        littleButtonText: '',
       ),
     );
   }

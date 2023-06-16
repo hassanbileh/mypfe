@@ -23,7 +23,7 @@ class NoItem extends StatelessWidget {
         SizedBox(
           height: 300,
           width: 400,
-          child: Image.asset('lib/assets/images/waiting.png'),
+          child: Image.asset('assets/images/waiting.png'),
         ),
       ],
     );

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mypfe/constants/text_field.dart';
 
 import '../../constants/greeting.dart';
-import '../../constants/routes.dart';
 import '../../services/auth/auth_exceptions.dart';
 import '../../services/auth/auth_services.dart';
 import '../../utilities/dialogs/error_dialog.dart';
@@ -87,12 +86,13 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.dangerous),
+              const Icon(Icons.settings_backup_restore),
               const Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(10.0),
                 child: Text(
                     'Entrer votre email ici, nous vous enverrons un lien pour réinitialiser votre mot de passe.'),
               ),
+              SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -122,13 +122,6 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 onPressed: _resetPwd,
                 child: const Text('Réinitialiser le mot de passe'),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(loginRoute, (route) => false);
-                },
-                child: const Text('Se connecter'),
-              )
             ],
           ),
         ),
