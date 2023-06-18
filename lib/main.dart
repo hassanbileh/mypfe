@@ -15,6 +15,7 @@ import 'package:mypfe/views/authView/verify_email.dart';
 import 'package:mypfe/views/clientView/main_client.dart';
 import 'package:mypfe/views/companyView/main_company.dart';
 import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
+import 'package:mypfe/views/companyView/trains/classe/add_class.dart';
 
 import 'constants/routes.dart';
 
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(),
         createOrUpdateAdminRoute: (context) => const CreateOrUpdateAdmin(),
         createOrUpdateTrainRoute: (context) => const CreateOrUpdateTrain(),
+        addClasseRoute:(context) => const AddClasse(),
       },
       home: const FirstScreen(),
     );

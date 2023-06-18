@@ -10,3 +10,4 @@ const createOrUpdateStationRoute = '/createOrUpdateStation';
 const createOrUpdateAdminRoute = '/createOrUpdateAdmin';
 const createOrUpdateTrainRoute = '/createOrUpdateTrain';
 const addTrainRoute = '/addTrain';
+const addClasseRoute = '/addClasse';
