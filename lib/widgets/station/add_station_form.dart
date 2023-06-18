@@ -32,7 +32,7 @@ class AddStation extends StatelessWidget {
                   fillColor: Colors.grey.shade100,
                   filled: true,
                   icon: const Icon(
-                    Icons.person,
+                    Icons.numbers_sharp,
                     color: Color.fromARGB(255, 74, 44, 156),
                   ),
                   hintText: 'Entrer le numéro ici',
@@ -80,7 +80,7 @@ class AddStation extends StatelessWidget {
                   fillColor: Colors.grey.shade100,
                   filled: true,
                   icon: const Icon(
-                    Icons.person,
+                    Icons.location_city_rounded,
                     color: Color.fromARGB(255, 74, 44, 156),
                   ),
                   hintText: 'Entrer la ville ici',

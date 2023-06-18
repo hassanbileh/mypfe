@@ -8,3 +8,5 @@ const mainClientRoute = '/main-client';
 const createOrUpdateCompanyRoute = '/createOrUpdateCompany';
 const createOrUpdateStationRoute = '/createOrUpdateStation';
 const createOrUpdateAdminRoute = '/createOrUpdateAdmin';
+const createOrUpdateTrainRoute = '/createOrUpdateTrain';
+const addTrainRoute = '/addTrain';

@@ -5,6 +5,7 @@ import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/logout_dialog.dart';
 import 'package:mypfe/views/adminView/settings/settings_view.dart';
 import 'package:mypfe/views/adminView/stations/station_view.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'dart:developer' as devtools show log;
 import '../../enums/menu_action.dart';
 import 'admin/admins_view.dart';
@@ -38,12 +39,18 @@ class _MainAdminPageState extends State<MainAdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(greeting()),
+        elevation: 2,
+        title: Text(
+          greeting(),
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500),
+        ),
         actions: [
           //? PopupMenuButton
           //? on crée d'abord le MenuAction enum et on l'utilise dans PopMenuButton
           PopupMenuButton<MenuAction>(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.white,
             onSelected: (value) async {
               switch (value) {
                 case MenuAction.logout:
@@ -64,14 +71,13 @@ class _MainAdminPageState extends State<MainAdminPage> {
             // Menu Action builder
             itemBuilder: (value) {
               return [
-
                 //? Popup du menuItem
                 const PopupMenuItem<MenuAction>(
                   value: MenuAction.logout,
                   child: Text(
                     'log out',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 113, 68, 239),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -84,38 +90,85 @@ class _MainAdminPageState extends State<MainAdminPage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: SalomonBottomBar(
+        selectedItemColor: const Color.fromARGB(255, 113, 68, 239),
         items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Theme.of(context).colorScheme.primary,
+          //Home
+          SalomonBottomBarItem(
+            icon: const Icon(
+              Icons.home_outlined,
+              color: Color.fromARGB(255, 113, 68, 239),
+            ),
+            title: const Text("Home"),
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.business),
-            label: 'Companies',
-            backgroundColor: Theme.of(context).colorScheme.primary,
+          //Train
+          SalomonBottomBarItem(
+            icon: const Icon(
+              Icons.business,
+            ),
+            title: const Text("Compagnies"),
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.traffic_sharp),
-            label: 'Stations',
-            backgroundColor: Theme.of(context).colorScheme.primary,
+          //Tickets
+          SalomonBottomBarItem(
+            icon: const Icon(
+              Icons.traffic_sharp,
+            ),
+            title: const Text("Stations"),
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.person_4_outlined),
-            label: 'Admins',
-            backgroundColor: Theme.of(context).colorScheme.primary,
+          //Stations
+          SalomonBottomBarItem(
+            icon: const Icon(
+              Icons.person_4_outlined,
+            ),
+            title: const Text("Admins"),
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.settings),
-            label: 'Settings',
-            backgroundColor: Theme.of(context).colorScheme.primary,
+          SalomonBottomBarItem(
+            icon: const Icon(
+              Icons.settings,
+              
+            ),
+            title: const Text("Settings"),
           ),
         ],
+        
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color.fromARGB(255, 71, 176, 237),
         onTap: _onItemTapped,
+        selectedColorOpacity: 0.2,
       ),
     );
   }
 }
+
+
+// bottomNavigationBar: BottomNavigationBar(
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: const Icon(Icons.home),
+      //       label: 'Home',
+      //       backgroundColor: Theme.of(context).colorScheme.primary,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: const Icon(Icons.business),
+      //       label: 'Companies',
+      //       backgroundColor: Theme.of(context).colorScheme.primary,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: const Icon(Icons.traffic_sharp),
+      //       label: 'Stations',
+      //       backgroundColor: Theme.of(context).colorScheme.primary,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: const Icon(Icons.person_4_outlined),
+      //       label: 'Admins',
+      //       backgroundColor: Theme.of(context).colorScheme.primary,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: const Icon(Icons.settings),
+      //       label: 'Settings',
+      //       backgroundColor: Theme.of(context).colorScheme.primary,
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: const Color.fromARGB(255, 71, 176, 237),
+      //   onTap: _onItemTapped,
+      // ),

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/models/station.dart';
 
-import '../../utilities/dialogs/delete_dialog.dart';
+import '../../../utilities/dialogs/delete_dialog.dart';
 
 typedef StationCallBack = void Function(CloudStation note);
 
@@ -16,8 +16,8 @@ class StationsList extends StatelessWidget {
   });
 
   final Iterable<CloudStation?> stations;
-  final StationCallBack onDeleteNote;
-  final StationCallBack onTap;
+  final StationCallBack? onDeleteNote;
+  final StationCallBack? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +27,19 @@ class StationsList extends StatelessWidget {
         final station = stations.elementAt(index);
         return Card(
           elevation: 2,
+          color: Colors.white,
           child: Dismissible(
             key: ValueKey(stations.elementAt(index)),
             onDismissed: (direction) async {
               final shouldDelete = await showDeleteDialog(context);
                   if (shouldDelete) {
-                    onDeleteNote(station);
+                    onDeleteNote!(station);
                   }
             },
             background: Container(color: Theme.of(context).colorScheme.error,),
             child: ListTile(
               onTap:() {
-                onTap(station);
+                onTap!(station);
               },
               title: Text(
                 station!.nom,
@@ -47,11 +48,11 @@ class StationsList extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.delete),
+                icon: const Icon(Icons.delete, color: Color.fromARGB(255, 148, 115, 238),),
                 onPressed: () async {
                   final shouldDelete = await showDeleteDialog(context);
                   if (shouldDelete) {
-                    onDeleteNote(station);
+                    onDeleteNote!(station);
                   }
                 },
               ),

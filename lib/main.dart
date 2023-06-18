@@ -14,6 +14,7 @@ import 'package:mypfe/views/authView/register.dart';
 import 'package:mypfe/views/authView/verify_email.dart';
 import 'package:mypfe/views/clientView/main_client.dart';
 import 'package:mypfe/views/companyView/main_company.dart';
+import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
 
 import 'constants/routes.dart';
 
@@ -34,30 +35,34 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 74, 44, 156)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 74, 44, 156)),
         useMaterial3: true,
-        // appBarTheme: AppBarTheme().copyWith(
-        //   titleTextStyle: const TextStyle(
-        //     fontFamily: 'OpenSans-Bold.ttf',
-        //       fontSize: 20,
-        //       fontStyle: FontStyle.italic,
-        //       color: Color.fromARGB(255, 74, 44, 156)),
-        // ),
+        appBarTheme: AppBarTheme(
+          color: Colors.purple[900],
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        iconTheme: const IconThemeData(
+          color: Color.fromARGB(255, 113, 68, 239),
+        ),
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
+        //Auth Pages
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
         verifyEmailRoute: (context) => const VerificationEmail(),
         resetPassordRoute: (context) => const ForgetPasswordView(),
+        //Main Pages
         mainAdminRoute: (context) => const MainAdminPage(),
         mainCompanyRoute: (context) => const MainCompanyPage(),
         mainClientRoute: (context) => const MainClientPage(),
+        //Forms Pages
         createOrUpdateCompanyRoute: (context) => const CreateOrUpdateCompany(),
         createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(),
         createOrUpdateAdminRoute: (context) => const CreateOrUpdateAdmin(),
+        createOrUpdateTrainRoute: (context) => const CreateOrUpdateTrain(),
       },
       home: const FirstScreen(),
     );

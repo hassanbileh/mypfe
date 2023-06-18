@@ -21,6 +21,7 @@ class CompanyList extends StatelessWidget {
       itemBuilder: (context, index) {
         final company = companies.elementAt(index);
         return Card(
+          color: Colors.white,
           elevation: 2,
           child: Dismissible(
             key: ValueKey(companies.elementAt(index)),
@@ -44,7 +45,10 @@ class CompanyList extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete),
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Color.fromARGB(255, 148, 115, 238),
+                    ),
                     onPressed: () async {
                       final shouldDelete = await showDeleteDialog(context);
                       if (shouldDelete) {
@@ -60,21 +64,39 @@ class CompanyList extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Text('Email : ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),),
-                          Text(company.email, style: const TextStyle(fontSize: 12, ),),
-                    
+                          const Text(
+                            'Email : ',
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            company.email,
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Text('Telephone : ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),),
-                          Text(company.telephone.toString(), style: const TextStyle(fontSize: 12, ),),
-                          
+                          const Text(
+                            'Telephone : ',
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            company.telephone.toString(),
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                     ),

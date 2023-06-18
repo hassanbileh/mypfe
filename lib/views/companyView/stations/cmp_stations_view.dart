@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mypfe/constants/routes.dart';
-import 'package:mypfe/models/station.dart';
 import 'package:mypfe/services/cloud/storage/station_storage.dart';
-import 'package:mypfe/views/adminView/stations/station_list.dart';
 
-class StationView extends StatefulWidget {
-  const StationView({super.key});
+import '../../../models/station.dart';
+
+class CompanyStationView extends StatefulWidget {
+  const CompanyStationView({super.key});
 
   @override
-  State<StationView> createState() => _StationViewState();
+  State<CompanyStationView> createState() => _CompanyStationViewState();
 }
 
-class _StationViewState extends State<StationView> {
+class _CompanyStationViewState extends State<CompanyStationView> {
   late final FirebaseCloudStationStorage _stationService;
 
   @override
@@ -32,15 +31,21 @@ class _StationViewState extends State<StationView> {
             case ConnectionState.active:
               if (snapshot.hasData) {
                 final allStations = snapshot.data as Iterable<CloudStation>;
-                return StationsList(
-                  stations: allStations,
-                  onDeleteNote: (CloudStation station) async {
-                    await _stationService.deleteStation(
-                        documentId: station.documentId);
-                  },
-                  onTap: (station) {
-                    Navigator.of(context).pushNamed(createOrUpdateStationRoute,
-                        arguments: station);
+                return ListView.builder(
+                  itemCount: allStations.length,
+                  itemBuilder: (context, index) {
+                    final station = allStations.elementAt(index);
+                    return Card(
+                      elevation: 2,
+                      child: ListTile(
+                        title: Text(
+                          station.nom,
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    );
                   },
                 );
               } else {
@@ -51,13 +56,6 @@ class _StationViewState extends State<StationView> {
             default:
               return const CircularProgressIndicator();
           }
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).pushNamed(createOrUpdateStationRoute);
         },
       ),
     );
