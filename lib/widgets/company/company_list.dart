@@ -22,7 +22,7 @@ class CompanyList extends StatelessWidget {
         final company = companies.elementAt(index);
         return Card(
           color: Colors.white,
-          elevation: 2,
+          elevation: 4,
           child: Dismissible(
             key: ValueKey(companies.elementAt(index)),
             onDismissed: (direction) async {

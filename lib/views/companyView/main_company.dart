@@ -36,12 +36,7 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            greeting(),
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500),
-          ),
+          title: Text(greeting()),
           actions: [
             //? PopupMenuButton
             //? on crée d'abord le MenuAction enum et on l'utilise dans PopMenuButton
@@ -70,12 +65,20 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
                   //? Popup du menuItem
                   const PopupMenuItem<MenuAction>(
                     value: MenuAction.logout,
-                    child: Text(
-                      'Se deconnecter',
-                      style: TextStyle(
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Se deconnecter',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 74, 44, 156),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Icon(
+                          Icons.logout,
+                          color: Color.fromARGB(255, 113, 68, 239),
+                        ),
+                      ],
                     ),
                   ),
                 ];
@@ -108,7 +111,9 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
             ),
             //Stations
             SalomonBottomBarItem(
-              icon: const Icon(Icons.traffic_sharp,),
+              icon: const Icon(
+                Icons.traffic_sharp,
+              ),
               title: const Text("Stations"),
             ),
           ],
@@ -118,4 +123,3 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
         ));
   }
 }
-

@@ -129,7 +129,6 @@ class _CreateOrUpdateStationState extends State<CreateOrUpdateStation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white.withOpacity(1),
           title: const Text('Station'),
         ),
       body: FutureBuilder(

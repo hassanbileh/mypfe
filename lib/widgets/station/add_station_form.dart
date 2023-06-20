@@ -17,6 +17,7 @@ class AddStation extends StatelessWidget {
     return Center(
         child: Column(
           children: [
+            const SizedBox(height: 20,),
             //Le numéro de la station
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -33,7 +34,6 @@ class AddStation extends StatelessWidget {
                   filled: true,
                   icon: const Icon(
                     Icons.numbers_sharp,
-                    color: Color.fromARGB(255, 74, 44, 156),
                   ),
                   hintText: 'Entrer le numéro ici',
                   labelText: 'Numéro',

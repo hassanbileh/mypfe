@@ -96,7 +96,6 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: UserForm(
-        title: 'Bienvenue à Sany, créer un compte ici.',
         icon: Icons.person,
         email: _email,
         nom: _nom,

@@ -14,8 +14,8 @@ import 'package:mypfe/views/authView/register.dart';
 import 'package:mypfe/views/authView/verify_email.dart';
 import 'package:mypfe/views/clientView/main_client.dart';
 import 'package:mypfe/views/companyView/main_company.dart';
-import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
 import 'package:mypfe/views/companyView/trains/classe/add_class.dart';
+import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
 
 import 'constants/routes.dart';
 
@@ -39,9 +39,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 74, 44, 156)),
         useMaterial3: true,
-        appBarTheme: AppBarTheme(
-          color: Colors.purple[900],
-          iconTheme: const IconThemeData(color: Colors.white),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+          elevation: 2,
+          color: Color.fromARGB(255, 74, 44, 156),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         iconTheme: const IconThemeData(
           color: Color.fromARGB(255, 113, 68, 239),
@@ -63,8 +69,8 @@ class MyApp extends StatelessWidget {
         createOrUpdateCompanyRoute: (context) => const CreateOrUpdateCompany(),
         createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(),
         createOrUpdateAdminRoute: (context) => const CreateOrUpdateAdmin(),
-        createOrUpdateTrainRoute: (context) => const CreateOrUpdateTrain(),
-        addClasseRoute:(context) => const AddClasse(),
+        createOrUpdateTrainRoute:(context) => const CreateOrUpdateTrain(),
+        addClasseRoute: (context) => const AddClasse(),
       },
       home: const FirstScreen(),
     );

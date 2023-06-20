@@ -7,7 +7,6 @@ typedef ConfirmCallBack = void Function();
 typedef LittleCallBack = void Function();
 
 class UserForm extends StatelessWidget {
-  final String title;
   final IconData icon;
   final ConfirmCallBack confirm;
   final ConfirmCallBack? littleButton;
@@ -22,7 +21,6 @@ class UserForm extends StatelessWidget {
 
   const UserForm({
     super.key,
-    required this.title,
     required this.icon,
     required this.email,
     required this.nom,
@@ -45,30 +43,32 @@ class UserForm extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  //Welcome Title
+                   //Welcome Title
                   Text(
-                    title,
+                    'Welcome to',
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary),
                   ),
-                  const SizedBox(
-                    height: 15,
+
+                  //logo
+                  SizedBox(
+                    height: 70,
+                    width: 220,
+                    child: Image.asset(
+                      'assets/images/pfe-logo.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
 
-                  //Icon
-                  Icon(
-                    icon,
-                    size: 100,
-                    color: Theme.of(context).colorScheme.primary,
+                  const Icon(
+                    Icons.person,
+                    size: 50,
                   ),
+
                   Container(
-                    margin: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(5),
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,8 +202,13 @@ class UserForm extends StatelessWidget {
                           height: 60,
                           width: 330,
                           decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: <Color>[
+                                Color.fromARGB(255, 113, 68, 239),
+                                Color.fromARGB(255, 183, 128, 255),
+                              ],
+                            ),
                             borderRadius: BorderRadius.circular(30),
-                            color: Theme.of(context).colorScheme.primary,
                           ),
                           child: OutlinedButton(
                             onPressed: confirm,

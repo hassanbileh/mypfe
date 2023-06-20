@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/extensions/generics/get_arguments.dart';
-import 'package:mypfe/views/companyView/trains/classe/class_form.dart';
+import 'package:mypfe/widgets/classe/add_class_form.dart';
 
 class AddClasse extends StatefulWidget {
   const AddClasse({super.key});
@@ -10,28 +10,29 @@ class AddClasse extends StatefulWidget {
 }
 
 class _AddClasseState extends State<AddClasse> {
-  late final TextEditingController nom;
-  late final TextEditingController description;
-  late final TextEditingController capacite;
-  late final TextEditingController nbrTypeSiege;
-  late final TextEditingController prixClasse;
-
-  // List<Widget> displayClassForms(BuildContext context){
-  //   final nbrClasse = context.getArguments<int>();
-  //   List<Widget> classForms = [];
-  //   for (var i = 0; i < nbrClasse!; i++) {
-  //     classForms.add(ClassForm(nom: nom, description: description, capacite: capacite, nbrTypeSiege: nbrTypeSiege, prixClasse: prixClasse, suivant: suivant))
-  //   }
-  // }
+  late final TextEditingController _nom;
+  late final TextEditingController _description;
+  late final TextEditingController _capacite;
+  late final TextEditingController _nbrTypeSiege;
+  late final TextEditingController _prixClasse;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Classes'),),
+      appBar: AppBar(
+        title: const Text('Classes'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            
+            ClassForm(
+              nom: _nom,
+              description: _description,
+              capacite: _capacite,
+              nbrTypeSiege: _nbrTypeSiege,
+              prixClasse: _prixClasse,
+              suivant: () {},
+            ),
           ],
         ),
       ),

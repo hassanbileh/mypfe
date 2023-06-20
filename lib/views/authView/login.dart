@@ -101,24 +101,37 @@ class _LoginViewState extends State<LoginView> {
 
                   //Welcome Title
                   Text(
-                    'Veuillez vous connecter.',
+                    'Welcome to',
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 5,
                   ),
 
-                  //Icon
-                  Icon(
-                    Icons.person,
-                    size: 100,
-                    color: Theme.of(context).colorScheme.primary,
+                  //logo
+                  SizedBox(
+                    height: 90,
+                    width: 250,
+                    child: Image.asset(
+                      'assets/images/pfe-logo.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
+
+                  const SizedBox(
+                    height: 25,
+                  ),
+
+                  const Icon(
+                    Icons.lock,
+                    size: 50,
+                  ),
+
                   Container(
-                    margin: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(3),
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,7 +192,8 @@ class _LoginViewState extends State<LoginView> {
                           children: [
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamed(resetPassordRoute);
+                                Navigator.of(context)
+                                    .pushNamed(resetPassordRoute);
                               },
                               child: Text(
                                 'mot de passe oublié ?',
@@ -197,6 +211,13 @@ class _LoginViewState extends State<LoginView> {
                           height: 60,
                           width: 330,
                           decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              
+                              colors: <Color>[
+                                Color.fromARGB(255, 113, 68, 239),
+                                Color.fromARGB(255, 183, 128, 255),
+                              ],
+                            ),
                             borderRadius: BorderRadius.circular(30),
                             color: Theme.of(context).colorScheme.primary,
                           ),

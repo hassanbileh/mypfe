@@ -21,7 +21,7 @@ class _TrainViewState extends State<TrainView> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).pushNamed(createOrUpdateTrainRoute);
+          Navigator.of(context).pushNamed(addTrainRoute);
         },
       ),
     );

@@ -94,7 +94,6 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
         title: const Text(companyAppBarTitle),
       ),
       body: UserForm(
-        title: "Ajouter une compagnie",
         icon: Icons.business,
         email: _email,
         nom: _nom,

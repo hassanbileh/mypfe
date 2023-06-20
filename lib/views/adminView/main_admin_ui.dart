@@ -40,12 +40,7 @@ class _MainAdminPageState extends State<MainAdminPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        title: Text(
-          greeting(),
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500),
-        ),
+        title: Text(greeting()),
         actions: [
           //? PopupMenuButton
           //? on crée d'abord le MenuAction enum et on l'utilise dans PopMenuButton
@@ -74,12 +69,19 @@ class _MainAdminPageState extends State<MainAdminPage> {
                 //? Popup du menuItem
                 const PopupMenuItem<MenuAction>(
                   value: MenuAction.logout,
-                  child: Text(
-                    'log out',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 113, 68, 239),
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Se deconnecter',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 113, 68, 239),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Icon(
+                        Icons.logout,
+                      ),
+                    ],
                   ),
                 ),
               ];
@@ -125,12 +127,10 @@ class _MainAdminPageState extends State<MainAdminPage> {
           SalomonBottomBarItem(
             icon: const Icon(
               Icons.settings,
-              
             ),
             title: const Text("Settings"),
           ),
         ],
-        
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         selectedColorOpacity: 0.2,
