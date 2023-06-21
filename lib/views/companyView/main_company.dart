@@ -3,7 +3,7 @@ import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/logout_dialog.dart';
 import 'package:mypfe/views/companyView/stations/cmp_stations_view.dart';
-import 'package:mypfe/views/companyView/trains/train_list_view.dart';
+import 'package:mypfe/views/companyView/trains/main_train_view.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'dart:developer' as devtools show log;
 

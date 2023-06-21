@@ -7,7 +7,7 @@ class ClassForm extends StatelessWidget {
   final TextEditingController capacite;
   final TextEditingController nbrTypeSiege;
   final TextEditingController prixClasse;
-  final TypeSiegeCallBack suivant;
+  final TypeSiegeCallBack? suivant;
   const ClassForm({
     super.key,
     required this.nom,
@@ -21,7 +21,7 @@ class ClassForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 600,
+      height: 500,
       child: Card(
         color: Colors.white,
         child: Column(
@@ -55,9 +55,10 @@ class ClassForm extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                maxLines: null,
                 controller: description,
-                autocorrect: false, //? important for the email
-                keyboardType: TextInputType.emailAddress,
+                autocorrect: false, 
+                keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.grey),
@@ -66,10 +67,10 @@ class ClassForm extends StatelessWidget {
                   fillColor: Colors.grey.shade100,
                   filled: true,
                   icon: const Icon(
-                    Icons.my_library_add_outlined,
+                    Icons.description_outlined,
                   ),
-                  hintText: 'Entrer le nombre des classes de ce train',
-                  labelText: 'Nombre Classe',
+                  hintText: 'Decrivez la classe',
+                  labelText: 'Description',
                 ),
               ),
             ),
@@ -121,7 +122,7 @@ class ClassForm extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: nbrTypeSiege,
+                controller: prixClasse,
                 autocorrect: false, //? important for the email
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -141,13 +142,16 @@ class ClassForm extends StatelessWidget {
             ),
 
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: OutlinedButton(
-                onPressed: suivant,
-                child: const Text('Suivant'),
+            Visibility(
+              visible: (suivant != null) ? true : false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: OutlinedButton(
+                  onPressed: suivant,
+                  child: const Text('Confirmer'),
+                ),
               ),
             )
           ],

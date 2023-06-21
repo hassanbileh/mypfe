@@ -11,22 +11,19 @@ class FirebaseCloudTrainStorage {
 
   Future<CloudTrain> createNewTrain({
     required String companyEmail,
-    required int nbrClasses,
-    required String numero,
   }) async {
     try {
       final document = await trains.add({
         "compagnieEmail": companyEmail,
-        "nbr_classes": nbrClasses,
-        "numero": numero,
+        "nbr_clases": 0,
+        "numero": '',
       });
       final fetchedTrain = await document.get();
       return CloudTrain(
         documentId: fetchedTrain.id,
-        numero: numero,
+        numero: '',
         companyEmail: companyEmail,
-        nbrClasses: nbrClasses,
-        classes: [],
+        nbrClasses: 0,
       );
     } catch (e) {
       throw CouldNotCreateTrainException();
@@ -41,7 +38,7 @@ class FirebaseCloudTrainStorage {
     try {
       await trains.doc(documentId).update({
         "numero": numero,
-        "nbr_classes": nbrClasse,
+        "nbr_clases": nbrClasse,
       });
     } catch (e) {
       throw CouldNotUpdateTrainException();
@@ -57,9 +54,33 @@ class FirebaseCloudTrainStorage {
   }
 
   Stream<Iterable<CloudTrain>> getTrainsByCompany(
-          {required String compagnieEmail}) =>
-      trains.snapshots().map((event) => event.docs
-          .map((doc) => CloudTrain.fromSnapshot(
-              doc as QueryDocumentSnapshot<Map<String, dynamic>>))
-          .where((train) => train.companyEmail == compagnieEmail));
+      {required String compagnieEmail}) {
+    final allTrains = FirebaseFirestore.instance
+        .collection('trains')
+        .snapshots()
+        .map((event) => event.docs
+            .map((doc) => CloudTrain.fromSnapshot(doc))
+            .where((train) => train.companyEmail == compagnieEmail));
+    return allTrains;
+  }
+
+  //Getting notes by userId
+  Future<Iterable<CloudTrain>> getTrains({required String companyEmail}) async {
+    try {
+      final gotNotes = await FirebaseFirestore.instance
+          .collection('trains')
+          .where(
+            'compagnieEmail',
+            isEqualTo: companyEmail,
+          )
+          .get()
+          .then(
+            // onError: (_) => CloudNotGetAllNotesException(),
+            (value) => value.docs.map((doc) => CloudTrain.fromSnapshot(doc)),
+          );
+      return gotNotes;
+    } catch (e) {
+      throw CouldNotGetTrainsException();
+    }
+  }
 }

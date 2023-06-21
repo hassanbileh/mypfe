@@ -47,3 +47,5 @@ class CouldNotUpdateTypeSiegeException extends CloudStorageException {}
 class CouldNotDeleteTypeSiegeException extends CloudStorageException {}
 
 class CouldNotReadTypeSiegeException extends CloudStorageException {}
+
+class CouldNotGetTrainsException extends CloudStorageException {}

@@ -10,6 +10,11 @@ class FirebaseCloudClasseStorage {
   CollectionReference trainCollection =
       FirebaseFirestore.instance.collection('trains');
 
+  CollectionReference classesCollection = FirebaseFirestore.instance
+      .collection('trains')
+      .doc()
+      .collection('classes');
+
   Future<CloudClasse> createNewClasse({
     required String trainId,
     required int? nbrTypeSiege,
@@ -20,10 +25,10 @@ class FirebaseCloudClasseStorage {
   }) async {
     try {
       final classesCollection =
-          trainCollection.doc(trainId).collection('classes');
+          FirebaseFirestore.instance.collection('classes');
       final document = await classesCollection.add({
         "nom": nomClasse,
-        "capacité": capacite,
+        "capacite": capacite,
         "description": description,
         "nbr_type_siege": nbrTypeSiege as int,
         "prix_classe": prixClasse,
@@ -38,10 +43,48 @@ class FirebaseCloudClasseStorage {
         prixClasse: prixClasse,
         nbrTypeSiege: nbrTypeSiege,
         trainId: trainId,
-        typesSiege: [],
       );
     } catch (e) {
       throw CouldNotCreateClasseException();
     }
+  }
+
+  Future<void> updateClasse({
+    required String documentId,
+    required String nom,
+    required String description,
+    required int capacite,
+    required double prixClasse,
+    required int nbrTypeSiege,
+  }) async {
+    try {
+      await classesCollection.doc(documentId).update({
+        "nom": nom,
+        "description": description,
+        "capacite": capacite,
+        "prix_classe": prixClasse,
+        "nbr_type_siege": nbrTypeSiege,
+      });
+    } catch (e) {
+      throw CouldNotUpdateClasseException();
+    }
+  }
+
+  Future<void> deleteClasse({required String documentId}) async {
+    try {
+      await classesCollection.doc(documentId).delete();
+    } catch (e) {
+      throw CouldNotDeleteClasseException();
+    }
+  }
+
+  Stream<Iterable<CloudClasse>> getClassesByTrainId({required String trainId})  {
+    final allClasses =  FirebaseFirestore.instance
+        .collection('classes')
+        .snapshots()
+        .map((event) => event.docs
+            .map((doc) => CloudClasse.fromSnapshot(doc))
+            .where((classe) => classe.trainId == trainId));
+    return allClasses;
   }
 }

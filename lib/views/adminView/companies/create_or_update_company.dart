@@ -48,7 +48,7 @@ class _CreateOrUpdateCompanyState extends State<CreateOrUpdateCompany> {
       final password = _password.text.trim();
       final confirmPassword = _confirmPassword.text.trim();
       final nom = _nom.text.trim();
-      final telephone = int.parse(_telephone.text.trim());
+      final telephone = int.tryParse(_telephone.text.trim());
       if (email.isEmpty ||
           password.isEmpty ||
           nom.isEmpty ||

@@ -1,5 +1,5 @@
 //HintText
-const emailHintText = "Entrer l\'email";
+const emailHintText = "Entrer l'email";
 const nomHintText = "Entrer le nom";
 const telHintText = "Entrer le telephone";
 const passwordHintText = "Entrer le mot de passe";
