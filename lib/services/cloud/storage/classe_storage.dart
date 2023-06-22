@@ -10,14 +10,10 @@ class FirebaseCloudClasseStorage {
   CollectionReference trainCollection =
       FirebaseFirestore.instance.collection('trains');
 
-  CollectionReference classesCollection = FirebaseFirestore.instance
-      .collection('trains')
-      .doc()
-      .collection('classes');
+  
 
   Future<CloudClasse> createNewClasse({
     required String trainId,
-    required int? nbrTypeSiege,
     required String nomClasse,
     required int capacite,
     required String description,
@@ -30,7 +26,6 @@ class FirebaseCloudClasseStorage {
         "nom": nomClasse,
         "capacite": capacite,
         "description": description,
-        "nbr_type_siege": nbrTypeSiege as int,
         "prix_classe": prixClasse,
         "train_id": trainId,
       });
@@ -41,7 +36,6 @@ class FirebaseCloudClasseStorage {
         capacite: capacite,
         description: description,
         prixClasse: prixClasse,
-        nbrTypeSiege: nbrTypeSiege,
         trainId: trainId,
       );
     } catch (e) {
@@ -55,15 +49,15 @@ class FirebaseCloudClasseStorage {
     required String description,
     required int capacite,
     required double prixClasse,
-    required int nbrTypeSiege,
   }) async {
     try {
+      final classesCollection =
+          FirebaseFirestore.instance.collection('classes');
       await classesCollection.doc(documentId).update({
         "nom": nom,
         "description": description,
         "capacite": capacite,
         "prix_classe": prixClasse,
-        "nbr_type_siege": nbrTypeSiege,
       });
     } catch (e) {
       throw CouldNotUpdateClasseException();
@@ -72,7 +66,7 @@ class FirebaseCloudClasseStorage {
 
   Future<void> deleteClasse({required String documentId}) async {
     try {
-      await classesCollection.doc(documentId).delete();
+      await FirebaseFirestore.instance.collection('classes').doc(documentId).delete();
     } catch (e) {
       throw CouldNotDeleteClasseException();
     }

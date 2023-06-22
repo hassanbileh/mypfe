@@ -18,7 +18,6 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
   late final TextEditingController _nom;
   late final TextEditingController _description;
   late final TextEditingController _capacite;
-  late final TextEditingController _nbrTypeSiege;
   late final TextEditingController _prixClasse;
 
   @override
@@ -26,7 +25,6 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     _nom = TextEditingController();
     _description = TextEditingController();
     _capacite = TextEditingController();
-    _nbrTypeSiege = TextEditingController();
     _prixClasse = TextEditingController();
     _classeService = FirebaseCloudClasseStorage();
     super.initState();
@@ -38,27 +36,26 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
       _nom.text = widgetClasse.nom;
       _description.text = widgetClasse.description!;
       _capacite.text = widgetClasse.capacite.toString();
-      _nbrTypeSiege.text = widgetClasse.nbrTypeSiege.toString();
       _prixClasse.text = widgetClasse.prixClasse.toString();
       return widgetClasse;
+    }else{
+      throw CouldNotCreateClasseException();
     }
   }
 
   void _textControllerListener() async {
     final classe = _classe;
+    final nom = _nom.text;
+    final description = _description.text;
+    final capacite = int.tryParse(_capacite.text);
+    final prixClasse = double.tryParse(_prixClasse.text);
     if (classe != null) {
-      final nom = _nom.text;
-      final description = _description.text;
-      final capacite = int.tryParse(_capacite.text);
-      final nbrTypeSiege = int.tryParse(_nbrTypeSiege.text);
-      final prixClasse = double.tryParse(_prixClasse.text);
       await _classeService.updateClasse(
         documentId: classe.documentId,
         nom: nom,
         description: description,
         capacite: capacite!,
         prixClasse: prixClasse!,
-        nbrTypeSiege: nbrTypeSiege!,
       );
     }
   }
@@ -68,21 +65,16 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     _description.removeListener(_textControllerListener);
     _capacite.removeListener(_textControllerListener);
     _prixClasse.removeListener(_textControllerListener);
-    _nbrTypeSiege.removeListener(_textControllerListener);
-
     _nom.addListener(_textControllerListener);
     _description.addListener(_textControllerListener);
     _capacite.addListener(_textControllerListener);
     _prixClasse.addListener(_textControllerListener);
-    _nbrTypeSiege.addListener(_textControllerListener);
   }
 
-  void deleteClasseIfTextAreEmpty() async {
+  void _deleteClasseIfTextAreEmpty() async {
     final classe = _classe;
     final nom = _nom.text;
-    final description = _description.text;
     final capacite = int.tryParse(_capacite.text);
-    final nbrTypeSiege = int.tryParse(_nbrTypeSiege.text);
     final prixClasse = double.tryParse(_prixClasse.text);
     if (nom.isEmpty ||
         capacite == null ||
@@ -91,12 +83,11 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     }
   }
 
-  void saveClasseIfTextNotEmpty() async {
+  void _saveClasseIfTextNotEmpty() async {
     final classe = _classe;
     final nom = _nom.text;
     final description = _description.text;
     final capacite = int.tryParse(_capacite.text);
-    final nbrTypeSiege = int.tryParse(_nbrTypeSiege.text);
     final prixClasse = double.tryParse(_prixClasse.text);
     if (classe != null &&
         nom.isNotEmpty &&
@@ -108,9 +99,19 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
         description: description,
         capacite: capacite,
         prixClasse: prixClasse,
-        nbrTypeSiege: nbrTypeSiege!,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _deleteClasseIfTextAreEmpty();
+    _saveClasseIfTextNotEmpty();
+    _nom.dispose();
+    _description.dispose();
+    _capacite.dispose();
+    _prixClasse.dispose();
+    super.dispose();
   }
 
   @override
@@ -125,15 +126,14 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
-              _setUpTextControllerListener();
+                _setUpTextControllerListener();
                 return ClassForm(
                     nom: _nom,
                     description: _description,
                     capacite: _capacite,
-                    nbrTypeSiege: _nbrTypeSiege,
                     prixClasse: _prixClasse,
                     suivant: null);
-              default : 
+              default:
                 return const CircularProgressIndicator();
             }
           },

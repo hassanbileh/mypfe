@@ -16,7 +16,6 @@ import 'package:mypfe/views/clientView/main_client.dart';
 import 'package:mypfe/views/companyView/main_company.dart';
 import 'package:mypfe/views/companyView/trains/classeView/add_class.dart';
 import 'package:mypfe/views/companyView/trains/classeView/create_update_classe.dart';
-import 'package:mypfe/views/companyView/trains/classeView/typeSiege/add_type_siege.dart';
 import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
 
 import 'constants/routes.dart';
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sany',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 74, 44, 156)),
@@ -74,7 +73,6 @@ class MyApp extends StatelessWidget {
         createOrUpdateTrainRoute:(context) => const CreateOrUpdateTrain(),
         createOrUpdateClasseRoute:(context) => const CreateOrUpdateClasse(),
         addClasseRoute: (context) => const AddClasse(),
-        addTypeSiegeRoute: (context) => const AddTypeSiege(),
       },
       home: const FirstScreen(),
     );

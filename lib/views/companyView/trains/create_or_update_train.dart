@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/extensions/generics/get_arguments.dart';
@@ -57,7 +56,7 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
     _nbrClasse.addListener(_textControllerListener);
   }
 
-  void _deleteNoteIfTextIsEmpty() async {
+  void _deleteTrainIfTextIsEmpty() async {
     final train = _train;
     final nbrClasse = int.tryParse(_nbrClasse.text);
     if (_numero.text.isEmpty && nbrClasse == null && train != null) {
@@ -66,11 +65,11 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
   }
 
 // Fonction qui enregistre la note si elle n'est pas vide lorsque le btton retour est touché
-  void _saveNoteIfTextNotEmpty() async {
+  void _saveTrainIfTextNotEmpty() async {
     final train = _train;
     final numero = _numero.text;
     final nbrClasse = int.tryParse(_nbrClasse.text)!;
-    if (train != null && numero.isNotEmpty && _nbrClasse.text.isNotEmpty && train != null) {
+    if (train != null && numero.isNotEmpty && _nbrClasse.text.isNotEmpty) {
       await _trainService.updateTrain(
         documentId: train.documentId,
         numero: numero,
@@ -106,8 +105,8 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
 
   @override
   void dispose() {
-    _deleteNoteIfTextIsEmpty();
-    _saveNoteIfTextNotEmpty();
+    _deleteTrainIfTextIsEmpty();
+    _saveTrainIfTextNotEmpty();
     _numero.dispose();
     _nbrClasse.dispose();
     super.dispose();
@@ -121,71 +120,70 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
       appBar: AppBar(
         title: const Text('Train'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          FutureBuilder(
-              future: createOrUpdateTrain(context),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.done:
-                    _setUpTextControllerListener();
-                    return AddTrain(
-                      numero: _numero,
-                      nbrClasse: _nbrClasse,
-                    );
-                  default:
-                    return const CircularProgressIndicator();
-                }
-              }),
-          const SizedBox(
-            height: 25,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: const Text(
-                'Recent Classes',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-          ),
-          SizedBox(
-            height: 250,
-            child: StreamBuilder(
-              stream: _classeService.getClassesByTrainId(trainId: trainId!),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                  case ConnectionState.active:
-                    if (snapshot.hasData) {
-                      final allClasses = snapshot.data as Iterable<CloudClasse>;
-                      return ClasseList(
-                        classes: allClasses,
-                        onModify: (CloudClasse classe) {
-                          Navigator.of(context).pushNamed(
-                              createOrUpdateClasseRoute,
-                              arguments: classe);
-                        },
-                        onDelete: (CloudClasse classe) async {
-                          await _classeService.deleteClasse(
-                              documentId: classe.documentId);
-                        },
-                        onAddTypeSiege: (CloudClasse train) {
-                          Navigator.of(context)
-                              .pushNamed(addTypeSiegeRoute, arguments: train);
-                        },
+      body: SingleChildScrollView(
+        reverse: true,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            FutureBuilder(
+                future: createOrUpdateTrain(context),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.done:
+                      _setUpTextControllerListener();
+                      return AddTrain(
+                        numero: _numero,
+                        nbrClasse: _nbrClasse,
                       );
-                    } else {
+                    default:
                       return const CircularProgressIndicator();
-                    }
-                  case ConnectionState.done:
-                    return const Text('done');
-                  default:
-                    return const CircularProgressIndicator();
-                }
-              },
+                  }
+                }),
+            const SizedBox(
+              height: 25,
             ),
-          ),
-        ],
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                  'Recent Classes',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+            ),
+            SizedBox(
+              height: 300,
+              child: StreamBuilder(
+                stream: _classeService.getClassesByTrainId(trainId: trainId!),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                    case ConnectionState.active:
+                      if (snapshot.hasData) {
+                        final allClasses = snapshot.data as Iterable<CloudClasse>;
+                        return ClasseList(
+                          classes: allClasses,
+                          onModify: (CloudClasse classe) {
+                            Navigator.of(context).pushNamed(
+                                createOrUpdateClasseRoute,
+                                arguments: classe);
+                          },
+                          onDelete: (CloudClasse classe) async {
+                            await _classeService.deleteClasse(
+                                documentId: classe.documentId);
+                          },
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    case ConnectionState.done:
+                      return const Text('done');
+                    default:
+                      return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

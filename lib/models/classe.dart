@@ -6,7 +6,6 @@ class CloudClasse {
   final int capacite;
   final String? description;
   final double prixClasse;
-  final int? nbrTypeSiege;
   final String trainId;
 
   const CloudClasse({
@@ -15,7 +14,6 @@ class CloudClasse {
     required this.capacite,
     required this.description,
     required this.prixClasse,
-    required this.nbrTypeSiege,
     required this.trainId,
   });
 
@@ -25,7 +23,6 @@ class CloudClasse {
   capacite = snapshot.data()['capacite'] as int,
   description = snapshot.data()['description'] as String,
   prixClasse = snapshot.data()['prix_classe'] as double,
-  nbrTypeSiege = snapshot.data()['nbr_type_siege'] as int,
   trainId = snapshot.data()['train_id'] as String;
 
 }

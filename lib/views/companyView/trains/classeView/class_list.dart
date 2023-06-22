@@ -9,14 +9,12 @@ class ClasseList extends StatelessWidget {
   final Iterable<CloudClasse?> classes;
   final TrainCallBack onModify;
   final TrainCallBack onDelete;
-  final TrainCallBack onAddTypeSiege;
 
   const ClasseList({
     super.key,
     required this.classes,
     required this.onModify,
     required this.onDelete,
-    required this.onAddTypeSiege,
   });
 
   @override
@@ -84,13 +82,6 @@ class ClasseList extends StatelessWidget {
                   },
                   icon: const Icon(Icons.delete)),
               children: [
-                ListTile(
-                  title: const Text('Ajouter un type siège'),
-                  leading: const Icon(Icons.add),
-                  onTap: () {
-                    onAddTypeSiege(classe);
-                  },
-                ),
                 ListTile(
                   title: const Text('Voir'),
                   leading: const Icon(Icons.remove_red_eye_outlined),
