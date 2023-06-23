@@ -24,7 +24,7 @@ class ClasseList extends StatelessWidget {
       itemBuilder: (context, index) {
         final classe = classes.elementAt(index)!;
         return Card(
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.white.withOpacity(1),
           elevation: 3,
           child: Dismissible(
             key: ValueKey(classes.elementAt(index)),
@@ -72,7 +72,7 @@ class ClasseList extends StatelessWidget {
                   )
                 ],
               ),
-              leading: const Icon(Icons.train_outlined),
+              leading: const Icon(Icons.hotel_class),
               trailing: IconButton(
                   onPressed: () async {
                     final shouldDelete = await showDeleteDialog(context);

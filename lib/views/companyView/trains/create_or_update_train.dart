@@ -115,7 +115,6 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
   @override
   Widget build(BuildContext context) {
     final train = context.getArguments<CloudTrain>();
-    final trainId = train?.documentId;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Train'),
@@ -152,7 +151,7 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
             SizedBox(
               height: 300,
               child: StreamBuilder(
-                stream: _classeService.getClassesByTrainId(trainId: trainId!),
+                stream: _classeService.getClassesByTrainId(trainId: train?.documentId),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:

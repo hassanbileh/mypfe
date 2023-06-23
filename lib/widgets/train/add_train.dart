@@ -62,7 +62,7 @@ class AddTrain extends StatelessWidget {
                       fillColor: Colors.grey.shade100,
                       filled: true,
                       icon: const Icon(
-                        Icons.content_copy_outlined,
+                        Icons.hotel_class,
                       ),
                       hintText: 'Entrer le nombre des classes de ce train',
                       labelText: 'Nombre Classe',

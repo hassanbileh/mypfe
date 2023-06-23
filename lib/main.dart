@@ -14,6 +14,7 @@ import 'package:mypfe/views/authView/register.dart';
 import 'package:mypfe/views/authView/verify_email.dart';
 import 'package:mypfe/views/clientView/main_client.dart';
 import 'package:mypfe/views/companyView/main_company.dart';
+import 'package:mypfe/views/companyView/tickets/main_tickets_view.dart';
 import 'package:mypfe/views/companyView/trains/classeView/add_class.dart';
 import 'package:mypfe/views/companyView/trains/classeView/create_update_classe.dart';
 import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         mainAdminRoute: (context) => const MainAdminPage(),
         mainCompanyRoute: (context) => const MainCompanyPage(),
         mainClientRoute: (context) => const MainClientPage(),
+        mainTicketRoute:(context) => const MainTicketView(),
         //Forms Pages
         createOrUpdateCompanyRoute: (context) => const CreateOrUpdateCompany(),
         createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(),

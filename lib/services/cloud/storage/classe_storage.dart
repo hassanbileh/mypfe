@@ -72,7 +72,7 @@ class FirebaseCloudClasseStorage {
     }
   }
 
-  Stream<Iterable<CloudClasse>> getClassesByTrainId({required String trainId})  {
+  Stream<Iterable<CloudClasse>> getClassesByTrainId({required String? trainId})  {
     final allClasses =  FirebaseFirestore.instance
         .collection('classes')
         .snapshots()

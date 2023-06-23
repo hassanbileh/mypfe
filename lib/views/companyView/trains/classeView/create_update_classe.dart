@@ -57,6 +57,8 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
         capacite: capacite!,
         prixClasse: prixClasse!,
       );
+    }else{
+      return;
     }
   }
 

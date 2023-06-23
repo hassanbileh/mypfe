@@ -25,7 +25,7 @@ class TrainList extends StatelessWidget {
       itemBuilder: (context, index) {
         final train = trains.elementAt(index)!;
         return Card(
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.white.withOpacity(1),
           elevation: 3,
           child: Dismissible(
             key: ValueKey(trains.elementAt(index)),

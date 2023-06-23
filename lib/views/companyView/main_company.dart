@@ -3,6 +3,7 @@ import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/logout_dialog.dart';
 import 'package:mypfe/views/companyView/stations/cmp_stations_view.dart';
+import 'package:mypfe/views/companyView/tickets/main_tickets_view.dart';
 import 'package:mypfe/views/companyView/trains/main_train_view.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'dart:developer' as devtools show log;
@@ -19,10 +20,11 @@ class MainCompanyPage extends StatefulWidget {
 
 class _MainCompanyPageState extends State<MainCompanyPage> {
   int _selectedIndex = 0;
+  String get compEmail => AuthService.firebase().currentUser!.email;
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Campagnie Home Page'),
     TrainView(),
-    Text('Tickets Page'),
+    MainTicketView(),
     CompanyStationView(),
   ];
 
