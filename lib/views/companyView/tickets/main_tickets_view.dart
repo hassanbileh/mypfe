@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mypfe/views/companyView/tickets/ticket_item.dart';
 
 class MainTicketView extends StatefulWidget {
   const MainTicketView({super.key});
@@ -11,12 +12,22 @@ class _MainTicketViewState extends State<MainTicketView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null,
-      body: SingleChildScrollView(
-        child: Text('Tickets View'),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(onPressed: (){}, child: Icon(Icons.add_road_rounded),)
-    );
+        appBar: null,
+        body: const SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+               Padding(
+                padding: EdgeInsets.all(10),
+                child: TicketItem(),
+              ),
+            ],
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.add),
+        ));
   }
 }

@@ -8,7 +8,6 @@ import 'package:mypfe/views/companyView/trains/main_train_view.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'dart:developer' as devtools show log;
 
-import '../../constants/greeting.dart';
 import '../../enums/menu_action.dart';
 
 class MainCompanyPage extends StatefulWidget {
@@ -38,12 +37,18 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(greeting()),
+          title: SizedBox(
+            width: 100,
+            child: Image.asset(
+              'assets/images/pfe-logo.png',
+              fit: BoxFit.cover,
+            ),
+          ),
           actions: [
             //? PopupMenuButton
             //? on crée d'abord le MenuAction enum et on l'utilise dans PopMenuButton
             PopupMenuButton<MenuAction>(
-              color: Colors.white,
+              color: const Color.fromARGB(255, 74, 44, 156),
               onSelected: (value) async {
                 switch (value) {
                   case MenuAction.logout:
@@ -72,13 +77,13 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
                         Text(
                           'Se deconnecter',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 74, 44, 156),
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Icon(
                           Icons.logout,
-                          color: Color.fromARGB(255, 113, 68, 239),
+                          color: Colors.white,
                         ),
                       ],
                     ),

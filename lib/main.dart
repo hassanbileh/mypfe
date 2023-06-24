@@ -41,14 +41,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 74, 44, 156)),
         useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
+        appBarTheme: AppBarTheme(
+          titleTextStyle: const TextStyle(
             fontSize: 18,
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
-          elevation: 2,
-          color: Color.fromARGB(255, 74, 44, 156),
+          color: Colors.white.withOpacity(1),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         iconTheme: const IconThemeData(

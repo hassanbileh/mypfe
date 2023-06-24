@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mypfe/constants/greeting.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/logout_dialog.dart';
@@ -39,13 +38,18 @@ class _MainAdminPageState extends State<MainAdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
-        title: Text(greeting()),
+        title: SizedBox(
+          width: 100,
+          child: Image.asset(
+            'assets/images/pfe-logo.png',
+            fit: BoxFit.cover,
+          ),
+        ),
         actions: [
           //? PopupMenuButton
           //? on crée d'abord le MenuAction enum et on l'utilise dans PopMenuButton
           PopupMenuButton<MenuAction>(
-            color: Colors.white,
+            color: const Color.fromARGB(255, 74, 44, 156),
             onSelected: (value) async {
               switch (value) {
                 case MenuAction.logout:
@@ -74,12 +78,13 @@ class _MainAdminPageState extends State<MainAdminPage> {
                       Text(
                         'Se deconnecter',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 113, 68, 239),
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Icon(
                         Icons.logout,
+                        color: Colors.white,
                       ),
                     ],
                   ),
