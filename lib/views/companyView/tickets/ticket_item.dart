@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mypfe/constants/routes.dart';
 
 class TicketItem extends StatelessWidget {
   const TicketItem({super.key});
@@ -9,10 +10,8 @@ class TicketItem extends StatelessWidget {
       elevation: 5,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white
-        ),
-        child:  Column(
+            borderRadius: BorderRadius.circular(10), color: Colors.white),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             //Company name
@@ -31,7 +30,6 @@ class TicketItem extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.deepPurple[400]),
                       ),
-                      
                     ],
                   ),
                   const SizedBox(
@@ -136,19 +134,75 @@ class TicketItem extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap:() {
+                      Navigator.of(context).pushNamed(choosePassengerRoute);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: Colors.green[400]?.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(6)),
+                      child: const Center(child: Text("Vip")),
+                    ),
+                  ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  GestureDetector(
+                    onTap:() {
+                      Navigator.of(context).pushNamed(choosePassengerRoute);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: Colors.green[400]?.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(6)),
+                      child: const Center(child: Text("Business")),
+                    ),
+                  ),
+                  // SizedBox(
+                  //   width: 10,
+                  // ),
+                  GestureDetector(
+                    onTap:() {
+                      Navigator.of(context).pushNamed(choosePassengerRoute);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: Colors.green[400]?.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(6)),
+                      child: const Center(child: Text("Economie")),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 40,
                   width: 100,
                   child: Center(
-                      child: Text(
-                        'Disponible',
-                        style: TextStyle(color: Colors.green, fontWeight: FontWeight.w500),
-                      ),
+                    child: Text(
+                      'Disponible',
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.w500),
                     ),
+                  ),
                 ),
               ],
             )

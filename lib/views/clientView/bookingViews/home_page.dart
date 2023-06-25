@@ -65,7 +65,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                     Padding(
+                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 15),
                       child: Text(
                         'Où désirez-vous voyager ?',

@@ -13,6 +13,7 @@ import 'package:flutter/services.dart' show SystemChrome, DeviceOrientation;
 import 'package:mypfe/views/authView/register.dart';
 import 'package:mypfe/views/authView/verify_email.dart';
 import 'package:mypfe/views/clientView/bookingViews/choose_passenger.dart';
+import 'package:mypfe/views/clientView/bookingViews/home_page.dart';
 import 'package:mypfe/views/clientView/bookingViews/paiement_view.dart';
 import 'package:mypfe/views/clientView/main_client.dart';
 import 'package:mypfe/views/clientView/bookingViews/tickets_result.dart';
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
         createOrUpdateTrainRoute:(context) => const CreateOrUpdateTrain(),
         createOrUpdateClasseRoute:(context) => const CreateOrUpdateClasse(),
         addClasseRoute: (context) => const AddClasse(),
-
+        clientHomePageRoute:(context) => const ClientHomePage(),
         ticketsResultsRoute:(context) => const TicketsResults(),
         addPassengerRoute:(context) => const AddPassengers(),
         choosePassengerRoute:(context) => const ChoosePassenger(),

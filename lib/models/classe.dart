@@ -1,5 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum CategoryClass{
+  vip,
+  business,
+  economie,
+
+}
+
+
 class CloudClasse {
   final String documentId;
   final String nom;

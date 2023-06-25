@@ -11,6 +11,7 @@ const createOrUpdateAdminRoute = '/createOrUpdateAdmin';
 const createOrUpdateTrainRoute = '/createOrUpdateTrain';
 const addClasseRoute = '/addClasse';
 const createOrUpdateClasseRoute = '/createOrUpdateClasse';
+const clientHomePageRoute = '/client-home-page';
 const mainTicketRoute = '/main-ticket';
 const ticketsResultsRoute = '/tickets-results';
 const addPassengerRoute = '/add-passenger';

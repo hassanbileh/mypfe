@@ -112,10 +112,10 @@ class _MainClientPageState extends State<MainClientPage> {
             //Stations
             SalomonBottomBarItem(
               activeIcon: const Icon(
-                Icons.person_3_rounded,
+                Icons.person,
               ),
               icon: const Icon(
-                Icons.person_3_outlined,
+                Icons.person_2_outlined,
               ),
               title: const Text("Profil"),
             ),

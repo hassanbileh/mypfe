@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/views/companyView/tickets/ticket_item.dart';
 
 class TicketsResults extends StatefulWidget {
@@ -26,9 +25,7 @@ class _TicketsResultsState extends State<TicketsResults> {
           Center(
             child: Container(
               margin: const EdgeInsets.all(20),
-              child:  GestureDetector(child: const TicketItem(), onTap: (){
-                Navigator.of(context).pushNamed(choosePassengerRoute);
-              },),
+              child:  const TicketItem(),
 
             ),
           ),

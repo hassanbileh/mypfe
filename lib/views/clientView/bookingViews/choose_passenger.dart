@@ -62,15 +62,18 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
-              "Passagers Recents",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'OpenSans',
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                "Passagers Recents",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'OpenSans',
+                ),
               ),
             ),
             //Passen item
