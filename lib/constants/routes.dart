@@ -12,3 +12,7 @@ const createOrUpdateTrainRoute = '/createOrUpdateTrain';
 const addClasseRoute = '/addClasse';
 const createOrUpdateClasseRoute = '/createOrUpdateClasse';
 const mainTicketRoute = '/main-ticket';
+const ticketsResultsRoute = '/tickets-results';
+const addPassengerRoute = '/add-passenger';
+const choosePassengerRoute = '/choose-passenger';
+const paiementViewRoute = '/paiement-view';

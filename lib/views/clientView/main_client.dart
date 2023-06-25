@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/logout_dialog.dart';
+import 'package:mypfe/views/clientView/bookingViews/home_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'dart:developer' as devtools show log;
 import '../../enums/menu_action.dart';
@@ -17,7 +18,7 @@ class _MainClientPageState extends State<MainClientPage> {
   int _selectedIndex = 0;
   String get compEmail => AuthService.firebase().currentUser!.email;
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Client Home Page'),
+    ClientHomePage(),
     Text('Recherche Ticket Page'),
     Text('Profil Page'),
   ];
@@ -32,6 +33,7 @@ class _MainClientPageState extends State<MainClientPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: SizedBox(
             width: 100,
             child: Image.asset(
@@ -97,19 +99,23 @@ class _MainClientPageState extends State<MainClientPage> {
             //Home
             SalomonBottomBarItem(
               icon: const Icon(
-                Icons.home_outlined,
+                Icons.search_rounded,
               ),
-              title: const Text("Home"),
+              title: const Text("Voyage"),
             ),
             //Tickets
             SalomonBottomBarItem(
-              icon: const Icon(Icons.confirmation_num_rounded),
+              activeIcon: const Icon(Icons.confirmation_num_rounded),
+              icon: const Icon(Icons.confirmation_num_outlined),
               title: const Text("Tickets"),
             ),
             //Stations
             SalomonBottomBarItem(
+              activeIcon: const Icon(
+                Icons.person_3_rounded,
+              ),
               icon: const Icon(
-                Icons.account_box,
+                Icons.person_3_outlined,
               ),
               title: const Text("Profil"),
             ),

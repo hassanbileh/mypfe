@@ -12,12 +12,16 @@ import 'package:mypfe/views/authView/login.dart';
 import 'package:flutter/services.dart' show SystemChrome, DeviceOrientation;
 import 'package:mypfe/views/authView/register.dart';
 import 'package:mypfe/views/authView/verify_email.dart';
+import 'package:mypfe/views/clientView/bookingViews/choose_passenger.dart';
+import 'package:mypfe/views/clientView/bookingViews/paiement_view.dart';
 import 'package:mypfe/views/clientView/main_client.dart';
+import 'package:mypfe/views/clientView/bookingViews/tickets_result.dart';
 import 'package:mypfe/views/companyView/main_company.dart';
 import 'package:mypfe/views/companyView/tickets/main_tickets_view.dart';
 import 'package:mypfe/views/companyView/trains/classeView/add_class.dart';
 import 'package:mypfe/views/companyView/trains/classeView/create_update_classe.dart';
 import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
+import 'package:mypfe/widgets/booking/add_passenger.dart';
 
 import 'constants/routes.dart';
 
@@ -74,6 +78,11 @@ class MyApp extends StatelessWidget {
         createOrUpdateTrainRoute:(context) => const CreateOrUpdateTrain(),
         createOrUpdateClasseRoute:(context) => const CreateOrUpdateClasse(),
         addClasseRoute: (context) => const AddClasse(),
+
+        ticketsResultsRoute:(context) => const TicketsResults(),
+        addPassengerRoute:(context) => const AddPassengers(),
+        choosePassengerRoute:(context) => const ChoosePassenger(),
+        paiementViewRoute:(context) => const PaiementView(),
       },
       home: const FirstScreen(),
     );
