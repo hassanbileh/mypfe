@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/views/companyView/tickets/ticket_item.dart';
 
 class MainTicketView extends StatefulWidget {
@@ -12,6 +13,7 @@ class _MainTicketViewState extends State<MainTicketView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white60,
         appBar: null,
         body: const SingleChildScrollView(
           child: Column(
@@ -26,7 +28,9 @@ class _MainTicketViewState extends State<MainTicketView> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(createOrUpdateTicketRoute);
+          },
           child: Icon(Icons.add),
         ));
   }

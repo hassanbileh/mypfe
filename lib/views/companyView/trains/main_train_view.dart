@@ -26,6 +26,7 @@ class _TrainViewState extends State<TrainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white54,
       body: StreamBuilder(
         stream: _trainService.getTrainsByCompany(compagnieEmail: compagnieEmail),
         builder: (context, snapshot) {

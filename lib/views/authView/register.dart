@@ -95,6 +95,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: UserForm(
         icon: Icons.person,
         email: _email,

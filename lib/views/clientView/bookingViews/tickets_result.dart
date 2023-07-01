@@ -15,7 +15,7 @@ class _TicketsResultsState extends State<TicketsResults> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Text(
-          'Resultats',
+          'Tickets',
           style: TextStyle(fontSize: 18),
         ),
         backgroundColor: Colors.deepPurple[500],

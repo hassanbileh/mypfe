@@ -78,7 +78,7 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
     }
   }
 
-  // ? Créer ou Modifier Note
+  // ? Créer ou Modifier Train
   Future<CloudTrain> createOrUpdateTrain(BuildContext context) async {
     //Getting arguments passed in navigator route
     final widgetTrain = context.getArguments<CloudTrain>();
@@ -117,6 +117,7 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
     final train = context.getArguments<CloudTrain>();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple[400],
         title: const Text('Train'),
       ),
       body: SingleChildScrollView(

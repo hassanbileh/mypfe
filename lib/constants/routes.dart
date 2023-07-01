@@ -9,6 +9,7 @@ const createOrUpdateCompanyRoute = '/createOrUpdateCompany';
 const createOrUpdateStationRoute = '/createOrUpdateStation';
 const createOrUpdateAdminRoute = '/createOrUpdateAdmin';
 const createOrUpdateTrainRoute = '/createOrUpdateTrain';
+const createOrUpdateTicketRoute = '/createOrUpdateTicket';
 const addClasseRoute = '/addClasse';
 const createOrUpdateClasseRoute = '/createOrUpdateClasse';
 const clientHomePageRoute = '/client-home-page';

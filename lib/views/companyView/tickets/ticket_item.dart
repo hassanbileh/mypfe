@@ -10,7 +10,16 @@ class TicketItem extends StatelessWidget {
       elevation: 5,
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.white),
+          borderRadius: BorderRadius.circular(10),
+          gradient: const LinearGradient(
+            colors: [
+              Color.fromARGB(255, 250, 250, 250),
+              Color.fromARGB(255, 186, 145, 240),
+            ],
+            begin: Alignment(0, -1),
+            end: Alignment(5, 1),
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -49,9 +58,7 @@ class TicketItem extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+
             //Departure/Arrival Stations
             const Padding(
               padding: EdgeInsets.all(15.0),
@@ -143,14 +150,14 @@ class TicketItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap:() {
+                    onTap: () {
                       Navigator.of(context).pushNamed(choosePassengerRoute);
                     },
                     child: Container(
                       height: 40,
                       width: 80,
                       decoration: BoxDecoration(
-                          color: Colors.green[400]?.withOpacity(0.4),
+                          color: const Color.fromARGB(255, 22, 231, 130).withOpacity(0.8),
                           borderRadius: BorderRadius.circular(6)),
                       child: const Center(child: Text("Vip")),
                     ),
@@ -159,14 +166,14 @@ class TicketItem extends StatelessWidget {
                   //   width: 10,
                   // ),
                   GestureDetector(
-                    onTap:() {
+                    onTap: () {
                       Navigator.of(context).pushNamed(choosePassengerRoute);
                     },
                     child: Container(
                       height: 40,
                       width: 80,
                       decoration: BoxDecoration(
-                          color: Colors.green[400]?.withOpacity(0.4),
+                          color: const Color.fromARGB(255, 22, 231, 130).withOpacity(0.8),
                           borderRadius: BorderRadius.circular(6)),
                       child: const Center(child: Text("Business")),
                     ),
@@ -175,14 +182,14 @@ class TicketItem extends StatelessWidget {
                   //   width: 10,
                   // ),
                   GestureDetector(
-                    onTap:() {
+                    onTap: () {
                       Navigator.of(context).pushNamed(choosePassengerRoute);
                     },
                     child: Container(
                       height: 40,
                       width: 80,
                       decoration: BoxDecoration(
-                          color: Colors.green[400]?.withOpacity(0.4),
+                          color: const Color.fromARGB(255, 22, 231, 130).withOpacity(0.8),
                           borderRadius: BorderRadius.circular(6)),
                       child: const Center(child: Text("Economie")),
                     ),
@@ -190,22 +197,7 @@ class TicketItem extends StatelessWidget {
                 ],
               ),
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const SizedBox(
-                  height: 40,
-                  width: 100,
-                  child: Center(
-                    child: Text(
-                      'Disponible',
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-              ],
-            )
+             
           ],
         ),
       ),

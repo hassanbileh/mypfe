@@ -65,6 +65,7 @@ class _AddClasseState extends State<AddClasse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple[400],
         title: const Text('Classes'),
       ),
       body: SingleChildScrollView(

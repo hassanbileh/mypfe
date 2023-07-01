@@ -98,6 +98,7 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
         ),
         bottomNavigationBar: SalomonBottomBar(
           selectedItemColor: const Color.fromARGB(255, 113, 68, 239),
+          unselectedItemColor: Colors.grey[800],
           items: [
             //Home
             SalomonBottomBarItem(

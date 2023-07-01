@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/text_field.dart';
 
-import '../../constants/greeting.dart';
 import '../../services/auth/auth_exceptions.dart';
 import '../../services/auth/auth_services.dart';
 import '../../utilities/dialogs/error_dialog.dart';
@@ -41,7 +40,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
         context,
         'Utilisateur introuvable',
       );
-    }on EmailAlreadyInUseAuthException {
+    } on EmailAlreadyInUseAuthException {
       await showErrorDialog(
         context,
         'Email dèjà utilisé',
@@ -62,16 +61,15 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 50.0),
+        backgroundColor: Colors.deepPurple[400],
+        title: const Padding(
+          padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 50.0),
           child: Text(
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
-            ),
-            greeting(),
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            "Reinitialiser",
           ),
         ),
         shadowColor: Colors.lightBlue,
@@ -93,7 +91,9 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 child: Text(
                     'Entrer votre email ici, nous vous enverrons un lien pour réinitialiser votre mot de passe.'),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(

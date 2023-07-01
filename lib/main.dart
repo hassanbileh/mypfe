@@ -23,6 +23,7 @@ import 'package:mypfe/views/companyView/trains/classeView/add_class.dart';
 import 'package:mypfe/views/companyView/trains/classeView/create_update_classe.dart';
 import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
 import 'package:mypfe/widgets/booking/add_passenger.dart';
+import 'package:mypfe/widgets/tickets/add_ticket.dart';
 
 import 'constants/routes.dart';
 
@@ -37,7 +38,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of our application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,13 +47,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 74, 44, 156)),
         useMaterial3: true,
-        appBarTheme: AppBarTheme(
-          titleTextStyle: const TextStyle(
+        appBarTheme: const AppBarTheme(
+          titleTextStyle:  TextStyle(
             fontSize: 18,
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
-          color: Colors.white.withOpacity(1),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         iconTheme: const IconThemeData(
@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
         mainAdminRoute: (context) => const MainAdminPage(),
         mainCompanyRoute: (context) => const MainCompanyPage(),
         mainClientRoute: (context) => const MainClientPage(),
+        clientHomePageRoute:(context) => const ClientHomePage(),
         mainTicketRoute:(context) => const MainTicketView(),
         //Forms Pages
         createOrUpdateCompanyRoute: (context) => const CreateOrUpdateCompany(),
@@ -79,9 +80,12 @@ class MyApp extends StatelessWidget {
         createOrUpdateTrainRoute:(context) => const CreateOrUpdateTrain(),
         createOrUpdateClasseRoute:(context) => const CreateOrUpdateClasse(),
         addClasseRoute: (context) => const AddClasse(),
-        clientHomePageRoute:(context) => const ClientHomePage(),
-        ticketsResultsRoute:(context) => const TicketsResults(),
         addPassengerRoute:(context) => const AddPassengers(),
+        createOrUpdateTicketRoute:(context) => const AddTicket(),
+        
+        //Navigation Pages
+        ticketsResultsRoute:(context) => const TicketsResults(),
+        
         choosePassengerRoute:(context) => const ChoosePassenger(),
         paiementViewRoute:(context) => const PaiementView(),
       },

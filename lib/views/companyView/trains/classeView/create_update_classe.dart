@@ -121,6 +121,7 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Classes'),
+        backgroundColor: Colors.deepPurple[400],
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
