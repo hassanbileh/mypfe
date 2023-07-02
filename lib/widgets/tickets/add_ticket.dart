@@ -80,25 +80,7 @@ class _AddTicketState extends State<AddTicket> {
           Row(
             children: [
               const Text("Départ"),
-              // DropdownButton(
-              //   items: StreamBuilder(
-              //     stream: _stationService.getAllStations(),
-              //     builder: (context, snapshot) {
-              //       switch (snapshot.connectionState) {
-              //         case ConnectionState.waiting:
-              //         case ConnectionState.active:
-              //           if (snapshot.hasData) {
-              //             final allStations = snapshot.data as Iterable<CloudStation>;
-              //             return allStations.toList();
-              //           }
-
-              //         default:
-              //           return const CircularProgressIndicator();
-              //       }
-              //     },
-              //   ),
-              //   onChanged: (_) {},
-              // ),
+              
             ],
           ),
         ],
