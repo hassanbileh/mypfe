@@ -9,8 +9,9 @@ class CloudTicket {
   final DateTime heureArrive;
   final bool status;
   final String trainId;
+  final String companyEmail;
 
-  const CloudTicket({
+  const CloudTicket( {
     required this.documentId,
     required this.depart,
     required this.destination,
@@ -19,6 +20,7 @@ class CloudTicket {
     required this.heureArrive,
     required this.status,
     required this.trainId,
+    required this.companyEmail,
   });
 
   CloudTicket.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
@@ -29,5 +31,6 @@ class CloudTicket {
         heureDepart = snapshot.data()['heureDepart'] as DateTime,
         heureArrive = snapshot.data()['heureArrive'] as DateTime,
         status = snapshot.data()['status'] as bool,
-        trainId = snapshot.data()['trainId'] as String;
+        trainId = snapshot.data()['trainId'] as String,
+        companyEmail = snapshot.data()['companyEmail'] as String;
 }

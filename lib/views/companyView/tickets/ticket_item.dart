@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
+import 'package:mypfe/widgets/classe/class_ticket.dart';
 
 class TicketItem extends StatelessWidget {
   const TicketItem({super.key});
@@ -7,14 +8,14 @@ class TicketItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 8,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: const LinearGradient(
             colors: [
               Color.fromARGB(255, 250, 250, 250),
-              Color.fromARGB(255, 186, 145, 240),
+              Color.fromARGB(255, 222, 203, 248),
             ],
             begin: Alignment(0, -1),
             end: Alignment(5, 1),
@@ -67,10 +68,22 @@ class TicketItem extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Text(
-                        'Nagad',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      Row(
+                        children: [
+                          Text(
+                            '08:00',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'Nagad',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                        ],
                       ),
                       Text(
                         'djibouti ville',
@@ -93,12 +106,23 @@ class TicketItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'Dire',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                        Row(
+                          children: [
+                            Text(
+                              '20:00',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w400),
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'Dire',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                          ],
                         ),
                         Text(
                           'dire dawa',
@@ -110,39 +134,8 @@ class TicketItem extends StatelessWidget {
                 ],
               ),
             ),
-
-            //Departure Time
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    '08:00',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 0.8,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text(
-                    '20:00',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-
             const SizedBox(
-              height: 20,
+              height: 5,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -153,51 +146,38 @@ class TicketItem extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pushNamed(choosePassengerRoute);
                     },
-                    child: Container(
+                    child: const ClassOnTicket(
+                      className: 'VIP',
                       height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 22, 231, 130).withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(6)),
-                      child: const Center(child: Text("Vip")),
+                      width: 60,
+                      isAvailable: true,
                     ),
                   ),
-                  // const SizedBox(
-                  //   width: 10,
-                  // ),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed(choosePassengerRoute);
                     },
-                    child: Container(
+                    child: const ClassOnTicket(
+                      className: 'Business',
                       height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 22, 231, 130).withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(6)),
-                      child: const Center(child: Text("Business")),
+                      width: 100,
+                      isAvailable: true,
                     ),
                   ),
-                  // SizedBox(
-                  //   width: 10,
-                  // ),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed(choosePassengerRoute);
                     },
-                    child: Container(
+                    child: const ClassOnTicket(
+                      className: 'Economie',
                       height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 22, 231, 130).withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(6)),
-                      child: const Center(child: Text("Economie")),
+                      width: 115,
+                      isAvailable: false,
                     ),
                   ),
                 ],
               ),
             ),
-             
           ],
         ),
       ),

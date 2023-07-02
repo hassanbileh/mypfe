@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
-
-import '../text_field_form.dart';
+import 'package:mypfe/models/station.dart';
+import 'package:mypfe/services/auth/auth_services.dart';
+import 'package:mypfe/services/cloud/storage/station_storage.dart';
+import 'package:mypfe/services/cloud/storage/train_storage.dart';
 
 class AddTicket extends StatefulWidget {
   const AddTicket({super.key});
@@ -11,6 +12,10 @@ class AddTicket extends StatefulWidget {
 }
 
 class _AddTicketState extends State<AddTicket> {
+  String _selectedCategory = 'Select a station';
+  late final FirebaseCloudTrainStorage _trainService;
+  final _stationService = FirebaseCloudStationStorage();
+  String get compagnieEmail => AuthService.firebase().currentUser!.email;
   late final TextEditingController depart;
   late final TextEditingController destination;
   late final int jour;
@@ -20,6 +25,8 @@ class _AddTicketState extends State<AddTicket> {
 
   @override
   void initState() {
+    _trainService = FirebaseCloudTrainStorage();
+
     depart = TextEditingController();
     destination = TextEditingController();
     jour = DateTime.now().day;
@@ -29,94 +36,72 @@ class _AddTicketState extends State<AddTicket> {
     super.initState();
   }
 
+  // Iterable<CloudStation> getAllStations(BuildContext ctx){
+  //   StreamBuilder(
+  //     stream: _stationService.getAllStations(),
+  //     builder: (ctx, snapshot) {
+  //       switch (snapshot.connectionState) {
+  //         case ConnectionState.waiting:
+  //         case ConnectionState.active:
+  //           if(snapshot.hasData){
+  //             final allStations = snapshot.data as Iterable<CloudStation>;
+  //             return allStations;
+  //           }
+            
+  //           break;
+  //         default:
+  //       }
+  //     },
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Select Passager',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'OpenSans',
+    return Container(
+      height: 500,
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          const Text(
+            "Ajouter un ticket",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
-        ),
-        backgroundColor: Colors.deepPurple[500],
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                const Icon(
-                  Icons.confirmation_num_rounded,
-                  size: 50,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //Station de départ
-                      TextFieldForm(
-                        textController: depart,
-                        iconData: Icons.traffic_sharp,
-                        hintText: "Entrer la station de départ ici",
-                        labelText: "De",
-                        isString: true,
-                      ),
-
-                      TextFieldForm(
-                        textController: destination,
-                        iconData: Icons.traffic_sharp,
-                        hintText: "Entrer la station d'arrivée ici",
-                        labelText: "À",
-                        isString: false,
-                      ),
-
-                     
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 60,
-                        width: 330,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: <Color>[
-                              Color.fromARGB(255, 113, 68, 239),
-                              Color.fromARGB(255, 183, 128, 255),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "Ajouter",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(
+            height: 10,
           ),
-        ),
+          const Icon(
+            Icons.confirmation_num_rounded,
+            size: 50,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              const Text("Départ"),
+              // DropdownButton(
+              //   items: StreamBuilder(
+              //     stream: _stationService.getAllStations(),
+              //     builder: (context, snapshot) {
+              //       switch (snapshot.connectionState) {
+              //         case ConnectionState.waiting:
+              //         case ConnectionState.active:
+              //           if (snapshot.hasData) {
+              //             final allStations = snapshot.data as Iterable<CloudStation>;
+              //             return allStations.toList();
+              //           }
+
+              //         default:
+              //           return const CircularProgressIndicator();
+              //       }
+              //     },
+              //   ),
+              //   onChanged: (_) {},
+              // ),
+            ],
+          ),
+        ],
       ),
     );
   }

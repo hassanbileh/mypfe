@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/views/companyView/tickets/ticket_item.dart';
+import 'package:mypfe/widgets/tickets/add_ticket.dart';
 
 class MainTicketView extends StatefulWidget {
   const MainTicketView({super.key});
@@ -10,16 +10,27 @@ class MainTicketView extends StatefulWidget {
 }
 
 class _MainTicketViewState extends State<MainTicketView> {
+  void _startAddNewTicket(BuildContext ctx) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      context: ctx,
+      builder: (_) {
+        return AddTicket();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white60,
+        backgroundColor: Colors.white60,
         appBar: null,
         body: const SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(10),
                 child: TicketItem(),
               ),
@@ -29,7 +40,7 @@ class _MainTicketViewState extends State<MainTicketView> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(createOrUpdateTicketRoute);
+            _startAddNewTicket(context);
           },
           child: Icon(Icons.add),
         ));

@@ -105,22 +105,30 @@ class _MainCompanyPageState extends State<MainCompanyPage> {
               icon: const Icon(
                 Icons.home_outlined,
               ),
+              activeIcon: const Icon(
+                Icons.home,
+              ),
               title: const Text("Home"),
             ),
             //Train
             SalomonBottomBarItem(
               icon: const Icon(Icons.train_outlined),
+              activeIcon: const Icon(Icons.train),
               title: const Text("Trains"),
             ),
             //Tickets
             SalomonBottomBarItem(
-              icon: const Icon(Icons.confirmation_num_rounded),
+              icon: const Icon(Icons.confirmation_num_outlined),
+              activeIcon: const Icon(Icons.confirmation_num_rounded),
               title: const Text("Tickets"),
             ),
             //Stations
             SalomonBottomBarItem(
               icon: const Icon(
-                Icons.traffic_sharp,
+                Icons.traffic_outlined,
+              ),
+              activeIcon: const Icon(
+                Icons.traffic_rounded,
               ),
               title: const Text("Stations"),
             ),
