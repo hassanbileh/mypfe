@@ -16,7 +16,7 @@ class _MainTicketViewState extends State<MainTicketView> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       context: ctx,
       builder: (_) {
-        return AddTicket();
+        return const AddTicket();
       },
     );
   }

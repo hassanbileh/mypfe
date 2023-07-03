@@ -4,6 +4,9 @@ import 'package:mypfe/models/train.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/storage/station_storage.dart';
 import 'package:mypfe/services/cloud/storage/train_storage.dart';
+import 'package:intl/intl.dart';
+
+final formatter = DateFormat.yMMMd();
 
 class AddTicket extends StatefulWidget {
   const AddTicket({super.key});
@@ -14,36 +17,75 @@ class AddTicket extends StatefulWidget {
 
 class _AddTicketState extends State<AddTicket> {
   String get compagnyEmail => AuthService.firebase().currentUser!.email;
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedDepartureTime;
+  TimeOfDay? _selectedArrivalTime;
   String? _selectedTrain;
   String? _selectedFromStation;
   String? _selectedToStation;
   late final FirebaseCloudTrainStorage _trainService;
   final _stationService = FirebaseCloudStationStorage();
   String get compagnieEmail => AuthService.firebase().currentUser!.email;
-  late final TextEditingController depart;
-  late final TextEditingController destination;
-  late final int jour;
-  late final int heureDepart;
-  late final int heureArrive;
   late final bool status;
 
   @override
   void initState() {
     _trainService = FirebaseCloudTrainStorage();
-
-    depart = TextEditingController();
-    destination = TextEditingController();
-    jour = DateTime.now().day;
-    heureDepart = DateTime.now().hour;
-    heureArrive = DateTime.now().hour;
     status = true;
     super.initState();
   }
 
+  void _afficheCalendrier() async {
+    final now = DateTime.now();
+    final first = DateTime(now.year, now.month, now.day + 3);
+    final last = DateTime(now.year, now.month + 1, now.day);
+
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: first,
+      firstDate: first,
+      lastDate: last,
+    );
+    setState(() {
+      _selectedDate = pickedDate;
+    });
+  }
+
+  void _afficheDepartureHorloge() async {
+    final time = TimeOfDay.now();
+
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: time,
+    );
+
+    setState(() {
+      _selectedDepartureTime = pickedTime!;
+    });
+  }
+
+  void _afficheArrivalHorloge() async {
+    final time = TimeOfDay.now();
+
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: time,
+    );
+
+    setState(() {
+      _selectedArrivalTime = pickedTime!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final depHours = _selectedDepartureTime?.hour.toString().padLeft(2, '0');
+    final depMinutes =
+        _selectedDepartureTime?.minute.toString().padLeft(2, '0');
+    final arrHours = _selectedArrivalTime?.hour.toString().padLeft(2, '0');
+    final arrMinutes = _selectedArrivalTime?.minute.toString().padLeft(2, '0');
     return Container(
-      height: 500,
+      height: 600,
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       child: Column(
@@ -62,7 +104,7 @@ class _AddTicketState extends State<AddTicket> {
             size: 50,
           ),
           const SizedBox(
-            height: 20,
+            height: 40,
           ),
           // From this station
           StreamBuilder(
@@ -81,7 +123,7 @@ class _AddTicketState extends State<AddTicket> {
                 }
 
                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
                       "Départ :",
@@ -142,7 +184,7 @@ class _AddTicketState extends State<AddTicket> {
                 }
 
                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
                       "Destination :",
@@ -188,7 +230,8 @@ class _AddTicketState extends State<AddTicket> {
 
           // Choose a train
           StreamBuilder(
-            stream: _trainService.getTrainsByCompany(compagnieEmail: compagnieEmail),
+            stream: _trainService.getTrainsByCompany(
+                compagnieEmail: compagnieEmail),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Text("loading");
@@ -203,7 +246,7 @@ class _AddTicketState extends State<AddTicket> {
                 }
 
                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
                       "Train :",
@@ -246,8 +289,108 @@ class _AddTicketState extends State<AddTicket> {
               }
             },
           ),
-          
-              
+
+          // Select Date
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Selectionner une date :",
+                style: TextStyle(fontSize: 16),
+              ),
+              Row(
+                children: [
+                  Text((_selectedDate == null)
+                      ? 'Date'
+                      : formatter.format(_selectedDate!)),
+                  IconButton(
+                    onPressed: () => _afficheCalendrier(),
+                    icon: const Icon(
+                      Icons.calendar_month,
+                      size: 40,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Select Departure Time
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "L'heure de départ :",
+                style: TextStyle(fontSize: 16),
+              ),
+              Row(
+                children: [
+                  Text((_selectedDepartureTime == null)
+                      ? 'Heure'
+                      : '$depHours:$depMinutes'),
+                  IconButton(
+                    onPressed: _afficheDepartureHorloge,
+                    icon: const Icon(
+                      Icons.timer,
+                      size: 40,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          //Select Arrival Time
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "L'heure d'arrivée :",
+                style: TextStyle(fontSize: 16),
+              ),
+              Row(
+                children: [
+                  Text((_selectedArrivalTime == null)
+                      ? 'Heure'
+                      : '$arrHours:$arrMinutes'),
+                  IconButton(
+                    onPressed: () => _afficheArrivalHorloge(),
+                    icon: const Icon(
+                      Icons.timer,
+                      size: 40,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 30,),
+          // Confirm
+          Container(
+            height: 50,
+            width: 200,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: <Color>[
+                  Color.fromARGB(255, 113, 68, 239),
+                  Color.fromARGB(255, 183, 128, 255),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(30),
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            child: OutlinedButton(
+              child: const Text(
+                'Confirmer',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {},
+            ),
+          ),
         ],
       ),
     );
