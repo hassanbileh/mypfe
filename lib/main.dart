@@ -23,7 +23,7 @@ import 'package:mypfe/views/companyView/trains/classeView/add_class.dart';
 import 'package:mypfe/views/companyView/trains/classeView/create_update_classe.dart';
 import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
 import 'package:mypfe/widgets/booking/add_passenger.dart';
-import 'package:mypfe/widgets/tickets/add_ticket.dart';
+import 'package:mypfe/views/companyView/tickets/add_ticket.dart';
 
 import 'constants/routes.dart';
 

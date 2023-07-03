@@ -40,11 +40,99 @@ class _PaiementViewState extends State<PaiementView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.deepPurple[500],
+                ),
+                Container(
+                  height: 120,
+                  width: 300,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Card(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text("Jul 10, 2023", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                            Text("-", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                            Text("08:00 - 20:00", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Row(
+                          children: [
+                            Text("djibouti ville, Nagad", style: TextStyle(
+                                fontSize: 14,
+                              ),),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("-", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("dire dawa, Dire", style: TextStyle(
+                                fontSize: 14,
+                              ),),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.keyboard_arrow_down_rounded)
+                          ],
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Djibouti National Train",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.deepPurple[500],
+                              ),
+                            ),
+                            const Text(
+                              "D101",
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
 
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 20,
             ),
-            
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
@@ -199,7 +287,6 @@ class _PaiementViewState extends State<PaiementView> {
                           labelText: "Email"),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
@@ -237,16 +324,16 @@ class _PaiementViewState extends State<PaiementView> {
         ),
         child: OutlinedButton(
           onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(mainClientRoute, (route) => false);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(mainClientRoute, (route) => false);
           },
           child: const Text(
             "Payer la reservation",
-            style:  TextStyle(
+            style: TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
       ),
-
     );
   }
 }

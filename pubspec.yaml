@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore: ^4.8.0
   salomon_bottom_bar: ^3.3.2
   intl: ^0.18.1
+  lite_rolling_switch: ^1.0.1
+  lottie: ^2.4.0
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,8 @@ flutter:
     - assets/images/waiting.png
     - assets/images/background.jpg
     - assets/images/pfe-logo.png
+    - assets/gifs/success.gif
+    - assets/jsons/splash.json
 
 fonts:
     - family: OpenSans

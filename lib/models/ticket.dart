@@ -4,11 +4,11 @@ class CloudTicket {
   final String documentId;
   final String depart;
   final String destination;
-  final DateTime jour;
-  final DateTime heureDepart;
-  final DateTime heureArrive;
+  final String jour;
+  final String heureDepart;
+  final String heureArrive;
   final bool status;
-  final String trainId;
+  final String trainNum;
   final String companyEmail;
 
   const CloudTicket( {
@@ -19,7 +19,7 @@ class CloudTicket {
     required this.heureDepart,
     required this.heureArrive,
     required this.status,
-    required this.trainId,
+    required this.trainNum,
     required this.companyEmail,
   });
 
@@ -27,10 +27,10 @@ class CloudTicket {
       : documentId = snapshot.id,
         depart = snapshot.data()['depart'] as String,
         destination = snapshot.data()['destination'] as String,
-        jour = snapshot.data()['jour'] as DateTime,
-        heureDepart = snapshot.data()['heureDepart'] as DateTime,
-        heureArrive = snapshot.data()['heureArrive'] as DateTime,
+        jour = snapshot.data()['jour'] as String,
+        heureDepart = snapshot.data()['heureDepart'] as String,
+        heureArrive = snapshot.data()['heureArrive'] as String,
         status = snapshot.data()['status'] as bool,
-        trainId = snapshot.data()['trainId'] as String,
+        trainNum = snapshot.data()['trainId'] as String,
         companyEmail = snapshot.data()['companyEmail'] as String;
 }

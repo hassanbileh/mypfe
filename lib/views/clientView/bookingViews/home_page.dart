@@ -37,7 +37,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(shape: BoxShape.rectangle),
+                  decoration: const BoxDecoration(shape: BoxShape.rectangle),
                 ),
 
                 // Container(

@@ -40,12 +40,12 @@ class CouldNotDeleteClasseException extends CloudStorageException {}
 
 class CouldNotReadClasseException extends CloudStorageException {}
 
-class CouldNotCreateTypeSiegeException extends CloudStorageException {}
+class CouldNotCreateTicketException extends CloudStorageException {}
 
-class CouldNotUpdateTypeSiegeException extends CloudStorageException {}
+class CouldNotUpdateTicketException extends CloudStorageException {}
 
-class CouldNotDeleteTypeSiegeException extends CloudStorageException {}
+class CouldNotDeleteTicketException extends CloudStorageException {}
 
-class CouldNotReadTypeSiegeException extends CloudStorageException {}
+class CouldNotReadTicketException extends CloudStorageException {}
 
 class CouldNotGetTrainsException extends CloudStorageException {}

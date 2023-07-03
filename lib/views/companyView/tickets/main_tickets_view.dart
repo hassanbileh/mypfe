@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/views/companyView/tickets/ticket_item.dart';
-import 'package:mypfe/widgets/tickets/add_ticket.dart';
+import 'package:mypfe/views/companyView/tickets/add_ticket.dart';
 
 class MainTicketView extends StatefulWidget {
   const MainTicketView({super.key});
@@ -12,6 +12,7 @@ class MainTicketView extends StatefulWidget {
 class _MainTicketViewState extends State<MainTicketView> {
   void _startAddNewTicket(BuildContext ctx) {
     showModalBottomSheet(
+      backgroundColor: Colors.white,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       context: ctx,

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mypfe/models/station.dart';
 import 'package:mypfe/models/train.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
+import 'package:mypfe/services/cloud/exceptions/user_cloud_exceptions.dart';
 import 'package:mypfe/services/cloud/storage/station_storage.dart';
+import 'package:mypfe/services/cloud/storage/ticket_storage.dart';
 import 'package:mypfe/services/cloud/storage/train_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:mypfe/utilities/dialogs/error_dialog.dart';
 
 final formatter = DateFormat.yMMMd();
 
@@ -17,21 +21,23 @@ class AddTicket extends StatefulWidget {
 
 class _AddTicketState extends State<AddTicket> {
   String get compagnyEmail => AuthService.firebase().currentUser!.email;
-  DateTime? _selectedDate;
-  TimeOfDay? _selectedDepartureTime;
-  TimeOfDay? _selectedArrivalTime;
+  String? _selectedDate;
+  String? _selectedDepartureTime;
+  String? _selectedArrivalTime;
   String? _selectedTrain;
   String? _selectedFromStation;
   String? _selectedToStation;
   late final FirebaseCloudTrainStorage _trainService;
-  final _stationService = FirebaseCloudStationStorage();
+  late final FirebaseCloudStationStorage _stationService;
+  late final FirebaseCloudTicketStorage _ticketService;
   String get compagnieEmail => AuthService.firebase().currentUser!.email;
-  late final bool status;
+  bool? _status;
 
   @override
   void initState() {
+    _ticketService = FirebaseCloudTicketStorage();
+    _stationService = FirebaseCloudStationStorage();
     _trainService = FirebaseCloudTrainStorage();
-    status = true;
     super.initState();
   }
 
@@ -47,7 +53,7 @@ class _AddTicketState extends State<AddTicket> {
       lastDate: last,
     );
     setState(() {
-      _selectedDate = pickedDate;
+      _selectedDate = formatter.format(pickedDate!);
     });
   }
 
@@ -60,7 +66,9 @@ class _AddTicketState extends State<AddTicket> {
     );
 
     setState(() {
-      _selectedDepartureTime = pickedTime!;
+      final localisations = MaterialLocalizations.of(context);
+      final formattedDepartureTime = localisations.formatTimeOfDay(pickedTime!, alwaysUse24HourFormat: true);
+      _selectedDepartureTime = formattedDepartureTime;
     });
   }
 
@@ -73,17 +81,38 @@ class _AddTicketState extends State<AddTicket> {
     );
 
     setState(() {
-      _selectedArrivalTime = pickedTime!;
+      final localisations = MaterialLocalizations.of(context);
+      final formattedDepartureTime = localisations.formatTimeOfDay(pickedTime!, alwaysUse24HourFormat: true);
+      _selectedArrivalTime = formattedDepartureTime;
     });
+  }
+
+  void _submitTicketData() async {
+    try {
+      if (_selectedDate == null ||
+          _selectedFromStation == null ||
+          _selectedToStation == null ||
+          _selectedTrain == null ||
+          _selectedDepartureTime == null ||
+          _selectedArrivalTime == null) {
+        return showErrorDialog(context, 'Veuillez remplir tous les champs');
+      }
+      await _ticketService.createNewTicket(
+        companyEmail: compagnieEmail,
+        trainNum: _selectedTrain!,
+        date: _selectedDate!,
+        heureDepart: _selectedDepartureTime!,
+        heureArrive: _selectedArrivalTime!,
+        status: _status!, depart: _selectedFromStation!, destination: _selectedToStation!,
+      );
+      Navigator.of(context).pop();
+    } catch (e) {
+      throw CouldNotCreateTicketException();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final depHours = _selectedDepartureTime?.hour.toString().padLeft(2, '0');
-    final depMinutes =
-        _selectedDepartureTime?.minute.toString().padLeft(2, '0');
-    final arrHours = _selectedArrivalTime?.hour.toString().padLeft(2, '0');
-    final arrMinutes = _selectedArrivalTime?.minute.toString().padLeft(2, '0');
     return Container(
       height: 600,
       padding: const EdgeInsets.all(10),
@@ -91,17 +120,21 @@ class _AddTicketState extends State<AddTicket> {
       child: Column(
         children: [
           // Title
-          const Text(
-            "Ajouter un ticket",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          // Icon
-          const Icon(
-            Icons.confirmation_num_rounded,
-            size: 50,
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Ajouter un Ticket",
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500),
+              ),
+              Icon(
+                Icons.confirmation_num_rounded,
+                size: 50,
+              ),
+            ],
           ),
           const SizedBox(
             height: 40,
@@ -300,9 +333,7 @@ class _AddTicketState extends State<AddTicket> {
               ),
               Row(
                 children: [
-                  Text((_selectedDate == null)
-                      ? 'Date'
-                      : formatter.format(_selectedDate!)),
+                  Text((_selectedDate == null) ? 'Date' : _selectedDate!),
                   IconButton(
                     onPressed: () => _afficheCalendrier(),
                     icon: const Icon(
@@ -327,7 +358,7 @@ class _AddTicketState extends State<AddTicket> {
                 children: [
                   Text((_selectedDepartureTime == null)
                       ? 'Heure'
-                      : '$depHours:$depMinutes'),
+                      : _selectedDepartureTime!),
                   IconButton(
                     onPressed: _afficheDepartureHorloge,
                     icon: const Icon(
@@ -352,7 +383,7 @@ class _AddTicketState extends State<AddTicket> {
                 children: [
                   Text((_selectedArrivalTime == null)
                       ? 'Heure'
-                      : '$arrHours:$arrMinutes'),
+                      : _selectedArrivalTime!),
                   IconButton(
                     onPressed: () => _afficheArrivalHorloge(),
                     icon: const Icon(
@@ -365,11 +396,57 @@ class _AddTicketState extends State<AddTicket> {
             ],
           ),
 
-          const SizedBox(height: 30,),
+          //Apply Availability
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Disponibility :",
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(
+                height: 40,
+                width: 100,
+                child: LiteRollingSwitch(
+                  textSize: 16,
+                  textOnColor: Colors.white,
+                  iconOff: Icons.alarm_off_outlined,
+                  onDoubleTap: () {},
+                  onTap: () {},
+                  onChanged: (bool status) {
+                    if (!status) {
+                      setState(() {
+                        _status = false;
+                      });
+                    } else {
+                      setState(() {
+                        _status = true;
+                      });
+                    }
+                  },
+                  onSwipe: (bool status) {
+                    if (!status) {
+                      setState(() {
+                        _status = false;
+                      });
+                    } else {
+                      setState(() {
+                        _status = true;
+                      });
+                    }
+                  },
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           // Confirm
           Container(
-            height: 50,
-            width: 200,
+            height: 40,
+            width: 180,
+            margin: const EdgeInsets.symmetric(vertical: 20.0),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: <Color>[
@@ -388,7 +465,7 @@ class _AddTicketState extends State<AddTicket> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              onPressed: () {},
+              onPressed: () => _submitTicketData(),
             ),
           ),
         ],
