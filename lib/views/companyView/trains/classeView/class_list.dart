@@ -34,7 +34,10 @@ class ClasseList extends StatelessWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                   Text('Supprimer', style: TextStyle(color: Colors.white),),
+                  Text(
+                    'Supprimer',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
             ),
@@ -63,10 +66,41 @@ class ClasseList extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        classe.prixClasse.toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              const Text(
+                                'Places disponibles',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 14),
+                              ),
+                              Text(
+                                classe.places.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            children: [
+                              const Text(
+                                'Prix',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 14),
+                              ),
+                              Text(
+                                classe.prixClasse.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   )

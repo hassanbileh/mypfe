@@ -49,4 +49,47 @@ class FirebaseCloudTicketStorage {
       throw CouldNotCreateTicketException();
     }
   }
+
+  Future<void> updateTicket({
+    required String documentId,
+    required String depart,
+    required String destination,
+    required String trainNum,
+    required String date,
+    required String heureDepart,
+    required String heureArrive,
+    required bool status,
+  }) async {
+    try {
+      await ticketCollection.doc(documentId).update({
+        champDepart: depart,
+        champDestination: destination,
+        champDate: date,
+        champHeureDepart: heureDepart,
+        champHeureArrive: heureArrive,
+        champTrainNum: trainNum,
+        champStatus: status,
+      });
+    } catch (e) {
+      throw CouldNotUpdateTicketException();
+    }
+  }
+
+  Future<void> deleteTicket({required String documentId}) async {
+    try {
+      await ticketCollection.doc(documentId).delete();
+    } catch (e) {
+      throw CouldNotDeleteTicketException();
+    }
+  }
+
+  Stream<Iterable<CloudTicket>> getAllTicketsByCompanyEmail(
+      {required String companyEmail}) {
+    final gotTickets = ticketCollection.snapshots().map((event) => event.docs
+        .map((doc) => CloudTicket.fromSnapshot(
+            doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+        .where((ticket) => ticket.companyEmail == companyEmail));
+
+    return gotTickets;
+  }
 }

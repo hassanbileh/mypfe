@@ -29,6 +29,95 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.deepPurple[500],
+                ),
+                Container(
+                  height: 120,
+                  width: 300,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Card(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text("Jul 10, 2023", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                            Text("-", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                            Text("08:00 - 20:00", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Row(
+                          children: [
+                            Text("djibouti ville, Nagad", style: TextStyle(
+                                fontSize: 14,
+                              ),),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("-", style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
+                              ),),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("dire dawa, Dire", style: TextStyle(
+                                fontSize: 14,
+                              ),),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.keyboard_arrow_down_rounded)
+                          ],
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Djibouti National Train",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.deepPurple[500],
+                              ),
+                            ),
+                            const Text(
+                              "D101",
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
             //Add Passenger
             GestureDetector(
               onTap: () {

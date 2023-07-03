@@ -18,6 +18,7 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
   late final TextEditingController _nom;
   late final TextEditingController _description;
   late final TextEditingController _capacite;
+  late final TextEditingController _places;
   late final TextEditingController _prixClasse;
 
   @override
@@ -25,6 +26,7 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     _nom = TextEditingController();
     _description = TextEditingController();
     _capacite = TextEditingController();
+    _places = TextEditingController();
     _prixClasse = TextEditingController();
     _classeService = FirebaseCloudClasseStorage();
     super.initState();
@@ -36,9 +38,10 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
       _nom.text = widgetClasse.nom;
       _description.text = widgetClasse.description!;
       _capacite.text = widgetClasse.capacite.toString();
+      _places.text = widgetClasse.places.toString();
       _prixClasse.text = widgetClasse.prixClasse.toString();
       return widgetClasse;
-    }else{
+    } else {
       throw CouldNotCreateClasseException();
     }
   }
@@ -48,6 +51,7 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     final nom = _nom.text;
     final description = _description.text;
     final capacite = int.tryParse(_capacite.text);
+    final places = int.tryParse(_places.text);
     final prixClasse = double.tryParse(_prixClasse.text);
     if (classe != null) {
       await _classeService.updateClasse(
@@ -56,8 +60,9 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
         description: description,
         capacite: capacite!,
         prixClasse: prixClasse!,
+        places: places!,
       );
-    }else{
+    } else {
       return;
     }
   }
@@ -66,10 +71,12 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     _nom.removeListener(_textControllerListener);
     _description.removeListener(_textControllerListener);
     _capacite.removeListener(_textControllerListener);
+    _places.removeListener(_textControllerListener);
     _prixClasse.removeListener(_textControllerListener);
     _nom.addListener(_textControllerListener);
     _description.addListener(_textControllerListener);
     _capacite.addListener(_textControllerListener);
+    _places.addListener(_textControllerListener);
     _prixClasse.addListener(_textControllerListener);
   }
 
@@ -90,10 +97,12 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
     final nom = _nom.text;
     final description = _description.text;
     final capacite = int.tryParse(_capacite.text);
+    final places = int.tryParse(_places.text);
     final prixClasse = double.tryParse(_prixClasse.text);
     if (classe != null &&
         nom.isNotEmpty &&
         capacite != null &&
+        places != null &&
         prixClasse != null) {
       await _classeService.updateClasse(
         documentId: classe.documentId,
@@ -101,6 +110,7 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
         description: description,
         capacite: capacite,
         prixClasse: prixClasse,
+        places: places,
       );
     }
   }
@@ -131,11 +141,13 @@ class _CreateOrUpdateClasseState extends State<CreateOrUpdateClasse> {
               case ConnectionState.done:
                 _setUpTextControllerListener();
                 return ClassForm(
-                    nom: _nom,
-                    description: _description,
-                    capacite: _capacite,
-                    prixClasse: _prixClasse,
-                    suivant: null);
+                  nom: _nom,
+                  description: _description,
+                  capacite: _capacite,
+                  prixClasse: _prixClasse,
+                  suivant: null,
+                  placesDisponibles: _places,
+                );
               default:
                 return const CircularProgressIndicator();
             }

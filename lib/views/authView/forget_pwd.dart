@@ -63,7 +63,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple[400],
+        backgroundColor: Colors.deepPurple[500],
         title: const Padding(
           padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 50.0),
           child: Text(

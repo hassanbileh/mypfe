@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 typedef TypeSiegeCallBack = void Function();
+
 class ClassForm extends StatelessWidget {
   final TextEditingController nom;
   final TextEditingController description;
   final TextEditingController capacite;
+  final TextEditingController placesDisponibles;
   final TextEditingController prixClasse;
   final TypeSiegeCallBack? suivant;
   const ClassForm({
@@ -12,8 +14,9 @@ class ClassForm extends StatelessWidget {
     required this.nom,
     required this.description,
     required this.capacite,
-    required this.prixClasse, 
+    required this.prixClasse,
     required this.suivant,
+    required this.placesDisponibles,
   });
 
   @override
@@ -21,7 +24,7 @@ class ClassForm extends StatelessWidget {
     return SingleChildScrollView(
       reverse: true,
       child: SizedBox(
-        height: 450,
+        height: 500,
         child: Card(
           color: Colors.white,
           child: Column(
@@ -57,7 +60,7 @@ class ClassForm extends StatelessWidget {
                 child: TextField(
                   maxLines: null,
                   controller: description,
-                  autocorrect: false, 
+                  autocorrect: false,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -79,7 +82,7 @@ class ClassForm extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   controller: capacite,
-                  autocorrect: false, //? important for the email
+                  autocorrect: false,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -96,13 +99,36 @@ class ClassForm extends StatelessWidget {
                   ),
                 ),
               ),
-             
+
+              // Places Disponibles
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: placesDisponibles,
+                  autocorrect: false,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    fillColor: Colors.grey.shade100,
+                    filled: true,
+                    icon: const Icon(
+                      Icons.my_library_add_outlined,
+                    ),
+                    hintText: 'Entrer les places dispos',
+                    labelText: 'Places Disponibles',
+                  ),
+                ),
+              ),
+
               // Champ Prix Classe
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   controller: prixClasse,
-                  autocorrect: false, //? important for the email
+                  autocorrect: false,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -119,7 +145,7 @@ class ClassForm extends StatelessWidget {
                   ),
                 ),
               ),
-    
+
               const SizedBox(
                 height: 15,
               ),

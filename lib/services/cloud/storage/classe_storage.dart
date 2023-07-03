@@ -10,12 +10,11 @@ class FirebaseCloudClasseStorage {
   CollectionReference trainCollection =
       FirebaseFirestore.instance.collection('trains');
 
-  
-
   Future<CloudClasse> createNewClasse({
     required String trainId,
     required String nomClasse,
     required int capacite,
+    required int places,
     required String description,
     required double prixClasse,
   }) async {
@@ -25,6 +24,7 @@ class FirebaseCloudClasseStorage {
       final document = await classesCollection.add({
         "nom": nomClasse,
         "capacite": capacite,
+        "placesDisponibles": places,
         "description": description,
         "prix_classe": prixClasse,
         "train_id": trainId,
@@ -37,6 +37,7 @@ class FirebaseCloudClasseStorage {
         description: description,
         prixClasse: prixClasse,
         trainId: trainId,
+        places: places,
       );
     } catch (e) {
       throw CouldNotCreateClasseException();
@@ -48,6 +49,7 @@ class FirebaseCloudClasseStorage {
     required String nom,
     required String description,
     required int capacite,
+    required int places,
     required double prixClasse,
   }) async {
     try {
@@ -57,6 +59,7 @@ class FirebaseCloudClasseStorage {
         "nom": nom,
         "description": description,
         "capacite": capacite,
+        "placesDisponibles": places,
         "prix_classe": prixClasse,
       });
     } catch (e) {
@@ -66,14 +69,18 @@ class FirebaseCloudClasseStorage {
 
   Future<void> deleteClasse({required String documentId}) async {
     try {
-      await FirebaseFirestore.instance.collection('classes').doc(documentId).delete();
+      await FirebaseFirestore.instance
+          .collection('classes')
+          .doc(documentId)
+          .delete();
     } catch (e) {
       throw CouldNotDeleteClasseException();
     }
   }
 
-  Stream<Iterable<CloudClasse>> getClassesByTrainId({required String? trainId})  {
-    final allClasses =  FirebaseFirestore.instance
+  Stream<Iterable<CloudClasse>> getClassesByTrainId(
+      {required String? trainId}) {
+    final allClasses = FirebaseFirestore.instance
         .collection('classes')
         .snapshots()
         .map((event) => event.docs

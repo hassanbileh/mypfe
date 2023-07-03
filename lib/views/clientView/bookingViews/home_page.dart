@@ -22,6 +22,8 @@ class _ClientHomePageState extends State<ClientHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.white,),
+      backgroundColor: Colors.white,
       body: Center(
         child: Stack(
           alignment: Alignment.bottomCenter,

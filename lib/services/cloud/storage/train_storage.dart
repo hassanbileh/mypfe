@@ -58,13 +58,12 @@ class FirebaseCloudTrainStorage {
     final allTrains = FirebaseFirestore.instance
         .collection('trains')
         .snapshots()
-        .map((event) => event.docs
-            .map((doc) => CloudTrain.fromSnapshot(doc))
+        .map((event) => event.docs.map((doc) => CloudTrain.fromSnapshot(doc))
             .where((train) => train.companyEmail == compagnieEmail));
     return allTrains;
   }
 
-  //Getting notes by userId
+  //Getting trains by companyEmail
   Future<Iterable<CloudTrain>> getTrains({required String companyEmail}) async {
     try {
       final gotNotes = await FirebaseFirestore.instance

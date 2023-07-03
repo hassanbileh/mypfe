@@ -418,23 +418,14 @@ class _AddTicketState extends State<AddTicket> {
                       setState(() {
                         _status = false;
                       });
+                      
                     } else {
                       setState(() {
                         _status = true;
                       });
                     }
                   },
-                  onSwipe: (bool status) {
-                    if (!status) {
-                      setState(() {
-                        _status = false;
-                      });
-                    } else {
-                      setState(() {
-                        _status = true;
-                      });
-                    }
-                  },
+                  onSwipe: () {},
                 ),
               )
             ],

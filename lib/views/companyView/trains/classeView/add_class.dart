@@ -17,6 +17,7 @@ class _AddClasseState extends State<AddClasse> {
   late final TextEditingController _nom;
   late final TextEditingController _description;
   late final TextEditingController _capacite;
+  late final TextEditingController _places;
   late final TextEditingController _prixClasse;
 
   @override
@@ -24,19 +25,20 @@ class _AddClasseState extends State<AddClasse> {
     _nom = TextEditingController();
     _description = TextEditingController();
     _capacite = TextEditingController();
+    _places = TextEditingController();
     _prixClasse = TextEditingController();
     _classeService = FirebaseCloudClasseStorage();
     super.initState();
   }
 
-  createClasse(BuildContext context) async {
+  void createClasse(BuildContext context) async {
     try {
       final widgetTrain = context.getArguments<CloudTrain>();
       if (widgetTrain != null &&
           _nom.text.isNotEmpty &&
           int.tryParse(_capacite.text) != null &&
-          double.tryParse(_prixClasse.text) != null
-          ) {
+          int.tryParse(_places.text) != null &&
+          double.tryParse(_prixClasse.text) != null) {
         final trainId = widgetTrain.documentId;
         await _classeService.createNewClasse(
           trainId: trainId,
@@ -44,9 +46,10 @@ class _AddClasseState extends State<AddClasse> {
           capacite: int.tryParse(_capacite.text.trim())!,
           description: _description.text.trim(),
           prixClasse: double.tryParse(_prixClasse.text)!,
+          places: int.tryParse(_places.text.trim())!,
         );
         Navigator.of(context).pop();
-      } 
+      }
     } catch (e) {
       throw CouldNotCreateClasseException();
     }
@@ -57,6 +60,7 @@ class _AddClasseState extends State<AddClasse> {
     _nom.dispose();
     _description.dispose();
     _capacite.dispose();
+    _places.dispose();
     _prixClasse.dispose();
     super.dispose();
   }
@@ -65,7 +69,7 @@ class _AddClasseState extends State<AddClasse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple[400],
+        backgroundColor: Colors.deepPurple[500],
         title: const Text('Classes'),
       ),
       body: SingleChildScrollView(
@@ -77,11 +81,11 @@ class _AddClasseState extends State<AddClasse> {
               capacite: _capacite,
               prixClasse: _prixClasse,
               suivant: () => createClasse(context),
+              placesDisponibles: _places,
             ),
             const SizedBox(
               height: 15,
             ),
-            
           ],
         ),
       ),
