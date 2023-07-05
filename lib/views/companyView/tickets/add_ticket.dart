@@ -8,6 +8,7 @@ import 'package:mypfe/services/cloud/storage/ticket_storage.dart';
 import 'package:mypfe/services/cloud/storage/train_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:mypfe/services/cloud/storage/user_storage.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
 
 final formatter = DateFormat.yMMMd();
@@ -21,20 +22,23 @@ class AddTicket extends StatefulWidget {
 
 class _AddTicketState extends State<AddTicket> {
   String get compagnyEmail => AuthService.firebase().currentUser!.email;
+  late final FirebaseCloudUserStorage _userService;
+  late final FirebaseCloudTrainStorage _trainService;
+  late final FirebaseCloudStationStorage _stationService;
+  late final FirebaseCloudTicketStorage _ticketService;
+
   String? _selectedDate;
   String? _selectedDepartureTime;
   String? _selectedArrivalTime;
   String? _selectedTrain;
   String? _selectedFromStation;
   String? _selectedToStation;
-  late final FirebaseCloudTrainStorage _trainService;
-  late final FirebaseCloudStationStorage _stationService;
-  late final FirebaseCloudTicketStorage _ticketService;
   String get compagnieEmail => AuthService.firebase().currentUser!.email;
   bool? _status;
 
   @override
   void initState() {
+    _userService = FirebaseCloudUserStorage();
     _ticketService = FirebaseCloudTicketStorage();
     _stationService = FirebaseCloudStationStorage();
     _trainService = FirebaseCloudTrainStorage();
@@ -67,7 +71,8 @@ class _AddTicketState extends State<AddTicket> {
 
     setState(() {
       final localisations = MaterialLocalizations.of(context);
-      final formattedDepartureTime = localisations.formatTimeOfDay(pickedTime!, alwaysUse24HourFormat: true);
+      final formattedDepartureTime = localisations.formatTimeOfDay(pickedTime!,
+          alwaysUse24HourFormat: true);
       _selectedDepartureTime = formattedDepartureTime;
     });
   }
@@ -82,7 +87,8 @@ class _AddTicketState extends State<AddTicket> {
 
     setState(() {
       final localisations = MaterialLocalizations.of(context);
-      final formattedDepartureTime = localisations.formatTimeOfDay(pickedTime!, alwaysUse24HourFormat: true);
+      final formattedDepartureTime = localisations.formatTimeOfDay(pickedTime!,
+          alwaysUse24HourFormat: true);
       _selectedArrivalTime = formattedDepartureTime;
     });
   }
@@ -97,13 +103,17 @@ class _AddTicketState extends State<AddTicket> {
           _selectedArrivalTime == null) {
         return showErrorDialog(context, 'Veuillez remplir tous les champs');
       }
+      final company = await _userService.getUserName(email: compagnieEmail);
       await _ticketService.createNewTicket(
-        companyEmail: compagnieEmail,
+        company: company!,
         trainNum: _selectedTrain!,
         date: _selectedDate!,
         heureDepart: _selectedDepartureTime!,
         heureArrive: _selectedArrivalTime!,
-        status: _status!, depart: _selectedFromStation!, destination: _selectedToStation!,
+        status: _status!,
+        depart: _selectedFromStation!,
+        destination: _selectedToStation!,
+        compagnieEmail: compagnieEmail,
       );
       Navigator.of(context).pop();
     } catch (e) {
@@ -418,7 +428,6 @@ class _AddTicketState extends State<AddTicket> {
                       setState(() {
                         _status = false;
                       });
-                      
                     } else {
                       setState(() {
                         _status = true;

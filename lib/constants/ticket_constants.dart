@@ -4,5 +4,6 @@ const champHeureDepart = "heureDepart";
 const champHeureArrive = "heureArrive";
 const champDate = "date";
 const champTrainNum = "trainNum";
+const champCompagnie = "compagnie";
 const champCompagnieEmail = "compagnieEmail";
 const champStatus = "status";

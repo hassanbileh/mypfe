@@ -12,7 +12,8 @@ class FirebaseCloudTicketStorage {
       FirebaseFirestore.instance.collection('tickets');
 
   Future<CloudTicket> createNewTicket({
-    required String companyEmail,
+    required String compagnieEmail,
+    required String company,
     required String depart,
     required String destination,
     required String trainNum,
@@ -29,7 +30,8 @@ class FirebaseCloudTicketStorage {
         champDate: date,
         champHeureDepart: heureDepart,
         champHeureArrive: heureArrive,
-        champCompagnieEmail: companyEmail,
+        champCompagnieEmail: compagnieEmail,
+        champCompagnie: company,
         champStatus: status,
       });
       final fetchedTicket = await document.get();
@@ -43,7 +45,8 @@ class FirebaseCloudTicketStorage {
         heureArrive: heureArrive,
         status: status,
         trainNum: trainNum,
-        companyEmail: companyEmail,
+        company: company,
+        companyEmail: compagnieEmail,
       );
     } catch (e) {
       throw CouldNotCreateTicketException();

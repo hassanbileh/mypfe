@@ -12,6 +12,7 @@ class FirebaseCloudClasseStorage {
 
   Future<CloudClasse> createNewClasse({
     required String trainId,
+    required String trainNum,
     required String nomClasse,
     required int capacite,
     required int places,
@@ -28,6 +29,7 @@ class FirebaseCloudClasseStorage {
         "description": description,
         "prix_classe": prixClasse,
         "train_id": trainId,
+        "trainNum": trainNum,
       });
       final fetchedClasse = await document.get();
       return CloudClasse(
@@ -38,6 +40,7 @@ class FirebaseCloudClasseStorage {
         prixClasse: prixClasse,
         trainId: trainId,
         places: places,
+        trainNum: trainNum,
       );
     } catch (e) {
       throw CouldNotCreateClasseException();
@@ -86,6 +89,28 @@ class FirebaseCloudClasseStorage {
         .map((event) => event.docs
             .map((doc) => CloudClasse.fromSnapshot(doc))
             .where((classe) => classe.trainId == trainId));
+    return allClasses;
+  }
+
+  Stream<Iterable<CloudClasse>> getClassesByTrainNum(
+      {required String? trainNum}) {
+    // final allClasses = FirebaseFirestore.instance
+    //       .collection('classes')
+    //       .where(
+    //         'trainNum',
+    //         isEqualTo: trainNum,
+    //       )
+    //       .get()
+    //       .then(
+    //         // onError: (_) => CloudNotGetAllNotesException(),
+    //         (value) => value.docs.map((doc) => CloudClasse.fromSnapshot(doc)),
+    //       );
+    final allClasses = FirebaseFirestore.instance
+        .collection('classes')
+        .snapshots()
+        .map((event) => event.docs
+            .map((doc) => CloudClasse.fromSnapshot(doc))
+            .where((classe) => classe.trainNum == trainNum));
     return allClasses;
   }
 }

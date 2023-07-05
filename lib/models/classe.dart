@@ -16,8 +16,9 @@ class CloudClasse {
   final String? description;
   final double prixClasse;
   final String trainId;
+  final String trainNum;
 
-  const CloudClasse({
+  const CloudClasse( {
     required this.documentId,
     required this.nom,
     required this.capacite,
@@ -25,6 +26,7 @@ class CloudClasse {
     required this.description,
     required this.prixClasse,
     required this.trainId,
+    required this.trainNum,
   });
 
   CloudClasse.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) : 
@@ -34,6 +36,7 @@ class CloudClasse {
   places = snapshot.data()['placesDisponibles'] as int,
   description = snapshot.data()['description'] as String,
   prixClasse = snapshot.data()['prix_classe'] as double,
-  trainId = snapshot.data()['train_id'] as String;
+  trainId = snapshot.data()['train_id'] as String,
+  trainNum = snapshot.data()['trainNum'] as String;
 
 }

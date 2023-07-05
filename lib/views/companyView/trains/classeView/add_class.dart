@@ -40,6 +40,7 @@ class _AddClasseState extends State<AddClasse> {
           int.tryParse(_places.text) != null &&
           double.tryParse(_prixClasse.text) != null) {
         final trainId = widgetTrain.documentId;
+        final trainNum = widgetTrain.numero;
         await _classeService.createNewClasse(
           trainId: trainId,
           nomClasse: _nom.text.trim(),
@@ -47,6 +48,7 @@ class _AddClasseState extends State<AddClasse> {
           description: _description.text.trim(),
           prixClasse: double.tryParse(_prixClasse.text)!,
           places: int.tryParse(_places.text.trim())!,
+          trainNum: trainNum,
         );
         Navigator.of(context).pop();
       }

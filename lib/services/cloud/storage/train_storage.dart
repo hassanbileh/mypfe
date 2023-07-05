@@ -7,13 +7,13 @@ class FirebaseCloudTrainStorage {
   factory FirebaseCloudTrainStorage() => _shared;
   static final _shared = FirebaseCloudTrainStorage._sharedInstance();
 
-  CollectionReference trains = FirebaseFirestore.instance.collection('trains');
+  CollectionReference _trains = FirebaseFirestore.instance.collection('trains');
 
   Future<CloudTrain> createNewTrain({
     required String companyEmail,
   }) async {
     try {
-      final document = await trains.add({
+      final document = await _trains.add({
         "compagnieEmail": companyEmail,
         "nbr_clases": 0,
         "numero": '',
@@ -36,7 +36,7 @@ class FirebaseCloudTrainStorage {
     required int nbrClasse,
   }) async {
     try {
-      await trains.doc(documentId).update({
+      await _trains.doc(documentId).update({
         "numero": numero,
         "nbr_clases": nbrClasse,
       });
@@ -47,7 +47,7 @@ class FirebaseCloudTrainStorage {
 
   Future<void> deleteTrain({required String documentId}) async {
     try {
-      await trains.doc(documentId).delete();
+      await _trains.doc(documentId).delete();
     } catch (e) {
       throw CouldNotDeleteTrainException();
     }
@@ -58,7 +58,8 @@ class FirebaseCloudTrainStorage {
     final allTrains = FirebaseFirestore.instance
         .collection('trains')
         .snapshots()
-        .map((event) => event.docs.map((doc) => CloudTrain.fromSnapshot(doc))
+        .map((event) => event.docs
+            .map((doc) => CloudTrain.fromSnapshot(doc))
             .where((train) => train.companyEmail == compagnieEmail));
     return allTrains;
   }
@@ -80,6 +81,21 @@ class FirebaseCloudTrainStorage {
       return gotNotes;
     } catch (e) {
       throw CouldNotGetTrainsException();
+    }
+  }
+
+  Future<String> getTrain({required String trainNum}) async {
+    try {
+      final trainDoc = await FirebaseFirestore.instance
+          .collection('trains')
+          .where('trainNum', isEqualTo: trainNum)
+          .get()
+          .then((value) => CloudTrain.fromSnapshot(
+              value as QueryDocumentSnapshot<Map<String, dynamic>>));
+      final train = trainDoc.documentId;
+      return train;
+    } catch (e) {
+      throw CouldNotReadTrainException();
     }
   }
 }

@@ -130,6 +130,16 @@ class FirebaseCloudUserStorage {
     }
   }
 
+  Future<String?> getUserName({required String email}) async{
+    try {
+      final user = await getUser(email: email);
+      final nom = user.nom;
+      return nom;
+    } catch (e) {
+      throw CouldNotGetUserNameException();
+    }
+  }
+
   Future<void> updateIsEmailVerified({required String email}) async {
     try {
       final gotUser = await FirebaseFirestore.instance

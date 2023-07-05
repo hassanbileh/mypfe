@@ -50,12 +50,12 @@ class _TrainViewState extends State<TrainView> {
                   },
                 );
               } else {
-                return const CircularProgressIndicator();
+                return CircularProgressIndicator(backgroundColor: Colors.deepPurple[500],);
               }
             case ConnectionState.done:
               return const Text('done');
             default:
-              return const CircularProgressIndicator();
+              return CircularProgressIndicator(backgroundColor: Colors.deepPurple[500],);
           }
         },
       ),

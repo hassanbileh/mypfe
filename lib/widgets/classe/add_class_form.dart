@@ -24,7 +24,7 @@ class ClassForm extends StatelessWidget {
     return SingleChildScrollView(
       reverse: true,
       child: SizedBox(
-        height: 500,
+        height: 600,
         child: Card(
           color: Colors.white,
           child: Column(
