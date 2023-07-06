@@ -58,8 +58,8 @@ class _TicketsResultsState extends State<TicketsResults> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           "Aucun ticket trouvé !",
                           style: TextStyle(
@@ -71,7 +71,7 @@ class _TicketsResultsState extends State<TicketsResults> {
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w300),
                       ),
-                      Container(
+                      SizedBox(
                           height: 500,
                           width: 150,
                           child: Image.asset("assets/images/waiting.png")),

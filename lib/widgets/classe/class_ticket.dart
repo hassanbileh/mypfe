@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ClassOnTicket extends StatelessWidget {
+  final int? places;
   final String className;
   final double height;
   final double width;
@@ -12,6 +13,7 @@ class ClassOnTicket extends StatelessWidget {
     required this.height,
     required this.width,
     required this.isAvailable,
+    required this.places,
   });
 
   @override
@@ -26,17 +28,30 @@ class ClassOnTicket extends StatelessWidget {
                 color: const Color.fromARGB(255, 22, 231, 130).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(6)),
             child: Center(
-              child: Row(
+              child: Column(
                 children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(className),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2),
+                        child: Text(
+                          "Libre",
+                          style: TextStyle(fontSize: 8, color: Colors.green),
+                        ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(className),
-                  ),
-                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2),
                     child: Text(
-                      "Libre",
-                      style: TextStyle(fontSize: 8, color: Colors.green),
+                      '(${places.toString()})',
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ],
@@ -52,17 +67,30 @@ class ClassOnTicket extends StatelessWidget {
                 color: const Color.fromARGB(255, 231, 39, 22).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(6)),
             child: Center(
-              child: Row(
+              child: Column(
                 children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(className),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 1),
+                        child: Text(
+                          "Occupé",
+                          style: TextStyle(fontSize: 8, color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(className),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 1),
                     child: Text(
-                      "Occupé",
-                      style: TextStyle(fontSize: 8, color: Colors.red),
+                      '(${places.toString()})',
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ],

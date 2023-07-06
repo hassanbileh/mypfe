@@ -149,25 +149,28 @@ class ClientTicketList extends StatelessWidget {
                           final List<Widget> classes = [];
                           for (var i = 0; i < allClasses.length; i++) {
                             if (allClasses.elementAt(i).places <= 0) {
+                              classes.add(
+                                ClassOnTicket(
+                                  className: allClasses.elementAt(i).nom,
+                                  height: 48,
+                                  width: 110,
+                                  isAvailable: false,
+                                  places: allClasses.elementAt(i).places,
+                                ),
+                              );
+                            } else {
                               classes.add(GestureDetector(
-                                onTap: () => onBook(ticket, allClasses.elementAt(i)),
+                                onTap: () =>
+                                    onBook(ticket, allClasses.elementAt(i)),
                                 child: ClassOnTicket(
                                   className: allClasses.elementAt(i).nom,
-                                  height: 40,
+                                  height: 48,
                                   width: 100,
-                                  isAvailable: false,
+                                  isAvailable: true,
+                                  places: allClasses.elementAt(i).places,
                                 ),
                               ));
-                            } else {}
-                            classes.add(GestureDetector(
-                              onTap: () => onBook(ticket, allClasses.elementAt(i)),
-                              child: ClassOnTicket(
-                                className: allClasses.elementAt(i).nom,
-                                height: 40,
-                                width: 100,
-                                isAvailable: true,
-                              ),
-                            ));
+                            }
                           }
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:country_list_pick/country_list_pick.dart';
 
 class AddPassengers extends StatefulWidget {
   const AddPassengers({
@@ -10,14 +11,14 @@ class AddPassengers extends StatefulWidget {
 }
 
 class _AddPassengersState extends State<AddPassengers> {
-  late final TextEditingController nationalite;
+  String? nationalite;
   late final TextEditingController numPassport;
   late final TextEditingController age;
   late final TextEditingController nom;
   late final TextEditingController genre;
   @override
   void initState() {
-    nationalite = TextEditingController();
+    nationalite = '';
     numPassport = TextEditingController();
     age = TextEditingController();
     nom = TextEditingController();
@@ -41,7 +42,7 @@ class _AddPassengersState extends State<AddPassengers> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 const Icon(
@@ -72,9 +73,44 @@ class _AddPassengersState extends State<AddPassengers> {
                               Icons.person,
                               color: Color.fromARGB(255, 74, 44, 156),
                             ),
-                            hintText: "Entrer le nom ici",
-                            labelText: "Nom",
+                            hintText: "Entrer le prénom et le nom ici",
+                            labelText: "Prénom & Nom",
                           ),
+                        ),
+                      ),
+
+                      //Nationalité textField
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.home,
+                              color: Color.fromARGB(255, 74, 44, 156),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            CountryListPick(
+                              appBar: AppBar(
+                                backgroundColor: Colors.deepPurple[500],
+                                title: const Text("Selectionner votre pays"),
+                              ),
+                              theme: CountryTheme(
+                                isShowFlag: true,
+                                isShowTitle: true,
+                                isShowCode: true,
+                                isDownIcon: true,
+                                showEnglishName: true,
+                              ),
+                              initialSelection: null,
+                              onChanged: (value) {
+                                setState(() {
+                                  nationalite = value?.name;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ),
 
@@ -150,32 +186,7 @@ class _AddPassengersState extends State<AddPassengers> {
                           ),
                         ),
                       ),
-                      //Naitonalité textField
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: nationalite,
-                          obscureText: true, // important for the password
-                          enableSuggestions:
-                              false, // important for the password
-                          autocorrect: false, // important for the password
-                          onSubmitted: (_) {},
-                          decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            icon: const Icon(
-                              Icons.question_mark_outlined,
-                              color: Color.fromARGB(255, 74, 44, 156),
-                            ),
-                            hintText: "Entrer la nationalité ici",
-                            labelText: "Nationalité",
-                          ),
-                        ),
-                      ),
-                      
+
                       const SizedBox(
                         height: 20,
                       ),

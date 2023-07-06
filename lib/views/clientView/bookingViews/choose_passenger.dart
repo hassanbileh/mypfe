@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
+import 'package:mypfe/extensions/generics/get_arguments.dart';
 
 class ChoosePassenger extends StatefulWidget {
   const ChoosePassenger({super.key});
@@ -24,6 +25,35 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
           ),
         ),
         backgroundColor: Colors.deepPurple[500],
+        // bottom: PreferredSize(
+        //     child: Card(
+        //       child: Column(
+        //         children: [
+        //            Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //             children: [
+        //               Text(
+        //                 "Jul 10, 2023",
+        //                 style: TextStyle(
+        //                     fontSize: 14, fontWeight: FontWeight.w600),
+        //               ),
+        //               Text(
+        //                 "-",
+        //                 style: TextStyle(
+        //                     fontSize: 14, fontWeight: FontWeight.w600),
+        //               ),
+        //               Text(
+        //                 "08:00 - 20:00",
+        //                 style: TextStyle(
+        //                     fontSize: 14, fontWeight: FontWeight.w600),
+        //               ),
+        //             ],
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //     preferredSize: Size(300, 120)),
+      
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -50,18 +80,21 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("Jul 10, 2023", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                            Text("-", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                            Text("08:00 - 20:00", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
+                            Text(
+                              "Jul 10, 2023",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "-",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "08:00 - 20:00",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600),
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -69,29 +102,38 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                         ),
                         const Row(
                           children: [
-                            Text("djibouti ville, Nagad", style: TextStyle(
+                            Text(
+                              "djibouti ville, Nagad",
+                              style: TextStyle(
                                 fontSize: 14,
-                              ),),
+                              ),
+                            ),
                             SizedBox(
                               width: 10,
                             ),
-                            Text("-", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
+                            Text(
+                              "-",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600),
+                            ),
                             SizedBox(
                               width: 10,
                             ),
-                            Text("dire dawa, Dire", style: TextStyle(
+                            Text(
+                              "dire dawa, Dire",
+                              style: TextStyle(
                                 fontSize: 14,
-                              ),),
+                              ),
+                            ),
                             SizedBox(
                               width: 10,
                             ),
                             Icon(Icons.keyboard_arrow_down_rounded)
                           ],
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -109,7 +151,6 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                                 fontSize: 16,
                               ),
                             ),
-
                           ],
                         )
                       ],
@@ -168,7 +209,8 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
             //Passen item
             Container(
               margin: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Colors.white),
               child: ListTile(
                 leading: Checkbox(
                   value: checkValue,
@@ -193,8 +235,8 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                     Text("Djibouti")
                   ],
                 ),
-                trailing:
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+                trailing: IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.delete)),
               ),
             )
           ],
@@ -218,13 +260,11 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
           },
           child: const Text(
             "Payer la reservation",
-            style:  TextStyle(
+            style: TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
       ),
-
-      
     );
   }
 }

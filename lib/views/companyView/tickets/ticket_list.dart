@@ -183,20 +183,24 @@ class TicketList extends StatelessWidget {
                                 if (allClasses.elementAt(i).places <= 0) {
                                   classes.add(ClassOnTicket(
                                     className: allClasses.elementAt(i).nom,
-                                    height: 40,
-                                    width: 100,
+                                    height: 50,
+                                    width: 110,
                                     isAvailable: false,
+                                    places: allClasses.elementAt(i).places,
                                   ));
-                                } else {}
-                                classes.add(ClassOnTicket(
-                                  className: allClasses.elementAt(i).nom,
-                                  height: 40,
-                                  width: 100,
-                                  isAvailable: true,
-                                ));
+                                } else {
+                                  classes.add(ClassOnTicket(
+                                    className: allClasses.elementAt(i).nom,
+                                    height: 50,
+                                    width: 100,
+                                    isAvailable: true,
+                                    places: allClasses.elementAt(i).places,
+                                  ));
+                                }
                               }
                               return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: classes,
                               );
                             } else {
