@@ -95,4 +95,20 @@ class FirebaseCloudTicketStorage {
 
     return gotTickets;
   }
+
+  Stream<Iterable<CloudTicket>> getTicketByStationsAndDate({
+    required String depart,
+    required String destination,
+    required String date,
+  }) {
+    final queryTickets = ticketCollection.snapshots().map((event) => event.docs
+            .map((doc) => CloudTicket.fromSnapshot(
+                doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+            .where((ticket) {
+          return ticket.depart == depart &&
+              ticket.destination == destination &&
+              ticket.jour == date;
+        }));
+    return queryTickets;
+  }
 }

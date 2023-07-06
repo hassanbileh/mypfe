@@ -31,6 +31,15 @@ class TrainList extends StatelessWidget {
             key: ValueKey(trains.elementAt(index)),
             background: Container(
               color: Theme.of(context).colorScheme.error,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Supprimer',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
             ),
             onDismissed: (direction) async {
               final shouldDelete = await showDeleteDialog(context);
