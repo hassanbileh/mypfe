@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/models/classe.dart';
 import 'package:mypfe/models/ticket.dart';
+import 'package:mypfe/services/cloud/storage/classe_storage.dart';
 import 'package:mypfe/utilities/dialogs/delete_dialog.dart';
+import 'package:mypfe/widgets/classe/class_ticket.dart';
 
 typedef TicketCallBack = void Function(CloudTicket ticket);
 typedef ClassStreamCallBack = Stream<Iterable<CloudClasse>>?;
@@ -31,14 +33,14 @@ class TicketList extends StatelessWidget {
           background: Container(
             color: Theme.of(context).colorScheme.error,
             child: const Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Supprimer',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Supprimer',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
           ),
           onDismissed: (direction) async {
             final shouldDelete = await showDeleteDialog(context);
@@ -102,7 +104,7 @@ class TicketList extends StatelessWidget {
                         ],
                       ),
                     ),
-          
+
                     //Departure/Arrival Stations
                     Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -139,13 +141,15 @@ class TicketList extends StatelessWidget {
                             width: 20,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Row(
                               children: [
                                 Text(
                                   ticket.destination,
                                   style: const TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.w500),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -153,13 +157,55 @@ class TicketList extends StatelessWidget {
                                 Text(
                                   ticket.heureArrive,
                                   style: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w500),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
                           ),
                         ],
                       ),
+                    ),
+
+                    StreamBuilder(
+                      stream: FirebaseCloudClasseStorage()
+                          .getClassesByTrainNum(trainNum: ticket.trainNum),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                          case ConnectionState.done:
+                          case ConnectionState.active:
+                            if (snapshot.hasData) {
+                              final allClasses =
+                                  snapshot.data as Iterable<CloudClasse>;
+                              final List<Widget> classes = [];
+                              for (var i = 0; i < allClasses.length; i++) {
+                                if (allClasses.elementAt(i).places <= 0) {
+                                  classes.add(ClassOnTicket(
+                                    className: allClasses.elementAt(i).nom,
+                                    height: 40,
+                                    width: 100,
+                                    isAvailable: false,
+                                  ));
+                                } else {}
+                                classes.add(ClassOnTicket(
+                                  className: allClasses.elementAt(i).nom,
+                                  height: 40,
+                                  width: 100,
+                                  isAvailable: true,
+                                ));
+                              }
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: classes,
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          default:
+                            return const CircularProgressIndicator();
+                        }
+                      },
                     ),
                   ],
                 ),

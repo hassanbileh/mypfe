@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/models/station.dart';
+import 'package:mypfe/utilities/dialogs/error_dialog.dart';
 
 import '../../../services/cloud/storage/station_storage.dart';
 
@@ -28,7 +29,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
 
   void _afficheCalendrier() async {
     final now = DateTime.now();
-    final first = DateTime(now.year, now.month, now.day + 3);
+    final first = DateTime(now.year, now.month, now.day + 2);
     final last = DateTime(now.year, now.month + 1, now.day);
 
     final pickedDate = await showDatePicker(
@@ -41,6 +42,8 @@ class _ClientHomePageState extends State<ClientHomePage> {
       _selectedDate = formatter.format(pickedDate!);
     });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +60,9 @@ class _ClientHomePageState extends State<ClientHomePage> {
               alignment: Alignment.topCenter,
               children: [
                 Image.asset(
-                  'assets/images/background.jpg',
-                  fit: BoxFit.fitHeight,
-                ),
+                    'assets/images/background.jpg',
+                    fit: BoxFit.fitHeight,
+                  ),
                 Container(
                   decoration: const BoxDecoration(shape: BoxShape.rectangle),
                 ),
@@ -70,7 +73,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                 width: 500,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(30)),
+                    borderRadius: BorderRadius.circular(50)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -84,9 +87,6 @@ class _ClientHomePageState extends State<ClientHomePage> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
 
                     StreamBuilder(
@@ -120,7 +120,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                                 width: 20,
                               ),
                               SizedBox(
-                                height: 60,
+                                height: 50,
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 child: DropdownButton(
                                   elevation: 5,
@@ -146,7 +146,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                                   },
                                   value: _selectedFromStation,
                                   hint: const Text(
-                                      "Selectionner une station de départ"),
+                                      "station de départ"),
                                 ),
                               ),
                             ],
@@ -154,10 +154,9 @@ class _ClientHomePageState extends State<ClientHomePage> {
                         }
                       },
                     ),
+                    
 
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 15,),
                     StreamBuilder(
                       stream: _stationService.getAllStations(),
                       builder: (context, snapshot) {
@@ -191,7 +190,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                                   width: 20,
                                 ),
                                 SizedBox(
-                                  height: 60,
+                                  height: 50,
                                   width:
                                       MediaQuery.of(context).size.width * 0.5,
                                   child: DropdownButton(
@@ -218,7 +217,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                                     },
                                     value: _selectedToStation,
                                     hint: const Text(
-                                        "Selectionner une station de départ"),
+                                        "station de départ"),
                                   ),
                                 ),
                               ],
@@ -227,12 +226,13 @@ class _ClientHomePageState extends State<ClientHomePage> {
                         }
                       },
                     ),
-
+                    const SizedBox(height: 15,),
                     // Choose date & continue
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
+                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             IconButton(
@@ -271,10 +271,20 @@ class _ClientHomePageState extends State<ClientHomePage> {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                               child: IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
-                                      ticketsResultsRoute,
-                                      arguments: [_selectedFromStation, _selectedToStation, _selectedDate]);
+                                onPressed: () async {
+                                  if (_selectedFromStation != null &&
+                                      _selectedToStation != null &&
+                                      _selectedDate != null) {
+                                    Navigator.of(context).pushNamed(
+                                        ticketsResultsRoute,
+                                        arguments: [
+                                          _selectedFromStation,
+                                          _selectedToStation,
+                                          _selectedDate
+                                        ]);
+                                  }else{
+                                    return await showErrorDialog(context, "Veuillez selectionner un trajet");
+                                  }
                                 },
                                 icon: const Icon(
                                   Icons.arrow_forward_outlined,
