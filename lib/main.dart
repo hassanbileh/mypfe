@@ -85,7 +85,6 @@ class MyApp extends StatelessWidget {
         
         //Navigation Pages
         ticketsResultsRoute:(context) => const TicketsResults(),
-        
         choosePassengerRoute:(context) => const ChoosePassenger(),
         paiementViewRoute:(context) => const PaiementView(),
       },

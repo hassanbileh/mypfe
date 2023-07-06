@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/models/station.dart';
-import 'package:mypfe/services/cloud/storage/train_storage.dart';
 
 import '../../../services/cloud/storage/station_storage.dart';
 
@@ -17,9 +16,6 @@ class ClientHomePage extends StatefulWidget {
 
 class _ClientHomePageState extends State<ClientHomePage> {
   late final FirebaseCloudStationStorage _stationService;
-  late final FirebaseCloudTrainStorage _trainService;
-  late final TextEditingController _depart;
-  late final TextEditingController _arrivee;
   String? _selectedDate;
   String? _selectedFromStation;
   String? _selectedToStation;
@@ -27,9 +23,6 @@ class _ClientHomePageState extends State<ClientHomePage> {
   @override
   void initState() {
     _stationService = FirebaseCloudStationStorage();
-    _trainService = FirebaseCloudTrainStorage();
-    _depart = TextEditingController();
-    _arrivee = TextEditingController();
     super.initState();
   }
 
