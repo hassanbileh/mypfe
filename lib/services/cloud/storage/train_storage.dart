@@ -64,25 +64,25 @@ class FirebaseCloudTrainStorage {
     return allTrains;
   }
 
-  //Getting trains by companyEmail
-  Future<Iterable<CloudTrain>> getTrains({required String companyEmail}) async {
-    try {
-      final gotNotes = await FirebaseFirestore.instance
-          .collection('trains')
-          .where(
-            'compagnieEmail',
-            isEqualTo: companyEmail,
-          )
-          .get()
-          .then(
-            // onError: (_) => CloudNotGetAllNotesException(),
-            (value) => value.docs.map((doc) => CloudTrain.fromSnapshot(doc)),
-          );
-      return gotNotes;
-    } catch (e) {
-      throw CouldNotGetTrainsException();
-    }
-  }
+  // //Getting trains by companyEmail
+  // Future<Iterable<CloudTrain>> getTrains({required String companyEmail}) async {
+  //   try {
+  //     final gotNotes = await FirebaseFirestore.instance
+  //         .collection('trains')
+  //         .where(
+  //           'compagnieEmail',
+  //           isEqualTo: companyEmail,
+  //         )
+  //         .get()
+  //         .then(
+  //           // onError: (_) => CloudNotGetAllNotesException(),
+  //           (value) => value.docs.map((doc) => CloudTrain.fromSnapshot(doc)),
+  //         );
+  //     return gotNotes;
+  //   } catch (e) {
+  //     throw CouldNotGetTrainsException();
+  //   }
+  // }
 
   Future<String> getTrain({required String trainNum}) async {
     try {

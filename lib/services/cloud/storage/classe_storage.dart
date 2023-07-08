@@ -113,4 +113,12 @@ class FirebaseCloudClasseStorage {
             .where((classe) => classe.trainNum == trainNum));
     return allClasses;
   }
+
+  Future<CloudClasse> getClasse(
+      {required String documentId}) async{
+    final gotClasse = await FirebaseFirestore.instance.collection('classes').doc(documentId).get().then((value) => value);
+    final classe = CloudClasse.fromDocument(gotClasse);
+
+    return classe;
+  }
 }

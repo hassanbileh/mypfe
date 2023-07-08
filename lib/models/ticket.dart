@@ -37,4 +37,18 @@ class CloudTicket {
         trainNum = snapshot.data()[champTrainNum] as String,
         companyEmail = snapshot.data()[champCompagnieEmail] as String,
         company = snapshot.data()[champCompagnie] as String;
+
+  CloudTicket.fromDocument(DocumentSnapshot<Map<String, dynamic>> snapshot)
+      : documentId = snapshot.id,
+        depart = snapshot.get(champDepart) as String,
+        destination = snapshot.get(champDestination) as String,
+        jour = snapshot.get(champDate) as String,
+        heureDepart = snapshot.get(champHeureDepart) as String,
+        heureArrive = snapshot.get(champHeureArrive) as String,
+        status = snapshot.get(champStatus) as bool,
+        trainNum = snapshot.get(champTrainNum) as String,
+        companyEmail = snapshot.get(champCompagnieEmail) as String,
+        company = snapshot.get(champCompagnie) as String;
+
 }
+

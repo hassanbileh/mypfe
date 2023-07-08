@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/extensions/generics/get_arguments.dart';
+import 'package:mypfe/models/classe.dart';
+import 'package:mypfe/models/reservation.dart';
 import 'package:mypfe/models/ticket.dart';
+import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/exceptions/user_cloud_exceptions.dart';
+import 'package:mypfe/services/cloud/storage/reservation_storage.dart';
 import 'package:mypfe/services/cloud/storage/ticket_storage.dart';
 import 'package:mypfe/views/clientView/bookingViews/client_ticket_list.dart';
 
@@ -15,22 +19,43 @@ class TicketsResults extends StatefulWidget {
 
 class _TicketsResultsState extends State<TicketsResults> {
   late final FirebaseCloudTicketStorage _ticketService;
+  late final FirebaseCloudReservationStorage _resservationService;
+  String get userEmail => AuthService.firebase().currentUser!.email;
 
   @override
   void initState() {
     _ticketService = FirebaseCloudTicketStorage();
+    _resservationService = FirebaseCloudReservationStorage();
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  //Display Classes
   Stream<Iterable<CloudTicket>> fetchTickets(BuildContext context) {
     try {
       final queries = context.getArguments<List<String?>>()!;
       final tickets = _ticketService.getTicketByStationsAndDate(
           depart: queries[0]!, destination: queries[1]!, date: queries[2]!);
+          
       return tickets;
     } catch (e) {
       throw CouldNotReadTicketException();
     }
+  }
+
+  Future<CloudReservation?> _book(
+      CloudTicket ticket, CloudClasse classe) async {
+    final newBooking = await _resservationService.createNewReservation(
+      ticket: ticket.documentId,
+      classe: classe.documentId,
+      client: userEmail,
+    );
+    Navigator.of(context).pushNamed(choosePassengerRoute, arguments: newBooking);
+    return newBooking;
   }
 
   @override
@@ -82,9 +107,7 @@ class _TicketsResultsState extends State<TicketsResults> {
                 final tickets = snapshot.data as Iterable<CloudTicket>;
                 return ClientTicketList(
                   tickets: tickets,
-                  onBook: (t, c) {
-                    Navigator.of(context).pushNamed(choosePassengerRoute, arguments: [t, c]);
-                  },
+                  onBook: (t, c) => _book(t, c),
                 );
               }
 

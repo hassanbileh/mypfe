@@ -102,7 +102,7 @@ class _LoginViewState extends State<LoginView> {
 
                   //Welcome Title
                   Text(
-                    'Welcome to',
+                    'Welcome back to',
                     style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,

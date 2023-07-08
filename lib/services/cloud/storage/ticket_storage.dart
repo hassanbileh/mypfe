@@ -86,6 +86,14 @@ class FirebaseCloudTicketStorage {
     }
   }
 
+  Future<CloudTicket> getTicket(
+      {required String documentId}) async{
+    final gotTicket = await FirebaseFirestore.instance.collection('tickets').doc(documentId).get().then((value) => value);
+    final ticket = CloudTicket.fromDocument(gotTicket);
+
+    return ticket;
+  }
+
   Stream<Iterable<CloudTicket>> getAllTicketsByCompanyEmail(
       {required String companyEmail}) {
     final gotTickets = ticketCollection.snapshots().map((event) => event.docs

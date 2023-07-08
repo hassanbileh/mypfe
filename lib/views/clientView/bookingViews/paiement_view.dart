@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
+import 'package:mypfe/extensions/generics/get_arguments.dart';
+import 'package:mypfe/models/classe.dart';
+import 'package:mypfe/models/reservation.dart';
+import 'package:mypfe/services/auth/auth_services.dart';
+import 'package:mypfe/services/cloud/storage/classe_storage.dart';
+import 'package:mypfe/services/cloud/storage/ticket_storage.dart';
+
+import '../../../models/ticket.dart';
 
 class PaiementView extends StatefulWidget {
   const PaiementView({super.key});
@@ -12,20 +20,252 @@ class _PaiementViewState extends State<PaiementView> {
   late final TextEditingController numCarte;
   late final TextEditingController dateExp;
   late final TextEditingController ccv;
+  late final TextEditingController telephone;
+  String get client => AuthService.firebase().currentUser!.email;
 
   @override
   void initState() {
     numCarte = TextEditingController();
     dateExp = TextEditingController();
     ccv = TextEditingController();
+    telephone = TextEditingController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final fromSelection = context.getArguments<List>();
+    final reservation = fromSelection![0];
+    final nbrPassagers = fromSelection[1];
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
+        bottom: PreferredSize(
+            // ignore: sort_child_properties_last
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: 130,
+                  color: Colors.deepPurple,
+                  child: Container(
+                    height: 100,
+                    width: 300,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: FutureBuilder(
+                      future: FirebaseCloudTicketStorage()
+                          .getTicket(documentId: reservation!.ticketId),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.active:
+                          case ConnectionState.done:
+                          case ConnectionState.waiting:
+                            if (snapshot.hasData) {
+                              final ticket = snapshot.data as CloudTicket;
+                              return Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      //Date voyage
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          ticket.jour,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Divider(
+                                          thickness: 0.8,
+                                          color: Colors.grey[400],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 30,
+                                      ),
+
+                                      //Heure voyage
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              ticket.heureDepart,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: Text("-"),
+                                            ),
+                                            Text(
+                                              ticket.heureArrive,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      // Station de depart
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 40, vertical: 12),
+                                        child: Text(
+                                          ticket.depart,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Divider(
+                                          thickness: 0.8,
+                                          color: Colors.grey[400],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        child: Text(
+                                          ticket.destination,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 6,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(Icons.person),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10.0),
+                                            child: Text(
+                                              nbrPassagers.toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 18,
+                                                  color:
+                                                      Colors.deepPurple[500]),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Text(
+                                          ticket.trainNum,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18,
+                                              color: Colors.deepPurple[500]),
+                                        ),
+                                      ),
+                                      FutureBuilder(
+                                        future: FirebaseCloudClasseStorage()
+                                            .getClasse(
+                                                documentId: reservation.classe),
+                                        builder: (context, snapshot) {
+                                          switch (snapshot.connectionState) {
+                                            case ConnectionState.done:
+                                            case ConnectionState.active:
+                                            case ConnectionState.waiting:
+                                              if (snapshot.hasData) {
+                                                final theClasse = snapshot.data
+                                                    as CloudClasse;
+                                                return Row(
+                                                  children: [
+                                                    Text(
+                                                      theClasse.nom,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 18,
+                                                          color: Colors
+                                                              .deepPurple[500]),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Icon(Icons
+                                                              .monetization_on_outlined),
+                                                          Text(
+                                                            theClasse.prixClasse
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                        .deepPurple[
+                                                                    500]),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              } else {
+                                                return const CircularProgressIndicator();
+                                              }
+                                            default:
+                                              return const CircularProgressIndicator();
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+
+                          default:
+                            return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            preferredSize: Size.fromHeight(150)),
         title: const Text(
           'Paiement',
           style: TextStyle(
@@ -40,95 +280,6 @@ class _PaiementViewState extends State<PaiementView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.deepPurple[500],
-                ),
-                Container(
-                  height: 120,
-                  width: 300,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Card(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("Jul 10, 2023", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                            Text("-", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                            Text("08:00 - 20:00", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        const Row(
-                          children: [
-                            Text("djibouti ville, Nagad", style: TextStyle(
-                                fontSize: 14,
-                              ),),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("-", style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("dire dawa, Dire", style: TextStyle(
-                                fontSize: 14,
-                              ),),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Icon(Icons.keyboard_arrow_down_rounded)
-                          ],
-                        ),
-                        const SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Djibouti National Train",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.deepPurple[500],
-                              ),
-                            ),
-                            const Text(
-                              "D101",
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(
               height: 20,
             ),
@@ -273,7 +424,8 @@ class _PaiementViewState extends State<PaiementView> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: numCarte,
+                      controller: TextEditingController.fromValue(
+                          TextEditingValue(text: client)),
                       enableSuggestions: true, //? important for the email
                       autocorrect: false, //? important for the email
                       keyboardType: TextInputType.emailAddress,
@@ -290,7 +442,7 @@ class _PaiementViewState extends State<PaiementView> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: numCarte,
+                      controller: telephone,
                       enableSuggestions: true, //? important for the email
                       autocorrect: false, //? important for the email
                       keyboardType: TextInputType.emailAddress,
@@ -307,6 +459,9 @@ class _PaiementViewState extends State<PaiementView> {
                 ],
               ),
             ),
+            Container(
+              height: 100,
+            )
           ],
         ),
       ),

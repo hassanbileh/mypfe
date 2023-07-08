@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:country_list_pick/country_list_pick.dart';
+import 'package:mypfe/constants/routes.dart';
+import 'package:mypfe/extensions/generics/get_arguments.dart';
+import 'package:mypfe/models/passager.dart';
+import 'package:mypfe/models/reservation.dart';
+import 'package:mypfe/services/auth/auth_services.dart';
+import 'package:mypfe/services/cloud/storage/passager_storage.dart';
 
 class AddPassengers extends StatefulWidget {
   const AddPassengers({
@@ -11,19 +17,44 @@ class AddPassengers extends StatefulWidget {
 }
 
 class _AddPassengersState extends State<AddPassengers> {
+  String get client => AuthService.firebase().currentUser!.email;
   String? nationalite;
-  late final TextEditingController numPassport;
+  late final FirebaseCloudPassagerStorage _passengerService;
+  late final TextEditingController passeport;
   late final TextEditingController age;
   late final TextEditingController nom;
   late final TextEditingController genre;
   @override
   void initState() {
+    _passengerService = FirebaseCloudPassagerStorage();
     nationalite = '';
-    numPassport = TextEditingController();
+    passeport = TextEditingController();
     age = TextEditingController();
     nom = TextEditingController();
     genre = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<CloudPassager> _submitDate(BuildContext context) async {
+    final queries = context.getArguments<CloudReservation>()!;
+    final newPassenger = await _passengerService.createNewPassenger(
+      nom: nom.text.trim(),
+      nationalite: nationalite!,
+      passeport: passeport.text.trim(),
+      age: int.tryParse(age.text.trim())!,
+      genre: genre.text.trim(),
+      client: queries.client,
+      ticket: queries.ticketId,
+      reservation: queries.documentId,
+      classe: queries.classe,
+    );
+    Navigator.of(context).pop();
+    return newPassenger;
   }
 
   @override
@@ -118,7 +149,7 @@ class _AddPassengersState extends State<AddPassengers> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
-                          controller: numPassport,
+                          controller: passeport,
                           enableSuggestions: true, //? important for the email
                           autocorrect: false, //? important for the email
                           keyboardType: TextInputType.emailAddress,
@@ -203,7 +234,7 @@ class _AddPassengersState extends State<AddPassengers> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () async{await _submitDate(context);},
                           child: Text(
                             "Ajouter",
                             style: const TextStyle(

@@ -51,3 +51,19 @@ class CouldNotDeleteTicketException extends CloudStorageException {}
 class CouldNotReadTicketException extends CloudStorageException {}
 
 class CouldNotGetTrainsException extends CloudStorageException {}
+
+class CouldNotCreateBookingException extends CloudStorageException {}
+
+class CouldNotUpdateBookingException extends CloudStorageException {}
+
+class CouldNotDeleteBookingException extends CloudStorageException {}
+
+class CouldNotReadBookingException extends CloudStorageException {}
+
+class CouldNotCreatePassengerException extends CloudStorageException {}
+
+class CouldNotUpdatePassengerException extends CloudStorageException {}
+
+class CouldNotDeletePassengerException extends CloudStorageException {}
+
+class CouldNotReadPassengerException extends CloudStorageException {}

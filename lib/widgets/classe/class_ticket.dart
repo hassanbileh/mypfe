@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ClassOnTicket extends StatelessWidget {
   final int? places;
+  final double? prixClasse;
   final String className;
   final double height;
   final double width;
@@ -14,6 +15,7 @@ class ClassOnTicket extends StatelessWidget {
     required this.width,
     required this.isAvailable,
     required this.places,
+    required this.prixClasse,
   });
 
   @override
@@ -45,14 +47,41 @@ class ClassOnTicket extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(
-                      '(${places.toString()})',
-                      style: const TextStyle(
-                        fontSize: 12,
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(
+                          '(${places.toString()})',
+                          style: const TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.green,
+                            ),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.monetization_on_outlined,
+                              size: 10,
+                              color: Colors.black,
+                            ),
+                            Text(
+                              prixClasse.toString(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
@@ -84,14 +113,41 @@ class ClassOnTicket extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(
-                      '(${places.toString()})',
-                      style: const TextStyle(
-                        fontSize: 12,
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(
+                          '(${places.toString()})',
+                          style: const TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.monetization_on_outlined,
+                              size: 10,
+                              color: Colors.black,
+                            ),
+                            Text(
+                              prixClasse.toString(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

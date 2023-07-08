@@ -39,4 +39,14 @@ class CloudClasse {
   trainId = snapshot.data()['train_id'] as String,
   trainNum = snapshot.data()['trainNum'] as String;
 
-}
+
+  CloudClasse.fromDocument(DocumentSnapshot<Map<String, dynamic>> snapshot)
+      : documentId = snapshot.id,
+        nom = snapshot.get('nom') as String,
+        capacite = snapshot.get('capacite') as int,
+        places = snapshot.get('placesDisponibles') as int,
+        description = snapshot.get('description') as String,
+        prixClasse = snapshot.get('prix_classe') as double,
+        trainId = snapshot.get('train_id') as String,
+        trainNum = snapshot.get('trainNum') as String;
+}        

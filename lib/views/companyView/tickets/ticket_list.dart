@@ -187,6 +187,8 @@ class TicketList extends StatelessWidget {
                                     width: 110,
                                     isAvailable: false,
                                     places: allClasses.elementAt(i).places,
+                                    prixClasse:
+                                        allClasses.elementAt(i).prixClasse,
                                   ));
                                 } else {
                                   classes.add(ClassOnTicket(
@@ -195,6 +197,8 @@ class TicketList extends StatelessWidget {
                                     width: 100,
                                     isAvailable: true,
                                     places: allClasses.elementAt(i).places,
+                                    prixClasse:
+                                        allClasses.elementAt(i).prixClasse,
                                   ));
                                 }
                               }

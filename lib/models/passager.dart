@@ -7,9 +7,11 @@ class CloudPassager {
   final String? nationalite;
   final int age;
   final String genre;
-  final String numPasseport;
-  final String trainId;
-  final String reservationId;
+  final String passeport;
+  final String ticket;
+  final String reservation;
+  final String creePar;
+  final String classe;
 
   const CloudPassager({
     required this.documentId,
@@ -17,9 +19,11 @@ class CloudPassager {
     required this.nationalite,
     required this.age,
     required this.genre,
-    required this.numPasseport,
-    required this.trainId,
-    required this.reservationId,
+    required this.passeport,
+    required this.ticket, 
+    required this.reservation,
+    required this.classe,
+    required this.creePar,
   });
 
   CloudPassager.fromSnapshot(
@@ -29,7 +33,9 @@ class CloudPassager {
         nationalite = snapshot.data()["nationalite"] as String,
         age = snapshot.data()["age"] as int,
         genre = snapshot.data()["genre"] as String,
-        numPasseport = snapshot.data()["numPasseport"] as String,
-        trainId = snapshot.data()["trainId"] as String,
-        reservationId = snapshot.data()["reservationId"] as String;
+        passeport = snapshot.data()["passeport"] as String,
+        ticket = snapshot.data()["ticket"] as String,
+        reservation = snapshot.data()["reservation"] as String,
+        classe = snapshot.data()["classe"] as String,
+        creePar = snapshot.data()["creePar"] as String;
 }
