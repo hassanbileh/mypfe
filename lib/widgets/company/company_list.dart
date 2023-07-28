@@ -21,8 +21,6 @@ class CompanyList extends StatelessWidget {
       itemBuilder: (context, index) {
         final company = companies.elementAt(index);
         return Card(
-          color: Colors.white,
-          elevation: 4,
           child: Dismissible(
             key: ValueKey(companies.elementAt(index)),
             onDismissed: (direction) async {
@@ -37,6 +35,7 @@ class CompanyList extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
+                  tileColor: Colors.white,
                   title: Text(
                     company!.nom!,
                     maxLines: 1,
@@ -57,50 +56,56 @@ class CompanyList extends StatelessWidget {
                     },
                   ),
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Email : ',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            company.email,
-                            style: const TextStyle(
-                              fontSize: 12,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Email : ',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w500),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Telephone : ',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            company.telephone.toString(),
-                            style: const TextStyle(
-                              fontSize: 12,
+                            Text(
+                              company.email,
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Telephone : ',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              company.telephone.toString(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

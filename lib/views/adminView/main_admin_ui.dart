@@ -99,12 +99,12 @@ class _MainAdminPageState extends State<MainAdminPage> {
       ),
       bottomNavigationBar: SalomonBottomBar(
         selectedItemColor: const Color.fromARGB(255, 113, 68, 239),
+        unselectedItemColor: Colors.grey[800],
         items: [
           //Home
           SalomonBottomBarItem(
             icon: const Icon(
               Icons.home_outlined,
-              color: Color.fromARGB(255, 113, 68, 239),
             ),
             title: const Text("Home"),
           ),

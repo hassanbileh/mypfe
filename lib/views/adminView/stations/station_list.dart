@@ -26,8 +26,6 @@ class StationsList extends StatelessWidget {
       itemBuilder: (context, index) {
         final station = stations.elementAt(index);
         return Card(
-          elevation: 2,
-          color: Colors.white,
           child: Dismissible(
             key: ValueKey(stations.elementAt(index)),
             onDismissed: (direction) async {
@@ -38,6 +36,7 @@ class StationsList extends StatelessWidget {
             },
             background: Container(color: Theme.of(context).colorScheme.error,),
             child: ListTile(
+              tileColor: Colors.white70,
               onTap:() {
                 onTap!(station);
               },

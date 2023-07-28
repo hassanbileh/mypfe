@@ -117,8 +117,7 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
     final train = context.getArguments<CloudTrain>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple[500],
-        title: const Text('Train'),
+        title: const Text('Ajouter un train'),
       ),
       body: SingleChildScrollView(
         reverse: true,

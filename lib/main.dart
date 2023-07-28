@@ -29,11 +29,19 @@ import 'constants/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: options,
+  );
   //Lock Device orientation
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));
 }
+
+const options = FirebaseOptions(
+        apiKey: 'AIzaSyAHulXFEFfKiRlDQI-3iBapJL-gcdMeyG4',
+        appId: '1:130753715500:android:09e843be0178f70001e089',
+        messagingSenderId: '',
+        projectId: 'dj-sany');
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -44,20 +52,30 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sany',
       theme: ThemeData(
+        cardTheme: const CardTheme(
+          color: Colors.white,
+          elevation: 5,
+        ),
+        scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 74, 44, 156)),
         useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          titleTextStyle:  TextStyle(
+        appBarTheme: AppBarTheme(
+          color: Colors.white70,
+          titleTextStyle: TextStyle(
             fontSize: 18,
-            color: Colors.white,
+            color: Colors.deepPurple[500],
             fontWeight: FontWeight.w500,
           ),
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.deepPurple[500]),
         ),
         iconTheme: const IconThemeData(
           color: Color.fromARGB(255, 113, 68, 239),
         ),
+        listTileTheme: const ListTileThemeData(
+          tileColor: Colors.white70,
+        ),
+        
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -71,22 +89,22 @@ class MyApp extends StatelessWidget {
         mainAdminRoute: (context) => const MainAdminPage(),
         mainCompanyRoute: (context) => const MainCompanyPage(),
         mainClientRoute: (context) => const MainClientPage(),
-        clientHomePageRoute:(context) => const ClientHomePage(),
-        mainTicketRoute:(context) => const MainTicketView(),
+        clientHomePageRoute: (context) => const ClientHomePage(),
+        mainTicketRoute: (context) => const MainTicketView(),
         //Forms Pages
         createOrUpdateCompanyRoute: (context) => const CreateOrUpdateCompany(),
         createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(),
         createOrUpdateAdminRoute: (context) => const CreateOrUpdateAdmin(),
-        createOrUpdateTrainRoute:(context) => const CreateOrUpdateTrain(),
-        createOrUpdateClasseRoute:(context) => const CreateOrUpdateClasse(),
+        createOrUpdateTrainRoute: (context) => const CreateOrUpdateTrain(),
+        createOrUpdateClasseRoute: (context) => const CreateOrUpdateClasse(),
         addClasseRoute: (context) => const AddClasse(),
-        addPassengerRoute:(context) => const AddPassengers(),
-        createOrUpdateTicketRoute:(context) => const AddTicket(),
-        
+        addPassengerRoute: (context) => const AddPassengers(),
+        createOrUpdateTicketRoute: (context) => const AddTicket(),
+
         //Navigation Pages
-        ticketsResultsRoute:(context) => const TicketsResults(),
-        choosePassengerRoute:(context) => const ChoosePassenger(),
-        paiementViewRoute:(context) => const PaiementView(),
+        ticketsResultsRoute: (context) => const TicketsResults(),
+        choosePassengerRoute: (context) => const ChoosePassenger(),
+        paiementViewRoute: (context) => const PaiementView(),
       },
       home: const FirstScreen(),
     );

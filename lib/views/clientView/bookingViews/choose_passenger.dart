@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/extensions/generics/get_arguments.dart';
@@ -11,7 +11,6 @@ import 'package:mypfe/services/cloud/storage/classe_storage.dart';
 import 'package:mypfe/services/cloud/storage/reservation_storage.dart';
 import 'package:mypfe/services/cloud/storage/ticket_storage.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
-import 'package:mypfe/views/clientView/bookingViews/passenger_list.dart';
 
 import '../../../services/cloud/storage/passager_storage.dart';
 
@@ -258,7 +257,7 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
               Navigator.of(context)
                   .pushNamed(choosePassengerRoute, arguments: forPassenger);
             },
-            icon: Icon(Icons.restart_alt_rounded),
+            icon: const Icon(Icons.restart_alt_rounded, color: Colors.white,),
           ),
         ],
         leading: IconButton(
@@ -268,10 +267,11 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                   .deleteReservation(documentId: booking!.documentId);
               Navigator.of(context).pushNamed(clientHomePageRoute);
             },
-            icon: const Icon(Icons.arrow_back_ios_new)),
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white,)),
         title: const Text(
           'Select Passager',
           style: TextStyle(
+            color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.w600,
             fontFamily: 'OpenSans',
@@ -391,7 +391,7 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                                   onPressed: () {
                                     Navigator.of(context).pushNamed(
                                         addPassengerRoute,
-                                        arguments: forPassenger!);
+                                        arguments: forPassenger);
                                   },
                                   icon: const Icon(
                                     Icons.add,

@@ -62,7 +62,6 @@ class FormTicket extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Ajouter un Ticket"),
-        backgroundColor: Colors.deepPurple[500],
       ),
       body: Container(
         height: 600,

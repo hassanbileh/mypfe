@@ -217,7 +217,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                                     },
                                     value: _selectedToStation,
                                     hint: const Text(
-                                        "station de départ"),
+                                        "station d'arrivée"),
                                   ),
                                 ),
                               ],
