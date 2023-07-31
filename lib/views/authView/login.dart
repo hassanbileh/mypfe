@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
-import 'package:mypfe/constants/text_field.dart';
 import 'package:mypfe/constants/user_constants.dart';
-// import 'package:sany/enums/role_enums.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/storage/user_storage.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
+import 'package:mypfe/widgets/auth/login_header.dart';
 
 import '../../services/auth/auth_exceptions.dart';
+import '../../widgets/auth/login_body.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -75,7 +75,7 @@ class _LoginViewState extends State<LoginView> {
     } on WrongPasswordAuthException {
       await showErrorDialog(
         context,
-        'Mot de passe incorrecte',
+        'Informations Incorrectes',
       );
     } on GenericAuthException {
       await showErrorDialog(
@@ -96,165 +96,20 @@ class _LoginViewState extends State<LoginView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  
                   const SizedBox(
                     height: 15,
                   ),
 
-                  //Welcome Title
-                  Text(
-                    'Welcome back to',
-                    style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  // Header
+                  const HeaderLogin(),
 
-                  //logo
-                  SizedBox(
-                    height: 90,
-                    width: 250,
-                    child: Image.asset(
-                      'assets/images/pfe-logo.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: 25,
-                  ),
-
-                  const Icon(
-                    Icons.lock,
-                    size: 50,
-                  ),
-
-                  Container(
-                    margin: const EdgeInsets.all(3),
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        //Email textField
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: _email,
-                            enableSuggestions: true, //? important for the email
-                            autocorrect: false, //? important for the email
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              fillColor: Colors.grey.shade100,
-                              filled: true,
-                              icon: const Icon(
-                                Icons.person,
-                                color: Color.fromARGB(255, 74, 44, 156),
-                              ),
-                              hintText: emailHintText,
-                              labelText: emailLabelText,
-                            ),
-                          ),
-                        ),
-
-                        //Password textField
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: _password,
-                            obscureText: true, // important for the password
-                            enableSuggestions:
-                                false, // important for the password
-                            autocorrect: false,
-                            onSubmitted: (_) =>
-                                _submitData(), // important for the password
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              fillColor: Colors.grey.shade100,
-                              filled: true,
-                              icon: const Icon(
-                                Icons.password,
-                                color: Color.fromARGB(255, 74, 44, 156),
-                              ),
-                              hintText: passwordHintText,
-                              labelText: passwordLabelText,
-                            ),
-                          ),
-                        ),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(resetPassordRoute);
-                              },
-                              child: Text(
-                                'mot de passe oublié ?',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          height: 60,
-                          width: 330,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              
-                              colors: <Color>[
-                                Color.fromARGB(255, 113, 68, 239),
-                                Color.fromARGB(255, 183, 128, 255),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          child: OutlinedButton(
-                            child: const Text(
-                              loginButtonText,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: () => _submitData(),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('vous n\'avez pas un compte ?'),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                    registerRoute, (route) => false);
-                              },
-                              child: const Text(
-                                registerButtonText,
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 74, 44, 156)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  //Body
+                  LoginBody(
+                    email: _email,
+                    password: _password,
+                    onSubmitted: (_) => _submitData(),
+                    onPressed: _submitData,
                   ),
                 ],
               ),
