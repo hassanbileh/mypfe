@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
         mainTicketRoute: (context) => const MainTicketView(),
         //Forms Pages
         createOrUpdateCompanyRoute: (context) => const CreateOrUpdateCompany(),
-        createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(),
+        createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(station: null,),
         createOrUpdateAdminRoute: (context) => const CreateOrUpdateAdmin(),
         createOrUpdateTrainRoute: (context) => const CreateOrUpdateTrain(),
         createOrUpdateClasseRoute: (context) => const CreateOrUpdateClasse(),

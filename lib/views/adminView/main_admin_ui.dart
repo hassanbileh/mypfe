@@ -106,33 +106,30 @@ class _MainAdminPageState extends State<MainAdminPage> {
             icon: const Icon(
               Icons.home_outlined,
             ),
+            activeIcon: const Icon(Icons.home_filled),
             title: const Text("Home"),
           ),
           //Train
           SalomonBottomBarItem(
-            icon: const Icon(
-              Icons.business,
-            ),
+            icon: const Icon(Icons.business_center_outlined),
+            activeIcon: const Icon(Icons.business_center),
             title: const Text("Compagnies"),
           ),
           //Tickets
           SalomonBottomBarItem(
-            icon: const Icon(
-              Icons.traffic_sharp,
-            ),
+            icon: const Icon(Icons.traffic_sharp),
             title: const Text("Stations"),
           ),
           //Stations
           SalomonBottomBarItem(
             icon: const Icon(
-              Icons.person_4_outlined,
+              Icons.account_circle_outlined,
             ),
+            activeIcon: const Icon(Icons.account_circle),
             title: const Text("Admins"),
           ),
           SalomonBottomBarItem(
-            icon: const Icon(
-              Icons.settings,
-            ),
+            icon: const Icon(Icons.settings),
             title: const Text("Settings"),
           ),
         ],
@@ -143,37 +140,3 @@ class _MainAdminPageState extends State<MainAdminPage> {
     );
   }
 }
-
-
-// bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: const Icon(Icons.home),
-      //       label: 'Home',
-      //       backgroundColor: Theme.of(context).colorScheme.primary,
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: const Icon(Icons.business),
-      //       label: 'Companies',
-      //       backgroundColor: Theme.of(context).colorScheme.primary,
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: const Icon(Icons.traffic_sharp),
-      //       label: 'Stations',
-      //       backgroundColor: Theme.of(context).colorScheme.primary,
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: const Icon(Icons.person_4_outlined),
-      //       label: 'Admins',
-      //       backgroundColor: Theme.of(context).colorScheme.primary,
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: const Icon(Icons.settings),
-      //       label: 'Settings',
-      //       backgroundColor: Theme.of(context).colorScheme.primary,
-      //     ),
-      //   ],
-      //   currentIndex: _selectedIndex,
-      //   selectedItemColor: const Color.fromARGB(255, 71, 176, 237),
-      //   onTap: _onItemTapped,
-      // ),

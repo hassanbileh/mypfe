@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mypfe/extensions/generics/get_arguments.dart';
 import 'package:mypfe/models/station.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/exceptions/user_cloud_exceptions.dart';
@@ -7,7 +6,8 @@ import 'package:mypfe/services/cloud/storage/station_storage.dart';
 import 'package:mypfe/widgets/station/add_station_form.dart';
 
 class CreateOrUpdateStation extends StatefulWidget {
-  const CreateOrUpdateStation({super.key});
+  final CloudStation? station;
+  const CreateOrUpdateStation({super.key, required this.station});
 
   @override
   State<CreateOrUpdateStation> createState() => _CreateOrUpdateStationState();
@@ -30,7 +30,8 @@ class _CreateOrUpdateStationState extends State<CreateOrUpdateStation> {
   }
 
   Future<CloudStation> createOrUpdateStation(BuildContext context) async {
-    final widgetStation = context.getArguments<CloudStation>();
+    // final widgetStation2 = context.getArguments<CloudStation>();
+    final widgetStation = widget.station;
     if (widgetStation != null) {
       _station = widgetStation;
       _numero.text = widgetStation.numero;
@@ -127,22 +128,28 @@ class _CreateOrUpdateStationState extends State<CreateOrUpdateStation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text('Station'),
-        ),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: createOrUpdateStation(context),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
+            case ConnectionState.waiting:
+            case ConnectionState.active:
               _setUpTextControllerListener();
-              return AddStation(numero: _numero, nom: _nom, ville: _ville);
+              return Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                height: 500,
+                child: AddStation(
+                  numero: _numero,
+                  nom: _nom,
+                  ville: _ville,
+                ),
+              );
             default:
               return const CircularProgressIndicator();
           }
         },
-      ),
-    );
+      );
   }
 }

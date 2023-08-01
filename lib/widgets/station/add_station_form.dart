@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mypfe/widgets/components/custom_textfield.dart';
 
 class AddStation extends StatelessWidget {
   final TextEditingController numero;
@@ -14,84 +15,67 @@ class AddStation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
+      child: Center(
         child: Column(
           children: [
-            const SizedBox(height: 20,),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                "Ajouter une station",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
             //Le numéro de la station
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: numero,
-                enableSuggestions: true, //? important for the email
-                autocorrect: false, //? important for the email
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  fillColor: Colors.grey.shade100,
-                  filled: true,
-                  icon: const Icon(
-                    Icons.numbers_sharp,
-                  ),
-                  hintText: 'Entrer le numéro ici',
-                  labelText: 'Numéro',
-                ),
+            CustomTextField(
+              controller: numero,
+              icon: const Icon(
+                Icons.numbers_outlined,
+                color: Color.fromARGB(255, 74, 44, 156),
               ),
+              hintText: 'Le numéro de la station',
+              labelText: 'Numéro',
+              onSubmitted: null,
+              isP: false,
+              kbType: TextInputType.visiblePassword,
             ),
 
-            //Nom
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: nom,
-                enableSuggestions: true, //? important for the email
-                autocorrect: false, //? important for the email
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  fillColor: Colors.grey.shade100,
-                  filled: true,
-                  icon: const Icon(
-                    Icons.person,
-                    color: Color.fromARGB(255, 74, 44, 156),
-                  ),
-                  hintText: 'Entrer le nom ici',
-                  labelText: 'Nom',
-                ),
+            //Nom de la station
+            CustomTextField(
+              controller: nom,
+              icon: const Icon(
+                Icons.traffic_rounded,
+                color: Color.fromARGB(255, 74, 44, 156),
               ),
+              hintText: 'Entrer le nom ici',
+              labelText: 'Nom',
+              onSubmitted: null,
+              isP: false,
+              kbType: TextInputType.emailAddress,
             ),
 
-            //Ville
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: ville,
-                enableSuggestions: true, //? important for the email
-                autocorrect: false, //? important for the email
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  fillColor: Colors.grey.shade100,
-                  filled: true,
-                  icon: const Icon(
-                    Icons.location_city_rounded,
-                    color: Color.fromARGB(255, 74, 44, 156),
-                  ),
-                  hintText: 'Entrer la ville ici',
-                  labelText: 'Ville',
-                ),
+            //Ville de la station
+            CustomTextField(
+              controller: ville,
+              icon: const Icon(
+                Icons.location_city_rounded,
+                color: Color.fromARGB(255, 74, 44, 156),
               ),
+              hintText: 'Entrer la ville ici',
+              labelText: 'Ville',
+              onSubmitted: null,
+              isP: false,
+              kbType: TextInputType.emailAddress,
             ),
-
-            
           ],
         ),
+      ),
     );
   }
 }

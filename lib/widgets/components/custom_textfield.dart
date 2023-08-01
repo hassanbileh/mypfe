@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 typedef OnSubmitted = void Function(String)?;
 
-class AuthTextField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final Icon icon;
   final bool isP;
+  final TextInputType? kbType;
   final String hintText;
   final String labelText;
   final OnSubmitted? onSubmitted;
 
-  const AuthTextField({
+  const CustomTextField({
     super.key,
     required this.controller,
     required this.icon,
@@ -18,6 +19,7 @@ class AuthTextField extends StatelessWidget {
     required this.labelText,
     required this.onSubmitted,
     required this.isP,
+    required this.kbType,
   });
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class AuthTextField extends StatelessWidget {
         autocorrect: false,
         obscureText: isP,
         onSubmitted: onSubmitted, //? important for the email
-        keyboardType: (isP) ? TextInputType.visiblePassword : TextInputType.emailAddress,
+        keyboardType: kbType,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),

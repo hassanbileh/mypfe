@@ -6,8 +6,10 @@ import 'package:mypfe/services/auth/auth_user.dart';
 abstract class AuthState {
   final bool isLoading;
   final String? loadinText;
-  const AuthState(
-      {this.loadinText = 'Please wait a moment', required this.isLoading});
+  const AuthState({
+    this.loadinText = 'Please wait a moment',
+    required this.isLoading,
+  });
 }
 
 class AuthStateUninitialise extends AuthState {
@@ -21,6 +23,12 @@ class AuthStateLoggedIn extends AuthState {
     required this.user,
     required bool isLoading,
   }) : super(isLoading: isLoading);
+}
+
+class AuthStateRegistering extends AuthState {
+  final Exception? exception;
+  const AuthStateRegistering({required this.exception, required bool isLoading})
+      : super(isLoading: isLoading);
 }
 
 class AuthStateLogOut extends AuthState {
@@ -62,3 +70,4 @@ class AuthStateRegister extends AuthState {
 class AuthStateNeedVerification extends AuthState {
   const AuthStateNeedVerification({required super.isLoading});
 }
+

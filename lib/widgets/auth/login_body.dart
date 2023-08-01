@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../constants/routes.dart';
 import '../../constants/text_field.dart';
 import '../components/gradient_button.dart';
-import 'login_textfield.dart';
+import '../components/custom_textfield.dart';
 
 typedef OnSubmitted = void Function(String)?;
 typedef OnPressed = void Function()?;
@@ -30,19 +30,20 @@ class LoginBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           //Email textField
-          AuthTextField(
+          CustomTextField(
             controller: email,
             icon: const Icon(
               Icons.person,
+              color: Color.fromARGB(255, 74, 44, 156),
             ),
             hintText: "Entrer votre email ici",
             labelText: "Email",
             onSubmitted: null,
-            isP: false,
+            isP: false, kbType: TextInputType.emailAddress,
           ),
 
           //Password textfield
-          AuthTextField(
+          CustomTextField(
             controller: password,
             icon: const Icon(
               Icons.password,
@@ -51,7 +52,7 @@ class LoginBody extends StatelessWidget {
             hintText: "Entrer votre mot de passe",
             labelText: "Mot de passe",
             onSubmitted: onSubmitted,
-            isP: true,
+            isP: true, kbType: TextInputType.visiblePassword,
           ),
 
           //Mot de passe oublié
