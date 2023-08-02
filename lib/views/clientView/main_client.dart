@@ -90,9 +90,7 @@ class _MainClientPageState extends State<MainClientPage> {
             ),
           ],
         ),
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
+        body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: SalomonBottomBar(
           selectedItemColor: const Color.fromARGB(255, 113, 68, 239),
           items: [

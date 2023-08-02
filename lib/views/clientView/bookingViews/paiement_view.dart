@@ -41,7 +41,6 @@ class _PaiementViewState extends State<PaiementView> {
       appBar: AppBar(
         leading: IconButton(onPressed: (){Navigator.of(context).pop();}, icon: const Icon(Icons.arrow_back_ios, color: Colors.white,)),
         bottom: PreferredSize(
-          // ignore: sort_child_properties_last
           preferredSize: const Size.fromHeight(150),
           child: Stack(
             alignment: Alignment.center,

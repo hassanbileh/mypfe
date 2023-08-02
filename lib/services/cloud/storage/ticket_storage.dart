@@ -113,8 +113,8 @@ class FirebaseCloudTicketStorage {
             .map((doc) => CloudTicket.fromSnapshot(
                 doc as QueryDocumentSnapshot<Map<String, dynamic>>))
             .where((ticket) {
-          return ticket.depart == depart &&
-              ticket.destination == destination &&
+          return ticket.depart.toLowerCase() == depart.toLowerCase() &&
+              ticket.destination.toLowerCase() == destination.toLowerCase() &&
               ticket.jour == date;
         }));
     return queryTickets;

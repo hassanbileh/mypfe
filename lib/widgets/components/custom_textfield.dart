@@ -4,11 +4,11 @@ typedef OnSubmitted = void Function(String)?;
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
-  final Icon icon;
+  final Icon? icon;
   final bool isP;
   final TextInputType? kbType;
   final String hintText;
-  final String labelText;
+  final String? labelText;
   final OnSubmitted? onSubmitted;
 
   const CustomTextField({
@@ -23,24 +23,26 @@ class CustomTextField extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: controller,
-        enableSuggestions: false, //? important for the email
-        autocorrect: false,
-        obscureText: isP,
-        onSubmitted: onSubmitted, //? important for the email
-        keyboardType: kbType,
-        decoration: InputDecoration(
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+    return LayoutBuilder(
+      builder: (context, constraints) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: controller,
+          enableSuggestions: (labelText != null) ? false : true,
+          autocorrect: false,
+          obscureText: isP,
+          onSubmitted: onSubmitted,
+          keyboardType: kbType,
+          decoration: InputDecoration(
+            enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            fillColor: Colors.grey.shade100,
+            filled: true,
+            icon: icon,
+            hintText: hintText,
+            labelText: labelText,
           ),
-          fillColor: Colors.grey.shade100,
-          filled: true,
-          icon: icon,
-          hintText: hintText,
-          labelText: labelText,
         ),
       ),
     );

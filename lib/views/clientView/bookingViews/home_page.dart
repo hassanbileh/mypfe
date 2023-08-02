@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mypfe/constants/routes.dart';
-import 'package:mypfe/models/station.dart';
+import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
-
-import '../../../services/cloud/storage/station_storage.dart';
+import '../../../widgets/booking/search_ticket.dart';
 
 final formatter = DateFormat.yMMMd();
 
@@ -16,14 +15,15 @@ class ClientHomePage extends StatefulWidget {
 }
 
 class _ClientHomePageState extends State<ClientHomePage> {
-  late final FirebaseCloudStationStorage _stationService;
+  String get userEmail => AuthService.firebase().currentUser!.email;
   String? _selectedDate;
-  String? _selectedFromStation;
-  String? _selectedToStation;
+  late final TextEditingController _selectedFromStation;
+  late final TextEditingController _selectedToStation;
 
   @override
   void initState() {
-    _stationService = FirebaseCloudStationStorage();
+    _selectedFromStation = TextEditingController();
+    _selectedToStation = TextEditingController();
     super.initState();
   }
 
@@ -43,265 +43,67 @@ class _ClientHomePageState extends State<ClientHomePage> {
     });
   }
 
-  
+  void _swapStations() {
+    var temp = _selectedFromStation.text.toString();
+    setState(() {
+      _selectedFromStation.text = _selectedToStation.text.toString();
+      _selectedToStation.text = temp;
+    });
+  }
+
+  String _getInitials(String user) => user.isNotEmpty
+      ? user.trim().split(' ').map((l) => l[0].toUpperCase()).take(2).join()
+      : '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Image.asset(
-                    'assets/images/background.jpg',
-                    fit: BoxFit.fitHeight,
-                  ),
-                Container(
-                  decoration: const BoxDecoration(shape: BoxShape.rectangle),
-                ),
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //Title
+          const Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Text(
+              "Où désirez-vous voyager ?",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-            Container(
-                height: 250,
-                width: 500,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(50)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        'Où désirez-vous voyager ?',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'OpenSans',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+          ),
 
-                    StreamBuilder(
-                      stream: _stationService.getAllStations(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Text("loading");
-                        } else {
-                          final allStations =
-                              snapshot.data as Iterable<CloudStation>;
+          const SizedBox(
+            height: 10.0,
+          ),
 
-                          final List<String> stations = [];
-                          for (var i = 0; i < allStations.length; i++) {
-                            stations.add(
-                              allStations.elementAt(i).nom,
-                            );
-                          }
-
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Icon(
-                                Icons.location_on_sharp,
-                                color: Color.fromARGB(255, 74, 44, 156),
-                              ),
-                              const Text(
-                                "Départ :",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              SizedBox(
-                                height: 50,
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: DropdownButton(
-                                  elevation: 5,
-                                  isExpanded: true,
-                                  items: stations
-                                      .map(
-                                        (String station) => DropdownMenuItem(
-                                          value: station,
-                                          child: Text(station),
-                                        ),
-                                      )
-                                      .toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value != null) {
-                                        setState(() {
-                                          _selectedFromStation = value;
-                                        });
-                                      } else {
-                                        return;
-                                      }
-                                    });
-                                  },
-                                  value: _selectedFromStation,
-                                  hint: const Text(
-                                      "station de départ"),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                      },
-                    ),
-                    
-
-                    const SizedBox(height: 15,),
-                    StreamBuilder(
-                      stream: _stationService.getAllStations(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Text("loading");
-                        } else {
-                          final allStations =
-                              snapshot.data as Iterable<CloudStation>;
-
-                          final List<String> stations = [];
-                          for (var i = 0; i < allStations.length; i++) {
-                            stations.add(
-                              allStations.elementAt(i).nom,
-                            );
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.location_on_sharp,
-                                  color: Color.fromARGB(255, 74, 44, 156),
-                                ),
-                                const Text(
-                                  "Destination :",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
-                                  child: DropdownButton(
-                                    elevation: 5,
-                                    isExpanded: true,
-                                    items: stations
-                                        .map(
-                                          (String station) => DropdownMenuItem(
-                                            value: station,
-                                            child: Text(station),
-                                          ),
-                                        )
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value != null) {
-                                          setState(() {
-                                            _selectedToStation = value;
-                                          });
-                                        } else {
-                                          return;
-                                        }
-                                      });
-                                    },
-                                    value: _selectedToStation,
-                                    hint: const Text(
-                                        "station d'arrivée"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 15,),
-                    // Choose date & continue
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              onPressed: () => _afficheCalendrier(),
-                              icon: const Icon(
-                                Icons.calendar_month,
-                                size: 40,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              (_selectedDate == null)
-                                  ? 'Date (toucher le calendrier)'
-                                  : _selectedDate!,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 20),
-                              height: 35,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: <Color>[
-                                    Color.fromARGB(255, 113, 68, 239),
-                                    Color.fromARGB(255, 183, 128, 255),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(25),
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              child: IconButton(
-                                onPressed: () async {
-                                  if (_selectedFromStation != null &&
-                                      _selectedToStation != null &&
-                                      _selectedDate != null) {
-                                    Navigator.of(context).pushNamed(
-                                        ticketsResultsRoute,
-                                        arguments: [
-                                          _selectedFromStation,
-                                          _selectedToStation,
-                                          _selectedDate
-                                        ]);
-                                  }else{
-                                    return await showErrorDialog(context, "Veuillez selectionner un trajet");
-                                  }
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_forward_outlined,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ))
-          ],
-        ),
+          SearchTicket(
+            selectedFromStation: _selectedFromStation,
+            selectedToStation: _selectedToStation,
+            showCalendar: _afficheCalendrier,
+            swap: _swapStations,
+            search: () async {
+              final depart = _selectedFromStation.text.toString();
+              final arrivee = _selectedToStation.text.toString();
+              if (depart.isNotEmpty &&
+                  arrivee.isNotEmpty &&
+                  _selectedDate != null) {
+                Navigator.of(context)
+                    .pushNamed(ticketsResultsRoute, arguments: [
+                  depart,
+                  arrivee,
+                  _selectedDate,
+                ]);
+              } else {
+                return await showErrorDialog(
+                    context, 'Veuillez remplir tous les champs.');
+              }
+            },
+            selectedDate: _selectedDate,
+          )
+        ],
       ),
     );
   }
 }
+
