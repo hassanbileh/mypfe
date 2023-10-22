@@ -31,22 +31,39 @@ class _CompanyStationViewState extends State<CompanyStationView> {
             case ConnectionState.active:
               if (snapshot.hasData) {
                 final allStations = snapshot.data as Iterable<CloudStation>;
-                return ListView.builder(
-                  itemCount: allStations.length,
-                  itemBuilder: (context, index) {
-                    final station = allStations.elementAt(index);
-                    return Card(
-                      elevation: 2,
-                      child: ListTile(
-                        title: Text(
-                          station.nom,
-                          maxLines: 1,
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Stations recents',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: allStations.length,
+                        itemBuilder: (context, index) {
+                          final station = allStations.elementAt(index);
+                          return Card(
+                            elevation: 2,
+                            child: ListTile(
+                              title: Text(
+                                station.nom,
+                                maxLines: 1,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
                 );
               } else {
                 return const CircularProgressIndicator();

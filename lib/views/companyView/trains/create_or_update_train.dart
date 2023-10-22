@@ -10,7 +10,8 @@ import 'package:mypfe/views/companyView/trains/classeView/class_list.dart';
 import 'package:mypfe/widgets/train/add_train.dart';
 
 class CreateOrUpdateTrain extends StatefulWidget {
-  const CreateOrUpdateTrain({super.key});
+  final bool? isNew;
+  const CreateOrUpdateTrain({super.key, required this.isNew});
 
   @override
   State<CreateOrUpdateTrain> createState() => _CreateOrUpdateTrainState();
@@ -115,75 +116,147 @@ class _CreateOrUpdateTrainState extends State<CreateOrUpdateTrain> {
   @override
   Widget build(BuildContext context) {
     final train = context.getArguments<CloudTrain>();
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ajouter un train'),
-      ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            FutureBuilder(
-                future: createOrUpdateTrain(context),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.done:
-                      _setUpTextControllerListener();
-                      return AddTrain(
-                        numero: _numero,
-                        nbrClasse: _nbrClasse,
-                      );
-                    default:
-                      return const CircularProgressIndicator();
-                  }
-                }),
-            const SizedBox(
-              height: 25,
+    return (!widget.isNew!)
+        ? Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.deepPurple,
+              title: const Text('Train'),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                  'Recent Classes',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-            ),
-            SizedBox(
-              height: 300,
-              child: StreamBuilder(
-                stream: _classeService.getClassesByTrainId(trainId: train?.documentId),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                    case ConnectionState.active:
-                      if (snapshot.hasData) {
-                        final allClasses = snapshot.data as Iterable<CloudClasse>;
-                        return ClasseList(
-                          classes: allClasses,
-                          onModify: (CloudClasse classe) {
-                            Navigator.of(context).pushNamed(
-                                createOrUpdateClasseRoute,
-                                arguments: classe);
-                          },
-                          onDelete: (CloudClasse classe) async {
-                            await _classeService.deleteClasse(
-                                documentId: classe.documentId);
-                          },
-                        );
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    case ConnectionState.done:
-                      return const Text('done');
-                    default:
-                      return const CircularProgressIndicator();
-                  }
-                },
+            body: SingleChildScrollView(
+              reverse: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  FutureBuilder(
+                      future: createOrUpdateTrain(context),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.done:
+                            _setUpTextControllerListener();
+                            return AddTrain(
+                              numero: _numero,
+                              nbrClasse: _nbrClasse,
+                            );
+                          default:
+                            return const CircularProgressIndicator();
+                        }
+                      }),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      'Recent Classes',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: StreamBuilder(
+                      stream: _classeService.getClassesByTrainId(
+                          trainId: train?.documentId),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                          case ConnectionState.active:
+                            if (snapshot.hasData) {
+                              final allClasses =
+                                  snapshot.data as Iterable<CloudClasse>;
+                              return ClasseList(
+                                classes: allClasses,
+                                onModify: (CloudClasse classe) {
+                                  Navigator.of(context).pushNamed(
+                                      createOrUpdateClasseRoute,
+                                      arguments: classe);
+                                },
+                                onDelete: (CloudClasse classe) async {
+                                  await _classeService.deleteClasse(
+                                      documentId: classe.documentId);
+                                },
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          case ConnectionState.done:
+                            return const Text('done');
+                          default:
+                            return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                FutureBuilder(
+                    future: createOrUpdateTrain(context),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.done:
+                          _setUpTextControllerListener();
+                          return AddTrain(
+                            numero: _numero,
+                            nbrClasse: _nbrClasse,
+                          );
+                        default:
+                          return const CircularProgressIndicator();
+                      }
+                    }),
+                const SizedBox(
+                  height: 25,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    'Recent Classes',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ),
+                SizedBox(
+                  height: 300,
+                  child: StreamBuilder(
+                    stream: _classeService.getClassesByTrainId(
+                        trainId: train?.documentId),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                        case ConnectionState.active:
+                          if (snapshot.hasData) {
+                            final allClasses =
+                                snapshot.data as Iterable<CloudClasse>;
+                            return ClasseList(
+                              classes: allClasses,
+                              onModify: (CloudClasse classe) {
+                                Navigator.of(context).pushNamed(
+                                    createOrUpdateClasseRoute,
+                                    arguments: classe);
+                              },
+                              onDelete: (CloudClasse classe) async {
+                                await _classeService.deleteClasse(
+                                    documentId: classe.documentId);
+                              },
+                            );
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        case ConnectionState.done:
+                          return const Text('done');
+                        default:
+                          return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }

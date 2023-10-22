@@ -56,7 +56,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
   test: ^1.22.0
 
 # For information on the generic Dart part of this file, see the
@@ -71,9 +71,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/waiting.png
-    - assets/images/background.jpg
-    - assets/images/pfe-logo.png
+    - assets/images/
     - assets/gifs/success.gif
     - assets/jsons/splash.json
 

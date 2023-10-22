@@ -1,16 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:mypfe/constants/routes.dart';
 import 'package:mypfe/extensions/generics/get_arguments.dart';
-import 'package:mypfe/models/classe.dart';
 import 'package:mypfe/models/passager.dart';
 import 'package:mypfe/models/reservation.dart';
-import 'package:mypfe/models/ticket.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/storage/classe_storage.dart';
 import 'package:mypfe/services/cloud/storage/reservation_storage.dart';
 import 'package:mypfe/services/cloud/storage/ticket_storage.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
+import 'package:mypfe/widgets/tickets/ticket_item.dart';
 
 import '../../../services/cloud/storage/passager_storage.dart';
 
@@ -24,16 +22,20 @@ class ChoosePassenger extends StatefulWidget {
 class _ChoosePassengerState extends State<ChoosePassenger> {
   String get client => AuthService.firebase().currentUser!.email;
   late final FirebaseCloudPassagerStorage _passengerService;
-  bool checkValue = false;
+  late final FirebaseCloudTicketStorage _ticketService;
+  late final FirebaseCloudClasseStorage _classeService;
+  bool checkValue = true;
   List<CloudPassager> localPassagers = [];
   int nbrPassagers = 0;
 
   @override
   void initState() {
     _passengerService = FirebaseCloudPassagerStorage();
+    _ticketService = FirebaseCloudTicketStorage();
+    _classeService = FirebaseCloudClasseStorage();
     super.initState();
   }
-  
+
   void updateLocalList(CloudPassager p) {
     setState(() {
       localPassagers.add(p);
@@ -42,222 +44,39 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final forPassenger = context.getArguments<CloudReservation>();
-    
+    final ticket = forPassenger!.ticketId;
+    final classe = forPassenger.classe;
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         bottom: PreferredSize(
-            // ignore: sort_child_properties_last
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: 130,
-                  color: Colors.deepPurple,
-                  child: Container(
-                    height: 100,
-                    width: 300,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: FutureBuilder(
-                      future: FirebaseCloudTicketStorage()
-                          .getTicket(documentId: forPassenger!.ticketId),
-                      builder: (context, snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.active:
-                          case ConnectionState.done:
-                          case ConnectionState.waiting:
-                            if (snapshot.hasData) {
-                              final ticket = snapshot.data as CloudTicket;
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      //Date voyage
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          ticket.jour,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Divider(
-                                          thickness: 0.8,
-                                          color: Colors.grey[400],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-
-                                      //Heure voyage
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              ticket.heureDepart,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 16),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0),
-                                              child: Text("-"),
-                                            ),
-                                            Text(
-                                              ticket.heureArrive,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      // Station de depart
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 40, vertical: 12),
-                                        child: Text(
-                                          ticket.depart,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Divider(
-                                          thickness: 0.8,
-                                          color: Colors.grey[400],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 40),
-                                        child: Text(
-                                          ticket.destination,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0),
-                                        child: Text(
-                                          ticket.trainNum,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 18,
-                                              color: Colors.deepPurple[500]),
-                                        ),
-                                      ),
-                                      FutureBuilder(
-                                        future: FirebaseCloudClasseStorage()
-                                            .getClasse(
-                                                documentId: forPassenger.classe),
-                                        builder: (context, snapshot) {
-                                          switch (snapshot.connectionState) {
-                                            case ConnectionState.done:
-                                            case ConnectionState.active:
-                                            case ConnectionState.waiting:
-                                              if (snapshot.hasData) {
-                                                final theClasse = snapshot.data
-                                                    as CloudClasse;
-                                                return Row(
-                                                  children: [
-                                                    Text(
-                                                      theClasse.nom,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 18,
-                                                          color: Colors
-                                                              .deepPurple[500]),
-                                                    ),
-                                                    SizedBox(width: 20,),
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                          
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5)),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: [
-                                                          Icon(Icons.monetization_on_outlined),
-                                                          Text(
-                                                            theClasse.prixClasse
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight.w500,
-                                                                fontSize: 16, color: Colors.deepPurple[500],),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    
-                                                    
-                                                  ],
-                                                );
-                                              } else {
-                                                return const CircularProgressIndicator();
-                                              }
-                                            default:
-                                              return const CircularProgressIndicator();
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              );
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-
-                          default:
-                            return const CircularProgressIndicator();
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            preferredSize: Size.fromHeight(150)),
+          preferredSize: const Size.fromHeight(150),
+          child: TicketItem(
+            ticketService: _ticketService,
+            classeService: _classeService,
+            context: context,
+            ticketId: ticket,
+            classeId: classe,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {
               Navigator.of(context)
                   .pushNamed(choosePassengerRoute, arguments: forPassenger);
             },
-            icon: const Icon(Icons.restart_alt_rounded, color: Colors.white,),
+            icon: const Icon(
+              Icons.restart_alt_rounded,
+              color: Colors.white,
+            ),
           ),
         ],
         leading: IconButton(
@@ -265,9 +84,12 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
               final booking = context.getArguments<CloudReservation>();
               await FirebaseCloudReservationStorage()
                   .deleteReservation(documentId: booking!.documentId);
-              Navigator.of(context).pushNamed(clientHomePageRoute);
+              Navigator.of(context).pushNamed(mainClientRoute);
             },
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white,)),
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+            )),
         title: const Text(
           'Select Passager',
           style: TextStyle(
@@ -278,36 +100,7 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
           ),
         ),
         backgroundColor: Colors.deepPurple[500],
-        // bottom: PreferredSize(
-        //     child: Card(
-        //       child: Column(
-        //         children: [
-        //            Row(
-        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //             children: [
-        //               Text(
-        //                 "Jul 10, 2023",
-        //                 style: TextStyle(
-        //                     fontSize: 14, fontWeight: FontWeight.w600),
-        //               ),
-        //               Text(
-        //                 "-",
-        //                 style: TextStyle(
-        //                     fontSize: 14, fontWeight: FontWeight.w600),
-        //               ),
-        //               Text(
-        //                 "08:00 - 20:00",
-        //                 style: TextStyle(
-        //                     fontSize: 14, fontWeight: FontWeight.w600),
-        //               ),
-        //             ],
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //     preferredSize: Size(300, 120)),
       ),
-      
       body: SingleChildScrollView(
         child: FutureBuilder(
           future: _passengerService.getAllPassengers(client: client),
@@ -320,9 +113,8 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                       snapshot.data as Iterable<CloudPassager>;
                   List<Widget> passengers = [];
                   for (var passenger in allPassengers) {
-                    
                     passengers.add(Container(
-                      margin: EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white),
@@ -430,11 +222,11 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
                     ],
                   );
                 } else {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
 
               default:
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
             }
           },
         ),
@@ -458,18 +250,18 @@ class _ChoosePassengerState extends State<ChoosePassenger> {
               if (!checkValue && localPassagers.isEmpty) {
                 return await showErrorDialog(
                     context, "Veuillez ajouter au moins un passager");
-              } else if (!checkValue){
+              } else if (!checkValue) {
                 return await showErrorDialog(
                     context, "Veuillez selectionner au moins un passager");
-              }else{
+              } else {
                 final nbrPassagers = localPassagers.length;
                 setState(() {
                   print(localPassagers.length);
                 });
 
-                Navigator.of(context).pushNamed(paiementViewRoute, arguments: [forPassenger, nbrPassagers]);
+                Navigator.of(context).pushNamed(paiementViewRoute,
+                    arguments: [forPassenger, nbrPassagers]);
               }
-              
             },
             child: const Text(
               "Payer",

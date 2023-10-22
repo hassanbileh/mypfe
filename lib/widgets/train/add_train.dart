@@ -18,10 +18,21 @@ class AddTrain extends StatelessWidget {
       children: [
         SizedBox(
           height: 250,
-          child: Card(
-            color: Colors.white,
-            child: Column(
+          child: Column(
               children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Ajouter un train',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -70,30 +81,10 @@ class AddTrain extends StatelessWidget {
                   ),
                 ),
                 
-                // Container(
-                //   width: 150,
-                //   decoration: BoxDecoration(
-                //     gradient: const LinearGradient(
-                //       colors: <Color>[
-                //         Color.fromARGB(255, 113, 68, 239),
-                //         Color.fromARGB(255, 183, 128, 255),
-                //       ],
-                //     ),
-                //     borderRadius: BorderRadius.circular(15),
-                //   ),
-                //   child: TextButton(
-                //     onPressed: () {
-                //       suivant;
-                //     },
-                //     child: const Text(
-                //       'Confirmer',
-                //       style: TextStyle(color: Colors.white, fontSize: 16),
-                //     ),
-                //   ),
-                // )
+                
               ],
             ),
-          ),
+         
         ),
       ],
     );

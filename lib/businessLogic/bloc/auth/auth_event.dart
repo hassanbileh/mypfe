@@ -34,12 +34,14 @@ class AuthEventLogOut extends AuthEvent {
 class AuthEventCreateAccount extends AuthEvent {
   final String email;
   final String? nom;
+  final String role;
   final String password;
   final int? telephone;
 
   const AuthEventCreateAccount(
     this.email,
     this.nom,
+    this.role,
     this.telephone,
     this.password,
   );

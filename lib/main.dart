@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mypfe/assets/assets.dart';
 import 'package:mypfe/constants/user_constants.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/storage/user_storage.dart';
@@ -22,7 +23,7 @@ import 'package:mypfe/views/companyView/tickets/main_tickets_view.dart';
 import 'package:mypfe/views/companyView/trains/classeView/add_class.dart';
 import 'package:mypfe/views/companyView/trains/classeView/create_update_classe.dart';
 import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
-import 'package:mypfe/widgets/booking/add_passenger.dart';
+import 'package:mypfe/views/clientView/bookingViews/add_passenger.dart';
 import 'package:mypfe/views/companyView/tickets/add_ticket.dart';
 
 import 'constants/routes.dart';
@@ -30,6 +31,7 @@ import 'constants/routes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'dj-sany',
     options: options,
   );
   //Lock Device orientation
@@ -38,10 +40,11 @@ void main() async {
 }
 
 const options = FirebaseOptions(
-        apiKey: 'AIzaSyAHulXFEFfKiRlDQI-3iBapJL-gcdMeyG4',
-        appId: '1:130753715500:android:09e843be0178f70001e089',
-        messagingSenderId: '',
-        projectId: 'dj-sany');
+  apiKey: Assets.apiKey,
+  appId: Assets.appId,
+  messagingSenderId: '',
+  projectId: Assets.projectId,
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -60,14 +63,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 74, 44, 156)),
         useMaterial3: true,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: Colors.white70,
           titleTextStyle: TextStyle(
             fontSize: 18,
-            color: Colors.deepPurple[500],
+            color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
-          iconTheme: IconThemeData(color: Colors.deepPurple[500]),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         iconTheme: const IconThemeData(
           color: Color.fromARGB(255, 113, 68, 239),
@@ -75,7 +78,6 @@ class MyApp extends StatelessWidget {
         listTileTheme: const ListTileThemeData(
           tileColor: Colors.white70,
         ),
-        
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -93,9 +95,13 @@ class MyApp extends StatelessWidget {
         mainTicketRoute: (context) => const MainTicketView(),
         //Forms Pages
         createOrUpdateCompanyRoute: (context) => const CreateOrUpdateCompany(),
-        createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(station: null,),
+        createOrUpdateStationRoute: (context) => const CreateOrUpdateStation(
+              station: null,
+            ),
         createOrUpdateAdminRoute: (context) => const CreateOrUpdateAdmin(),
-        createOrUpdateTrainRoute: (context) => const CreateOrUpdateTrain(),
+        createOrUpdateTrainRoute: (context) => const CreateOrUpdateTrain(
+              isNew: false,
+            ),
         createOrUpdateClasseRoute: (context) => const CreateOrUpdateClasse(),
         addClasseRoute: (context) => const AddClasse(),
         addPassengerRoute: (context) => const AddPassengers(),

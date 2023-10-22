@@ -81,4 +81,13 @@ class FirebaseCloudPassagerStorage {
       throw CouldNotReadPassengerException();
     }
   }
+
+  Stream<Iterable<CloudPassager>> getPassengers({required String client}) {
+    final gotPassengers = passagers.snapshots().map((event) => event.docs
+        .map((doc) => CloudPassager.fromSnapshot(
+            doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+        .where((ticket) => ticket.creePar == client));
+
+    return gotPassengers;
+  }
 }

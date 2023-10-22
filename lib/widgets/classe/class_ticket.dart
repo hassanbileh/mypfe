@@ -34,12 +34,8 @@ class ClassOnTicket extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Text(className),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2),
+                      Expanded(child: Text(className, overflow: TextOverflow.ellipsis,)),
+                      const Expanded(
                         child: Text(
                           "Libre",
                           style: TextStyle(fontSize: 8, color: Colors.green),
@@ -100,12 +96,8 @@ class ClassOnTicket extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Text(className),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 1),
+                      Expanded(child: Text(className, overflow: TextOverflow.ellipsis,)),
+                      const Expanded(
                         child: Text(
                           "Occupé",
                           style: TextStyle(fontSize: 8, color: Colors.red),

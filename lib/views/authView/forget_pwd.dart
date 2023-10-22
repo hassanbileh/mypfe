@@ -91,7 +91,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 child: Text(
                     'Entrer votre email ici, nous vous enverrons un lien pour réinitialiser votre mot de passe.'),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -104,7 +104,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                     ),
                     fillColor: Colors.grey.shade100,
                     filled: true,
@@ -120,7 +120,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
               TextButton(
                 style: const ButtonStyle(
                     mouseCursor: MaterialStateMouseCursor.clickable),
-                onPressed: _resetPwd,
+                onPressed: () => _resetPwd(),
                 child: const Text('Réinitialiser le mot de passe'),
               ),
             ],

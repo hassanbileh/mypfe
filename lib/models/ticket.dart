@@ -22,7 +22,7 @@ class CloudTicket {
     required this.heureArrive,
     required this.status,
     required this.trainNum,
-    required this.companyEmail,  
+    required this.companyEmail,
     required this.company,
   });
 
@@ -51,4 +51,3 @@ class CloudTicket {
         company = snapshot.get(champCompagnie) as String;
 
 }
-

@@ -38,40 +38,64 @@ class _MainTicketViewState extends State<MainTicketView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white60,
-        appBar: null,
-        body: StreamBuilder(
-          stream: _ticketService.getAllTicketsByCompanyEmail(
-              companyEmail: compagnyEmail),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-              case ConnectionState.active:
-                if (!snapshot.hasData) {
-                  return CircularProgressIndicator(
-                    backgroundColor: Colors.deepPurple[500],
-                  );
-                } else {
-                  final allTickets = snapshot.data as Iterable<CloudTicket>;
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                'Tickets recents',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
 
-                  return TicketList(
-                    tickets: allTickets,
-                    onModify: (ticket) {
-                      Navigator.of(context).pushNamed(createOrUpdateTicketRoute, arguments: ticket);
-                    },
-                    onDelete: (CloudTicket ticket) async{
-                    await _ticketService.deleteTicket(documentId: ticket.documentId);
-                  },
-                  );
-                }
-              default:
-                return const CircularProgressIndicator();
-            }
-          },
+            const SizedBox(height: 20,),
+            Expanded(
+              child: StreamBuilder(
+                stream: _ticketService.getAllTicketsByCompanyEmail(
+                    companyEmail: compagnyEmail),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                    case ConnectionState.active:
+                      if (!snapshot.hasData) {
+                        return CircularProgressIndicator(
+                          backgroundColor: Colors.deepPurple[500],
+                        );
+                      } else {
+                        final allTickets =
+                            snapshot.data as Iterable<CloudTicket>;
+
+                        return TicketList(
+                          tickets: allTickets,
+                          onModify: (ticket) {
+                            Navigator.of(context).pushNamed(
+                                createOrUpdateTicketRoute,
+                                arguments: ticket);
+                          },
+                          onDelete: (CloudTicket ticket) async {
+                            await _ticketService.deleteTicket(
+                                documentId: ticket.documentId);
+                          },
+                        );
+                      }
+                    default:
+                      return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            ),
+          ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(createOrUpdateTicketRoute,);
+            Navigator.of(context).pushNamed(
+              createOrUpdateTicketRoute,
+            );
           },
           child: const Icon(Icons.add),
         ));

@@ -6,6 +6,7 @@ import '../components/custom_textfield.dart';
 typedef ShowCalendar = void Function();
 typedef Swap = void Function();
 typedef Search = void Function()?;
+typedef CallPassengersNum = void Function()?;
 
 class SearchTicket extends StatelessWidget {
   const SearchTicket({
@@ -15,12 +16,14 @@ class SearchTicket extends StatelessWidget {
     required this.showCalendar,
     required this.swap,
     required this.search,
+    required this.nbrPassengers,
     required this.selectedDate,
   });
 
   final ShowCalendar showCalendar;
   final Swap swap;
   final Search search;
+  final CallPassengersNum nbrPassengers;
   final String? selectedDate;
   final TextEditingController selectedFromStation;
   final TextEditingController selectedToStation;
@@ -28,10 +31,10 @@ class SearchTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: const Alignment(0.6, -0.66),
+      alignment: const Alignment(0.6, -0.58),
       children: [
         Container(
-          height: MediaQuery.sizeOf(context).height * 0.5,
+          height: MediaQuery.sizeOf(context).height * 0.4,
           width: MediaQuery.sizeOf(context).width * 0.95,
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
@@ -83,7 +86,7 @@ class SearchTicket extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: nbrPassengers,
                     child: Container(
                       height: 50,
                       width: 170,

@@ -61,6 +61,7 @@ class FormTicket extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple[500],
         title: const Text("Ajouter un Ticket"),
       ),
       body: Container(

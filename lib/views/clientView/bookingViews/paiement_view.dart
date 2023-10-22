@@ -35,7 +35,6 @@ class _PaiementViewState extends State<PaiementView> {
   Widget build(BuildContext context) {
     final fromSelection = context.getArguments<List>();
     final reservation = fromSelection![0];
-    final nbrPassagers = fromSelection[1];
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -50,7 +49,7 @@ class _PaiementViewState extends State<PaiementView> {
                 color: Colors.deepPurple,
                 child: Container(
                   height: 100,
-                  width: 300,
+                  width: 320,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
@@ -156,22 +155,7 @@ class _PaiementViewState extends State<PaiementView> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.person),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0),
-                                          child: Text(
-                                            nbrPassagers.toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18,
-                                                color: Colors.deepPurple[500]),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10.0),
@@ -216,8 +200,7 @@ class _PaiementViewState extends State<PaiementView> {
                                                                 .circular(5)),
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
+                                                          MainAxisAlignment.start,
                                                       children: [
                                                         const Icon(Icons
                                                             .monetization_on_outlined),

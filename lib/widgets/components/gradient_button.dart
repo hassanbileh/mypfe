@@ -28,10 +28,10 @@ class GradientButton extends StatelessWidget {
             Color.fromARGB(255, 183, 128, 255),
           ],
         ),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).colorScheme.primary,
       ),
-      child: OutlinedButton(
+      child: TextButton(
         onPressed: onPressed,
         child: Text(
           buttonText,
