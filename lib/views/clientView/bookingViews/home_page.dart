@@ -5,9 +5,11 @@ import 'package:mypfe/enums/menu_action.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/utilities/dialogs/error_dialog.dart';
 import 'package:mypfe/utilities/dialogs/logout_dialog.dart';
-import 'package:mypfe/views/clientView/bookingViews/home_body.dart';
+import 'package:mypfe/widgets/booking/hello_client.dart';
 import 'package:mypfe/widgets/booking/hotel_list.dart';
 import 'dart:developer' as devtools show log;
+
+import 'package:mypfe/widgets/booking/search_ticket.dart';
 
 final formatter = DateFormat.yMMMd();
 
@@ -21,21 +23,21 @@ class ClientHomePage extends StatefulWidget {
 class _ClientHomePageState extends State<ClientHomePage> {
   String get userEmail => AuthService.firebase().currentUser!.email;
   String? _selectedDate;
-  late final TextEditingController _selectedFromStation;
-  late final TextEditingController _selectedToStation;
-
-  @override
-  void initState() {
-    _selectedFromStation = TextEditingController();
-    _selectedToStation = TextEditingController();
-    super.initState();
-  }
+  late final String _selectedFromStation;
+  late final String _selectedToStation;
 
   // void _startAddPassengers(BuildContext context){
   //   showBottomSheet(context: context, builder: (context){
   //     return PassengerPicker();
   //   });
   // }
+
+  @override
+  void initState() {
+    _selectedFromStation = "";
+    _selectedToStation = "";
+    super.initState();
+  }
 
   void _afficheCalendrier() async {
     final now = DateTime.now();
@@ -54,10 +56,10 @@ class _ClientHomePageState extends State<ClientHomePage> {
   }
 
   void _swapStations() {
-    var temp = _selectedFromStation.text.toString();
+    var temp = _selectedFromStation;
     setState(() {
-      _selectedFromStation.text = _selectedToStation.text.toString();
-      _selectedToStation.text = temp;
+      _selectedFromStation = _selectedToStation;
+      _selectedToStation = temp;
     });
   }
 
@@ -68,11 +70,12 @@ class _ClientHomePageState extends State<ClientHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             stretch: true,
-            expandedHeight: MediaQuery.sizeOf(context).height * 0.3,
+            expandedHeight: MediaQuery.sizeOf(context).height * 0.1,
             actions: [
               PopupMenuButton<MenuAction>(
                 color: const Color.fromARGB(255, 74, 44, 156),
@@ -119,50 +122,43 @@ class _ClientHomePageState extends State<ClientHomePage> {
                 },
               ),
             ],
-            flexibleSpace: FlexibleSpaceBar(
-              stretchModes: [StretchMode.zoomBackground],
-              background: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/background.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+            flexibleSpace: const FlexibleSpaceBar(
+              stretchModes: [StretchMode.fadeTitle],
+              background: HelloClient(),
             ),
           ),
           SliverPadding(
             padding: const EdgeInsets.only(top: 10.0),
             sliver: SliverToBoxAdapter(
-              child: HomeBody(
-                showCalendar: _afficheCalendrier,
-                swap: _swapStations,
-                selectedFromStation: _selectedFromStation,
-                selectedToStation: _selectedToStation,
-                selectedDate: _selectedDate,
-                search: () async {
-                  final depart = _selectedFromStation.text.toString();
-                  final arrivee = _selectedToStation.text.toString();
-                  if (depart.isNotEmpty &&
-                      arrivee.isNotEmpty &&
-                      _selectedDate != null) {
-                    Navigator.of(context)
-                        .pushNamed(ticketsResultsRoute, arguments: [
-                      depart,
-                      arrivee,
-                      _selectedDate,
-                    ]);
-                  } else {
-                    return await showErrorDialog(
-                        context, 'Veuillez remplir tous les champs.');
-                  }
-                },
-                nbrPassengers: () {},
+              child: Center(
+                child: SearchTicket(
+                  selectedFromStation: _selectedFromStation,
+                  selectedToStation: _selectedToStation,
+                  showCalendar: _afficheCalendrier,
+                  swap: _swapStations,
+                  search: () async {
+                    final depart = _selectedFromStation;
+                    final arrivee = _selectedToStation;
+                    if (_selectedDate != null) {
+                      Navigator.of(context)
+                          .pushNamed(ticketsResultsRoute, arguments: [
+                        depart,
+                        arrivee,
+                        _selectedDate!,
+                      ]);
+                    } else {
+                      return await showErrorDialog(
+                          context, 'Veuillez remplir tous les champs.');
+                    }
+                  },
+                  selectedDate: _selectedDate,
+                  nbrPassengers: () {},
+                ),
               ),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.only(top: 10.0),
+          const SliverPadding(
+            padding: EdgeInsets.only(top: 10.0),
             sliver: SliverToBoxAdapter(
               child: HotelList(),
             ),
@@ -172,9 +168,3 @@ class _ClientHomePageState extends State<ClientHomePage> {
     );
   }
 }
-
-//home body
-/*
-    
-
-*/

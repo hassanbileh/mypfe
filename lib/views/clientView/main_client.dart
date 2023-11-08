@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/views/clientView/bookingViews/home_page.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-
 
 class MainClientPage extends StatefulWidget {
   const MainClientPage({super.key});
@@ -20,6 +18,12 @@ class _MainClientPageState extends State<MainClientPage> {
     Text('Profil Page'),
   ];
 
+  final Map<String, IconData> _icons = {
+    'Home': Icons.home_filled,
+    'Tickets': Icons.confirmation_num,
+    'Settings': Icons.settings,
+  };
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -29,38 +33,32 @@ class _MainClientPageState extends State<MainClientPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _widgetOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: SalomonBottomBar(
-          selectedItemColor: const Color.fromARGB(255, 113, 68, 239),
-          items: [
-            //Home
-            SalomonBottomBarItem(
-              icon: const Icon(
-                Icons.search_rounded,
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        items: _icons
+            .map(
+              (title, icon) => MapEntry(
+                title,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    icon,
+                    size: 30.0,
+                  ),
+                  label: title,
+                ),
               ),
-              title: const Text("Recherche"),
-            ),
-            //Tickets
-            SalomonBottomBarItem(
-              activeIcon: const Icon(Icons.confirmation_num_rounded),
-              icon: const Icon(Icons.confirmation_num_outlined),
-              title: const Text("Tickets"),
-            ),
-            //Stations
-            SalomonBottomBarItem(
-              activeIcon: const Icon(
-                Icons.person,
-              ),
-              icon: const Icon(
-                Icons.person_2_outlined,
-              ),
-              title: const Text("Profil"),
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          selectedColorOpacity: 0.2,
-        ));
+            )
+            .values
+            .toList(),
+        currentIndex: _selectedIndex,
+        selectedFontSize: 11.0,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.black54,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }
 

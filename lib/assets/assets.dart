@@ -1,6 +1,7 @@
 class Assets {
   
   static const String _images = 'assets/images/';
+  static const String profilImage = '${_images}hasbil.jpg';
   static const String backgroundImage = '${_images}background.jpg';
   static const String roomOne = '${_images}room1.jpg';
   static const String roomTwo = '${_images}room2.jpg';

@@ -4,29 +4,10 @@ import 'package:mypfe/assets/assets.dart';
 import 'package:mypfe/constants/user_constants.dart';
 import 'package:mypfe/services/auth/auth_services.dart';
 import 'package:mypfe/services/cloud/storage/user_storage.dart';
-import 'package:mypfe/views/adminView/admin/create_or_update_admin.dart';
-import 'package:mypfe/views/adminView/companies/create_or_update_company.dart';
-import 'package:mypfe/views/adminView/main_admin_ui.dart';
-import 'package:mypfe/views/adminView/stations/create_or_update_station.dart';
-import 'package:mypfe/views/authView/forget_pwd.dart';
-import 'package:mypfe/views/authView/login.dart';
 import 'package:flutter/services.dart' show SystemChrome, DeviceOrientation;
-import 'package:mypfe/views/authView/register.dart';
-import 'package:mypfe/views/authView/verify_email.dart';
-import 'package:mypfe/views/clientView/bookingViews/choose_passenger.dart';
-import 'package:mypfe/views/clientView/bookingViews/home_page.dart';
-import 'package:mypfe/views/clientView/bookingViews/paiement_view.dart';
-import 'package:mypfe/views/clientView/main_client.dart';
-import 'package:mypfe/views/clientView/bookingViews/tickets_result.dart';
-import 'package:mypfe/views/companyView/main_company.dart';
-import 'package:mypfe/views/companyView/tickets/main_tickets_view.dart';
-import 'package:mypfe/views/companyView/trains/classeView/add_class.dart';
-import 'package:mypfe/views/companyView/trains/classeView/create_update_classe.dart';
-import 'package:mypfe/views/companyView/trains/create_or_update_train.dart';
-import 'package:mypfe/views/clientView/bookingViews/add_passenger.dart';
 import 'package:mypfe/views/companyView/tickets/add_ticket.dart';
-
 import 'constants/routes.dart';
+import 'package:mypfe/views/views.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

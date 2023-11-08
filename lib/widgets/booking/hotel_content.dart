@@ -52,7 +52,7 @@ class HotelContent extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               hotel.price,
               style: const TextStyle(
